@@ -1,0 +1,52 @@
+body {
+}
+.normal-web {
+    width: 100%;
+    height: auto;
+    border: 1px solid #f3f3f3;
+    padding: 15px;
+    overflow: hidden;
+}
+.normal-web a {
+    float: left;
+}
+.normal-web div{
+    width: 100px;
+    height: 30px;
+    background: #ccc;
+    line-height: 30px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 3px;
+    margin-right: 10px;
+}
+.normal-web div:hover {
+    background: #343a40;
+    color: #fff;
+}
+* {
+    color: #666666;
+}
+.rel-title {
+    padding: 15px 0 15px 15px; color: #666666; font-size: 18px; position: relative;
+}
+.rel-title div {
+    width: 3px; height: 15px; background: #00a0e9; position: absolute; left: 0; top: 21px;
+}
+.book-content {
+    width: 100%;
+    height: auto;
+}
+.book-content .book-item {
+    width: 150px;
+    height: 200px;
+    background: blueviolet;
+    padding: 10px;
+}
+
+.container-allens{width:100%;padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}
+@media (min-width:576px){.container-allens{max-width:540px}}
+@media (min-width:768px){.container-allens{max-width:720px}}
+@media (min-width:992px){.container-allens{max-width:960px}}
+@media (min-width:1200px){.container-allens{max-width:1140px}}
+.container-allens{min-width:992px !important}
