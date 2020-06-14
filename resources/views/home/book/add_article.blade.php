@@ -155,7 +155,7 @@
                         console.log(response.body);
                         this.categoryMain = response.body.data;
                         this.category.pid = this.categoryMain[this.categoryMain.length - 1].id;
-                        if (!this.categoryParent) this.categoryParent = this.category.pid;
+                        if (!this.categoryParent || this.categoryParent == 0) this.categoryParent = this.category.pid;
                         if (this.categoryMain) {
                             this.requestCategoryChild();
                         }
@@ -166,11 +166,12 @@
                     if (this.categoryParent && !this.first) {
                         this.first = true;
                         this.category.pid = this.categoryParent;
+                        console.log('-----------------',this.categoryParent)
                     }
                     this.$http.get('/api/category/child/' + this.category.pid).then( function(response) {
                         console.log(response.body);
                         this.categoryChild = response.body.data;
-                        if (!this.categoryChildId) this.categoryChildId = this.categoryChild != null && this.categoryChild.length > 0 ? this.categoryChild[0].id : 0;
+                        if (!this.categoryChildId || this.categoryChildId == 0) this.categoryChildId = this.categoryChild != null && this.categoryChild.length > 0 ? this.categoryChild[0].id : 0;
                     });
                 },
                 // 添加分类
