@@ -75,7 +75,7 @@ body {
   font-size: 12px;
 }
 .container-allens-time div .info {
-  font-weight: 300;
+  font-weight: 300; font-size: 12px;
 }
 .container-allens-time div > div {
   margin-top: 5px;

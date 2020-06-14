@@ -29,11 +29,13 @@ class QueryListener
     {
         if($event->sql){
             // 把sql  的日志独立分开
-//            $fileName = storage_path('logs/sql/'.date('Y-m-d').'.log');
-//            Log::useFiles($fileName,'info');
-            $sql = str_replace("?", "'%s'", $event->sql);
-            $log = vsprintf($sql, $event->bindings);
-            Log::info($log);
+            $fileName = storage_path('logs/sql/'.date('Y-m-d').'.log');
+            // Log::useFiles($fileName,'info');
+            if (strpos($event->sql, '?') !== false) {
+                $sql = str_replace("?", "'%s'", $event->sql);
+                $log = vsprintf($sql, $event->bindings);
+                Log::info($log);
+            }
         }
     }
 }

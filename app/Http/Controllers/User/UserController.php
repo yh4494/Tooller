@@ -8,6 +8,7 @@ use App\Model\Article;
 use App\Model\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends BasicController
@@ -86,7 +87,26 @@ class UserController extends BasicController
      */
     public function timeLine(Request $request)
     {
-        return view('home.time-line.time-line', ['route' => 'time-line']);
+        $startTime = time() - 365 * 24 * 60 * 60;
+        $tempItems = [];
+        $sql = ("
+            select 
+            p.name as process_name, p.pid as process_id, a.title as article_name, a.id as article_id, from_unixtime(a.create_at, '%Y-%m-%d') as timeString
+            from t_article a 
+            left join t_process p on p.id = a.process_id 
+            where a.user_id = {$this->user->id}
+            and a.create_at > {$startTime}
+            order by a.create_at desc
+        ");
+        $rows = DB::select($sql, []);
+        foreach ($rows as & $item) {
+            if (!isset($tempItems[$item->timeString])) {
+                $tempItems[$item->timeString] = [];
+            }
+            $tempItems[$item->timeString][] = $item;
+        }
+
+        return view('home.time-line.time-line', ['route' => 'time-line', 'data' => $tempItems]);
     }
 
     /**

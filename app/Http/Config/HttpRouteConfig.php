@@ -9,7 +9,8 @@ class HttpRouteConfig
     public static $loginAccess = [
         'article',
         'about',
-        'process'
+        'process',
+        'time-line'
     ];
 
     /**
