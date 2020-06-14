@@ -20,9 +20,20 @@ class ArticleController extends BasicController
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function article()
+    public function article(Request $request)
     {
-        $articles = Article::where([['user_id', '=', $this->user->id]])->get();
+        $where = [];
+        if ($request->get('type')) {
+            switch ($request->get('type')) {
+                case 'public':
+                    array_push($where, ['is_public', '=', 1]);
+                    array_push($where, ['user_id', '!=', $this->user->id]);
+                    break;
+            }
+        } else {
+            array_push($where, ['user_id', '=', $this->user->id]);
+        }
+        $articles = Article::where($where)->get();
         return view('home.book.book-list', [
             'route'    => 'article',
             'articles' => $articles,
@@ -98,11 +109,14 @@ class ArticleController extends BasicController
         }
         if (!$article) $article = new Article();
 
-        $article->title             = $request->get('title');
-        $article->content           = $request->get('content');
-        $article->description       = $request->get('description');
-        $article->process_parent_id = $request->get('pid');
-        $article->user_id           = $request->session()->get('user_id');
+        $article->title              = $request->get('title');
+        $article->content            = $request->get('content');
+        $article->description        = $request->get('description');
+        $article->process_parent_id  = $request->get('pid');
+        $article->user_id            = $request->session()->get('user_id');
+        $article->is_public          = $request->get('isPublic');
+        $article->parent_category_id = $request->get('categoryParent');
+        $article->child_category_id  = $request->get('categoryChildId');
 
         if ($request->has('is_about')) {
             $article->is_about = $request->get('is_about') ?? 0;

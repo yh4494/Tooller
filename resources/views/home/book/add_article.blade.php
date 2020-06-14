@@ -19,26 +19,37 @@
             <h5 style="padding-top: 20px">添加笔记</h5>
             <hr>
             <div class="form-group">
+                <label for="exampleInputEmail1">是否公开</label>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline1" name="customRadioInline1" value="true" v-model="isPublic" class="custom-control-input">
+                    <label class="custom-control-label" for="customRadioInline1">是 <span style="font-weight: bold; color: red">（他人将看到你的文章）</span></label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline2" name="customRadioInline1" value="false" v-model="isPublic" class="custom-control-input">
+                    <label class="custom-control-label" for="customRadioInline2">否</label>
+                </div>
+            </div>
+            <div class="form-group">
                 <label for="exampleInputEmail1">文章标题</label>
                 <input name="title" v-model="title" type="text" class="form-control" placeholder="填写标题">
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">顶级分类</label>
-                <select class="custom-select">
-                    <option v-for="item in categoryMain" selected>@{{ item.name }}</option>
+                <select class="custom-select" v-model="categoryParent">
+                    <option v-for="item in categoryMain" :value="item.id" selected>@{{ item.name }}</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">自定分类</label>
                 <div class="input-group">
-                    <select class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
-                        <option selected></option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select class="custom-select" id="inputGroupSelect04" v-model="categoryChildId" aria-label="Example select with button addon">
+                        <option v-for="item in categoryChild" :value="item.id">@{{ item.name }}</option>
                     </select>
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModalCenter">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -56,6 +67,35 @@
 
             <button type="button" class="btn btn-primary" @click="clickToSubmit()">提交</button>
         </form>
+
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">添加分类</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form style="margin-top: 15px;">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">标题</label>
+                                <input type="text" v-model="category.name" class="form-control" name="name" placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">描述</label>
+                                <input type="text" v-model="category.desc" class="form-control" name="content" placeholder="">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                        <button type="button" @click="clickToAddCategory()" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -88,16 +128,58 @@
                 description: description,
                 process_parent_id: '{!! isset($pid) ? $pid : '' !!}',
                 process_id: '{!! isset($id) ? $id : '' !!}',
-                categoryMain: []
+                categoryParent: '{!! isset($article) ? $article->parent_category_id : 0 !!}',
+                categoryMain: [],
+                categoryChild: [],
+                categoryChildId: '{!! isset($article) ? $article->child_category_id : 0 !!}',
+                isPublic: true,
+                category: {
+                    name: '',
+                    desc: '',
+                    pid: ''
+                },
+                first: false
             },
             mounted () {
                 this.requestCategoryMain();
+                this.$watch('categoryParent', function(n, o) {
+                    if (n) {
+                        this.category.pid = n;
+                        this.requestCategoryChild();
+                    }
+                })
             },
             methods: {
                 requestCategoryMain () {
                     this.$http.get('/api/category/main').then( function(response) {
                         console.log(response.body);
                         this.categoryMain = response.body.data;
+                        this.category.pid = this.categoryMain[this.categoryMain.length - 1].id;
+                        if (!this.categoryParent) this.categoryParent = this.category.pid;
+                        if (this.categoryMain) {
+                            this.requestCategoryChild();
+                        }
+                    });
+                },
+                requestCategoryChild () {
+                    console.log(this.categoryParent);
+                    if (this.categoryParent && !this.first) {
+                        this.first = true;
+                        this.category.pid = this.categoryParent;
+                    }
+                    this.$http.get('/api/category/child/' + this.category.pid).then( function(response) {
+                        console.log(response.body);
+                        this.categoryChild = response.body.data;
+                        if (!this.categoryChildId) this.categoryChildId = this.categoryChild != null && this.categoryChild.length > 0 ? this.categoryChild[0].id : 0;
+                    });
+                },
+                // 添加分类
+                clickToAddCategory () {
+                    this.$http.post('/api/category/save', this.category).then( function(response) {
+                        console.log(response.body);
+                        this.categoryMain = response.body.data;
+                        $('#exampleModalCenter').modal('hide');
+                        this.requestCategoryMain();
                     });
                 },
                 clickToSubmit () {
@@ -107,7 +189,10 @@
                         content: this.content,
                         description: this.description,
                         id: this.id,
-                        is_article: '{!! $isArticle !!}'
+                        is_article: '{!! $isArticle !!}',
+                        categoryChildId: this.categoryChildId,
+                        categoryParent: this.categoryParent,
+                        isPublic: this.isPublic
                     }).then(function(response) {
                         var data = response.body;
                         if (data.code === 0) {

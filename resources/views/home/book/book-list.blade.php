@@ -36,8 +36,11 @@
     <div class="container">
         <div style="width: 100%; height: auto; margin: 15px 0">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-secondary active">
-                    <input type="radio" name="options" id="option1" checked> 全部
+                <label class="btn btn-secondary active" @click="clickToJumping('/article')">
+                    <input type="radio" name="options" id="option1"> <a style="color: #fff;">PERSONAL</a>
+                </label>
+                <label class="btn btn-secondary" @click="clickToJumping('/article?type=public')">
+                   <input type="radio" name="options" id="option1">  <a style="color: #fff;">文库</a>
                 </label>
                 <label class="btn btn-secondary" @click="clickToAddArticle">
                     <input type="radio" name="options" id="option1" checked> <i style="margin-top: 4px; color: #fff" class="fa fa-plus" aria-hidden="true"></i>
@@ -103,6 +106,9 @@
                 methods: {
                     clickToToggle: function(e) {
                         this.showWay = e
+                    },
+                    clickToJumping (url) {
+                        window.location.href = url;
                     },
                     clickToAddArticle () {
                         window.location.href = ('/book/add-note?is_article=true')
