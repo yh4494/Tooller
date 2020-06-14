@@ -43,12 +43,13 @@
             <div class="nav-item" style="float:right;  width: 40px; height: 40px; border-radius: 20px; overflow: hidden">
 {{--                <img width="100%" height="100%" src="/resources/assets/images/header.png" alt="">--}}
             </div>
+            <div style="color: #fff;width: 100px; text-align: right; margin-left: 10px">{{ isset($userName) ? $userName : ''  }}</div>
             <div class="nav-item" style="margin-left: 10px;float:right; line-height: 40px; text-align: center; color: #fff; width: 40px; height: 40px; border-radius: 20px; overflow: hidden">
                 <div style="color: #fff !important;" class="white-a"><a style="color: #fff !important;" href="/logout">退出</a></div>
             </div>
         @else
             <div class="nav-item" style="margin-left: 10px;float:right; line-height: 40px; text-align: center; color: #fff; width: 40px; height: 40px; border-radius: 20px; overflow: hidden">
-                <div style="color: #fff;"><a href="/login">登录</a></div>
+                <div style="color: #fff;"><a style="color: #fff;" href="/login">登录</a></div>
             </div>
         @endif
     </div>

@@ -26,6 +26,7 @@ class ProcessController extends BasicController
         $array = [];
         $where = [];
         array_push($where, ['pid', '=', 0]);
+        array_push($where, ['user_id', '=', $this->user->id]);
         if ($request->get('pid') && $request->get('pid') != 'null') {
             array_push($where, ['id', '=', $request->get('pid')]);
         }
@@ -52,7 +53,7 @@ class ProcessController extends BasicController
      */
     public function mainProcess(Request $request)
     {
-        $process = Process::where('pid', 0)->get();
+        $process = Process::where([['pid', '=', 0], ['user_id', '=', $this->user->id]])->get();
         return JsonTooller::data(0, '返回数据成功', $process->toArray());
     }
 

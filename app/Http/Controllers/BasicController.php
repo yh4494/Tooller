@@ -20,6 +20,7 @@ class BasicController extends Controller
             view()->share('userId', $userId);
             view()->share('user', $this->user);
             view()->share('isLogin', true);
+            view()->share('userName', $this->user->nickname);
         }
     }
 }

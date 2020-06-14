@@ -22,7 +22,7 @@ class ArticleController extends BasicController
      */
     public function article()
     {
-        $articles = Article::all();
+        $articles = Article::where([['user_id', '=', $this->user->id]])->get();
         return view('home.book.book-list', [
             'route'    => 'article',
             'articles' => $articles,

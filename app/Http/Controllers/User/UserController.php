@@ -39,14 +39,6 @@ class UserController extends BasicController
     }
 
     /**
-     * 注册接口
-     */
-    public function register()
-    {
-
-    }
-
-    /**
      * 退出登录
      * @param Request $request
      */
@@ -86,8 +78,48 @@ class UserController extends BasicController
         ]);
     }
 
+    /**
+     * 时间轴开发
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function timeLine(Request $request)
     {
         return view('home.time-line.time-line', ['route' => 'time-line']);
+    }
+
+    /**
+     * 用户注册
+     *
+     * @param Request $request
+     * @return false|string
+     */
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name'           => 'required|max:100',
+            'password'       => 'required|max:20',
+            'invitationCode' => 'required',
+            'email'          => 'required|max:50'
+        ]);
+
+        if ($validator->fails()) {
+            return JsonTooller::paramsFail();
+        }
+
+        if ($request->get('invitationCode') != env('INVITATION_CODE')) {
+            return JsonTooller::data(-6, '邀请码错误', []);
+        }
+
+        $user = new User();
+        $user->name = $request->get('name');
+        $user->nickname = $request->get('name');
+        $user->password = md5($request->get('password'));
+        $user->email = $request->get('email');
+        $user->level = 2;
+
+        $user->save();
+        return JsonTooller::success();
     }
 }

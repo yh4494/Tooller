@@ -27,6 +27,8 @@ Route::group(['middleware' => ['web', 'login']], function () {
 
     Route::get('/login',                 'Home\HomeController@login');
 
+    Route::post('/register',             'User\UserController@register');
+
     Route::post('/login',                'User\UserController@login');
 
     Route::get('/logout',                'User\UserController@logout');
@@ -36,6 +38,8 @@ Route::group(['middleware' => ['web', 'login']], function () {
     Route::get('/about/{id}',            'User\UserController@aboutShow');
 
     Route::get('/time-line',             'User\UserController@timeLine');
+
+    Route::post('/upload',               'Upload\UploadController@upload');
 
     Route::prefix('tool')->group(function () {
         Route::get('/time',              'Tool\TimeToolController@index');

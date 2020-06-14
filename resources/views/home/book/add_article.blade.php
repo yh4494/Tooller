@@ -32,7 +32,7 @@
                 <label for="exampleInputEmail1">自定分类</label>
                 <div class="input-group">
                     <select class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
-                        <option selected>Choose...</option>
+                        <option selected></option>
                         <option value="1">One</option>
                         <option value="2">Two</option>
                         <option value="3">Three</option>
@@ -52,6 +52,8 @@
                 </script>
             </div>
             <div style="display: none;" class="text-content">{!! isset($article) ? $article->content : '' !!}</div>
+            <div style="display: none;" class="text-des">{!! isset($article) ? $article->description : '' !!}</div>
+
             <button type="button" class="btn btn-primary" @click="clickToSubmit()">提交</button>
         </form>
     </div>
@@ -69,7 +71,7 @@
 
         var ue = UE.getEditor('editor');
         var content     = `{!! $article ? $article->content : '' !!}`;
-        var description = '{!! isset($article) ? $article->description : '' !!}';
+        var description = $('.text-des').html();
         var title       = '{!! isset($article) ? $article->title : '' !!}';
         var isArticle   = '{!! $isArticle !!}';
 

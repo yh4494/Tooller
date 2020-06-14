@@ -10,12 +10,15 @@
             width: 100%;
         }
         .list-allens ul li {
+            margin-top: 10px;
             width: 100%;
             height: 50px;
-            border-bottom: 1px solid #f3f3f3;
+            border: 1px solid #f3f3f3;
             list-style: none;
             text-decoration: none;
             line-height: 50px;
+            box-shadow: #ccc 2px 2px 2px;
+            padding-left: 10px;
         }
         .list-allens ul li div.element {
             width: 20px;

@@ -36,12 +36,19 @@ body {
 .book-content {
     width: 100%;
     height: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: space-between;
+    flex: 4;
 }
-.book-content .book-item {
-    width: 150px;
-    height: 200px;
-    background: blueviolet;
-    padding: 10px;
+.book-content .card {
+    float: left !important;
+    width: 250px;
+    align-content: space-between;
+    border: none;
+
 }
 
 .container-allens{width:100%;padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}
