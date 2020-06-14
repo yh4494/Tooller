@@ -33,7 +33,7 @@
                 <a style="float: right; margin-right: 5px; cursor: pointer; color: #fff;" @click="clickToGiveup(item.id)">放弃</a>
                 <a style="float: right; margin-right: 5px; cursor: pointer; color: #fff;" @click="clickToAddChildTask(item.id)" data-toggle="modal" data-target="#exampleModalCenter">子任务</a>
 
-                <div style="width: 100%; margin-top: 10px; height: 30px; background: #fff; line-height: 30px;padding-left: 5px;" v-for="i in item.child" :class="i.status === 1 ? 'child-done' : ''">
+                <div style="width: 100%; margin-top: 10px; height: 30px; background: #fff; line-height: 30px;padding-left: 5px;" v-for="i in item.child" :class="i.status ==s 1 ? 'child-done' : ''">
                     <i class="fa fa-circle-o"></i>
                     <span>@{{ i.name }}</span>
                     <a v-if="i.status == 0" style="float: right; margin: 1px 10px 0 0;" href="javascript:void(0)" @click="clickToDoneChildTask(item.id, i.id)" data-toggle="modal" data-target=".bd-example-modal-xl">
