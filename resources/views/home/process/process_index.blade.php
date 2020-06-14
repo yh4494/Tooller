@@ -13,7 +13,7 @@
         <div class="alert alert-success" v-if="showAlert" role="alert" v-cloak>
             @{{ alertTitle }}
         </div>
-        <div style="margin: 15px 0; white-space: nowrap; overflow: scroll" v-cloak>
+        <div style="margin: 15px 0; white-space: nowrap;" v-cloak>
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="button" class="btn btn-secondary" @click="requestProcessList(0)">全部</button>
                 <button type="button" class="btn btn-secondary" v-for="item in mainData" @click="requestProcessList(item.id)">@{{ item.name }}</button>
