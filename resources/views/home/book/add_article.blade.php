@@ -21,11 +21,11 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">是否公开</label>
                 <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="customRadioInline1" name="customRadioInline1" value="true" v-model="isPublic" class="custom-control-input">
-                    <label class="custom-control-label" for="customRadioInline1">是 <span style="font-weight: bold; color: red">（他人将看到你的文章）</span></label>
+                    <input type="radio" id="customRadioInline1" name="customRadioInline1" value="1" v-model="isPublic" class="custom-control-input">
+                    <label class="custom-control-label" for="customRadioInline1" >是 <span style="font-weight: bold; color: red">（他人将看到你的文章）</span></label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="customRadioInline2" name="customRadioInline1" value="false" v-model="isPublic" class="custom-control-input">
+                    <input type="radio" id="customRadioInline2" name="customRadioInline1" value="0" v-model="isPublic" class="custom-control-input">
                     <label class="custom-control-label" for="customRadioInline2">否</label>
                 </div>
             </div>
@@ -132,7 +132,7 @@
                 categoryMain: [],
                 categoryChild: [],
                 categoryChildId: '{!! isset($article) ? $article->child_category_id : 0 !!}',
-                isPublic: true,
+                isPublic: '{!! isset($article) ? $article->is_public : 1 !!}',
                 category: {
                     name: '',
                     desc: '',
@@ -142,6 +142,7 @@
             },
             mounted () {
                 this.requestCategoryMain();
+                console.log('+++++++', this.isPublic)
                 this.$watch('categoryParent', function(n, o) {
                     if (n) {
                         this.category.pid = n;
