@@ -114,7 +114,7 @@ class ArticleController extends BasicController
         $article->description        = $request->get('description');
         $article->process_parent_id  = $request->get('pid');
         $article->user_id            = $request->session()->get('user_id');
-        $article->is_public          = $request->get('isPublic');
+        $article->is_public          = $request->get('isPublic') == false ? 0 : 1;
         $article->parent_category_id = $request->get('categoryParent');
         $article->child_category_id  = $request->get('categoryChildId');
 
