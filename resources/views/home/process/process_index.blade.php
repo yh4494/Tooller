@@ -13,7 +13,7 @@
         <div class="alert alert-success" v-if="showAlert" role="alert" v-cloak>
             @{{ alertTitle }}
         </div>
-        <div style="margin: 15px 0; white-space: nowrap;" v-cloak>
+        <div style="margin: 15px 0; white-space: nowrap;" id="category" v-cloak>
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="button" class="btn btn-secondary" @click="requestProcessList(0)">全部</button>
                 <button type="button" class="btn btn-secondary" v-for="item in mainData" @click="requestProcessList(item.id)">@{{ item.name }}</button>
@@ -27,13 +27,13 @@
 {{--            <button type="button" class="btn btn-dark" @click="clickToAddChildTask(0)" data-toggle="modal" data-target="#exampleModalCenter" style="width: 100px;">添加</button>--}}
         </div>
         <div style="width: 100%;" v-cloak>
-            <div v-for="item in listData" :style="item.status == 0 ? 'background: #6e6e6e;' : 'background:#28a745;' " style="width: 100%; background: #28a745; margin-bottom: 5px; color: #fff;padding: 10px; border-radius: 8px;">
+            <div v-for="item in listData" :style="item.status == 0 ? 'background: #666666;' : 'background:#99CC33;' " style="width: 100%; background: #28a745; margin-bottom: 5px; color: #fff;padding: 10px; border-radius: 8px;">
                 @{{ item.name }}
                 <a href="javascript:void(0)" style="float: right; margin-right: 5px;  color: #fff;" @click="clickToComplete(item.id)">完成</a>
                 <a style="float: right; margin-right: 5px; cursor: pointer; color: #fff;" @click="clickToGiveup(item.id)">放弃</a>
                 <a style="float: right; margin-right: 5px; cursor: pointer; color: #fff;" @click="clickToAddChildTask(item.id)" data-toggle="modal" data-target="#exampleModalCenter">子任务</a>
 
-                <div style="width: 100%; margin-top: 10px; height: 30px; background: #fff; line-height: 30px;padding-left: 5px;" v-for="i in item.child" :class="i.status == 1 ? 'child-done' : ''">
+                <div style="width: 100%; margin-top: 10px; height: 30px; background: #fff; line-height: 30px;padding-left: 5px; box-shadow: #f3f3f3 1px 1px 1px" v-for="i in item.child" :class="i.status == 1 ? 'child-done' : ''">
                     <i class="fa fa-circle-o"></i>
                     <span>@{{ i.name }}</span>
                     <a v-if="i.status == 0" style="float: right; margin: 1px 10px 0 0;" href="javascript:void(0)" @click="clickToDoneChildTask(item.id, i.id)" data-toggle="modal" data-target=".bd-example-modal-xl">

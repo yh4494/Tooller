@@ -20,8 +20,8 @@
         </style>
     </head>
     <body>
-        <div style="position: absolute; height: 56px; width: 100%; background: #343a40;"></div>
-        <div class="container">
+        <div style="position: absolute; height: 56px; width: 100%; background: #343a40;" id="navigation-allens"></div>
+        <div class="container" id="body-allens">
             @include('nav')
             <!-- Content here -->
             @yield("content")
@@ -37,4 +37,5 @@
     <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
     @yield("footer")
+
 </html>

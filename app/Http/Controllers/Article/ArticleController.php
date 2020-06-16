@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Article;
 use App\Http\Controllers\BasicController;
 use App\Lib\JsonTooller;
 use App\Model\Article;
+use App\Model\Collect;
+use App\Model\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -28,16 +30,24 @@ class ArticleController extends BasicController
                 case 'public':
                     array_push($where, ['is_public', '=', 1]);
                     array_push($where, ['user_id', '!=', $this->user->id]);
+                    $articles = Article::where($where)->orderBy('create_at', 'desc')->get();
+                    break;
+                case 'collect':
+                    $articles = Article::select('article.*')
+                        ->leftjoin('collect', 'article.id', 'collect.collect_id')
+                        ->where([['collect.type', '=', '1'], ['collect.user_id', '=', $this->userId]])
+                        ->get();
                     break;
             }
         } else {
             array_push($where, ['user_id', '=', $this->user->id]);
+            $articles = Article::where($where)->orderBy('create_at', 'desc')->get();
         }
-        $articles = Article::where($where)->get();
         return view('home.book.book-list', [
             'route'    => 'article',
             'articles' => $articles,
-            'showWay'  => false
+            'showWay'  => false,
+            'type'     => $request->get('type')
         ]);
     }
 
@@ -76,7 +86,12 @@ class ArticleController extends BasicController
     {
         $article = Article::where('id', $id)->first();
         if ($article) $article->content = str_replace('\n', '', $article->content);
-
+        $collect = Collect::where([['type', '=', 1], ['user_id', '=', $this->userId], ['collect_id', '=', $article->id]])->first();
+        $user = User::find($article->user_id);
+        $article->user = $user;
+        if ($collect) {
+            $article->collect = true;
+        }
         return view('home.book.show_article',  [
             'route'   => 'article',
             'id'      => $id,
@@ -144,4 +159,31 @@ class ArticleController extends BasicController
         Article::find($id)->delete();
         return JsonTooller::success();
     }
+
+    /**
+     * 收藏文章
+     *
+     * @param Request $request
+     * @return false|string
+     */
+    public function collect(Request $request)
+    {
+        if (!$this->userId) {
+            return JsonTooller::unLogin();
+        }
+
+        $articleId = $request->get('articleId');
+        $collect = Collect::where([['type', '=', 1], ['user_id', '=', $this->userId], ['collect_id', '=', $articleId]])->first();
+        if (!$collect) {
+            $collect = new Collect();
+            $collect->type = 1;
+            $collect->collect_id = $articleId;
+            $collect->save();
+        } else {
+            $collect->delete();
+        }
+
+        return JsonTooller::success();
+    }
+
 }

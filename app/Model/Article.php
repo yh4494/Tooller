@@ -11,4 +11,9 @@ class Article extends Model
     protected $guarded = [];
 
     public $timestamps = null;
+
+    public function collect()
+    {
+        return $this->hasOne('App\Model\Collect', 'collect_id', 'id');
+    }
 }

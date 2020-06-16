@@ -17,5 +17,8 @@ Route::group(['middleware' => ['web', 'login']], function () {
         Route::get('/child/{id}',        'Category\CategoryController@child');
         Route::post('/save',             'Category\CategoryController@save');
     });
+    Route::prefix('article')->group(function () {
+        Route::get('/collect',           'Article\ArticleController@collect');
+    });
     Route::resource('/books',            'Book\BookController');
 });

@@ -5,11 +5,13 @@ namespace App\Providers;
 use App\Model\Article;
 use App\Model\Book;
 use App\Model\Category;
+use App\Model\Collect;
 use App\Model\Process;
 use App\Model\User;
 use App\Observers\ArticleObserver;
 use App\Observers\BookObserver;
 use App\Observers\CategoryObserver;
+use App\Observers\CollectObserver;
 use App\Observers\ProcessObserver;
 use App\Observers\UserObserver;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -46,5 +48,6 @@ class EventServiceProvider extends ServiceProvider
         Process::observe(new ProcessObserver());
         Book::observe(new BookObserver());
         Category::observe(new CategoryObserver());
+        Collect::observe(new CollectObserver());
     }
 }

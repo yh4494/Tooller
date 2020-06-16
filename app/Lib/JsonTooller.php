@@ -22,6 +22,17 @@ class JsonTooller
     }
 
     /**
+     * 未登录
+     *
+     * @return false|string
+     */
+    public static function unLogin()
+    {
+        return static::data(-101, '未登录，请登录后再操作', []);
+
+    }
+
+    /**
      * 成功
      *
      * @return false|string

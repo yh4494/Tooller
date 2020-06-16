@@ -36,11 +36,14 @@
     <div class="container">
         <div style="width: 100%; height: auto; margin: 15px 0">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-secondary active" @click="clickToJumping('/article')">
+                <label class="btn btn-secondary @if(!isset($type) || !$type) active @endif" @click="clickToJumping('/article')">
                     <input type="radio" name="options" id="option1"> <a style="color: #fff;">PERSONAL</a>
                 </label>
-                <label class="btn btn-secondary" @click="clickToJumping('/article?type=public')">
+                <label class="btn btn-secondary @if($type == 'public') active @endif" @click="clickToJumping('/article?type=public')">
                    <input type="radio" name="options" id="option1">  <a style="color: #fff;">文库</a>
+                </label>
+                <label class="btn btn-secondary @if($type == 'collect') active @endif" @click="clickToJumping('/article?type=collect')">
+                    <input type="radio" name="options" id="option1">  <a style="color: #fff;">收藏</a>
                 </label>
                 <label class="btn btn-secondary" @click="clickToAddArticle">
                     <input type="radio" name="options" id="option1" checked> <i style="margin-top: 4px; color: #fff" class="fa fa-plus" aria-hidden="true"></i>

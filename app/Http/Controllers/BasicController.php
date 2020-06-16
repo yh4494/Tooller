@@ -12,9 +12,12 @@ class BasicController extends Controller
 {
     protected $user;
 
+    protected $userId;
+
     public function __construct()
     {
         $userId = Request::session()->get('user_id');
+        $this->userId = $userId;
         if ($userId) {
             $this->user = User::find($userId);
             view()->share('userId', $userId);
