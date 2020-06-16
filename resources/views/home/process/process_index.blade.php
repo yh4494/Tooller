@@ -26,7 +26,7 @@
             </div>
 
             <select class="form-control form-control" id="changeCateogry" @change="changeCildCategory" style="width: 200px; float: right; background: #6E757C; color: #fff;" >
-                <option v-for="item in mainData" :value="item.id" >@{{ item.name }}</option>
+                <option v-for="item in mainData" style="color:#fff" :value="item.id" >@{{ item.name }}</option>
             </select>
 {{--            <button type="button" class="btn btn-dark" @click="clickToAddChildTask(0)" data-toggle="modal" data-target="#exampleModalCenter" style="width: 100px;">添加</button>--}}
         </div>
