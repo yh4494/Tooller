@@ -60,7 +60,11 @@ class ArticleController extends BasicController
     {
         $article = null;
         if ($request->get('id') && !$request->get('is_article')) $article = Article::where('process_id', $request->get('id'))->first();
-        else $article = Article::where('id', $request->get('id'))->first();
+        else {
+            $article = Article::where('id', $request->get('id'))->first();
+            $user = User::find($article->user_id);
+            $article->user = $user;
+        }
 
         if ($article) $article->content = str_replace('\n', '', $article->content);
 
