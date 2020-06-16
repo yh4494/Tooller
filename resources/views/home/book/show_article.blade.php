@@ -30,8 +30,10 @@
             <h2 style="text-align: left; margin-bottom: 20px;">{{ isset($article) ? $article->title : ''  }}</h2>
             <hr>
             <div style="margin-bottom: 20px;">
-                <i class="fa fa-star fa-2x" v-if="collect == true" @click="clickToCollect" style="cursor:pointer; color:#CCCC00" aria-hidden="true"></i>
-                <i class="fa fa-star-o fa-2x" v-else @click="clickToCollect" style="cursor:pointer; color:#CCCC00" aria-hidden="true"></i>
+                @if(!$self)
+                    <i class="fa fa-star fa-2x" v-if="collect == true" @click="clickToCollect" style="cursor:pointer; color:#CCCC00" aria-hidden="true"></i>
+                    <i class="fa fa-star-o fa-2x" v-else @click="clickToCollect" style="cursor:pointer; color:#CCCC00" aria-hidden="true"></i>
+                @endif
                 <i class="fa fa-share-alt fa-2x" style="cursor:pointer; color:#0099CC; margin-left: 10px;" aria-hidden="true"></i>
                 <a href="/article"><i class="fa fa-reply fa-2x" style="cursor:pointer; color:#ccc; margin-left: 10px; float: right" aria-hidden="true"></i></a>
             </div>

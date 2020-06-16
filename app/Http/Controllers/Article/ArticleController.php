@@ -95,7 +95,8 @@ class ArticleController extends BasicController
         return view('home.book.show_article',  [
             'route'   => 'article',
             'id'      => $id,
-            'article' => $article
+            'article' => $article,
+            'self'    => $this->userId == $article->user_id
         ]);
     }
 
