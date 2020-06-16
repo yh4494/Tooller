@@ -16,7 +16,7 @@
         <div style="margin: 15px 0; white-space: nowrap;" id="category" v-cloak>
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="button" class="btn btn-secondary" @click="requestProcessList(0)">全部</button>
-                <button type="button" class="btn btn-secondary" v-for="item in mainData" @click="requestProcessList(item.id)">@{{ item.name }}</button>
+{{--                <button type="button" class="btn btn-secondary" v-for="item in mainData" @click="requestProcessList(item.id)">@{{ item.name }}</button>--}}
                 <button type="button" class="btn btn-secondary" @click="clickToShowHistoryProcess">
                     <i class="fa fa-history" style="color: #fff;" aria-hidden="true"></i>
                 </button>
@@ -24,6 +24,10 @@
                     <i class="fa fa-plus" style="color: #fff;" aria-hidden="true"></i>
                 </button>
             </div>
+
+            <select class="form-control form-control" id="changeCateogry" @change="changeCildCategory" style="width: 200px; float: right; background: #6E757C; color: #fff;" >
+                <option v-for="item in mainData" :value="item.id" >@{{ item.name }}</option>
+            </select>
 {{--            <button type="button" class="btn btn-dark" @click="clickToAddChildTask(0)" data-toggle="modal" data-target="#exampleModalCenter" style="width: 100px;">添加</button>--}}
         </div>
         <div style="width: 100%;" v-cloak>
@@ -181,6 +185,11 @@
                             this.requestProcessList(null);
                         }
                     })
+                },
+                changeCildCategory (e) {
+                    console.log(e)
+                    console.log($('#changeCateogry').val())
+                    this.requestProcessList($('#changeCateogry').val())
                 },
                 requestProcessList: function (pid) {
                     if (!pid && pid !== 0) pid = this.currentPid;
