@@ -39,7 +39,7 @@
                 <p>作者: {{ $article->user->name }}</p>
                 <p>时间: {{ date('Y-m-d H:i:s', $article->create_at)  }}</p>
             </div>
-            <div style="width: 100%; height: auto; border: 2px dashed #f3f3f3; padding: 30px; margin-bottom: 20px;"><xmp class="none">{{ isset($article) ? str_replace('\n', '<br/>',$article->description) : '' }}</xmp></div>
+            <div style="width: 100%; height: auto; border: 2px dashed #f3f3f3; padding: 20px; margin-bottom: 20px;"><xmp class="none">{{ isset($article) ? str_replace('\n', '<br/>',$article->description) : '' }}</xmp></div>
             <div style=" padding-top: 1px;">
                 {!! isset($article) ? $article->content : '' !!}
             </div>
