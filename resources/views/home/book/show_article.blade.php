@@ -30,7 +30,7 @@
             <h2 style="text-align: left; margin-bottom: 20px;">{{ isset($article) ? $article->title : ''  }}</h2>
             <hr>
             <div style="margin-bottom: 20px;">
-                @if(!$self)
+                @if(!isset($self) || !$self)
                     <i class="fa fa-star fa-2x" v-if="collect == true" @click="clickToCollect" style="cursor:pointer; color:#CCCC00" aria-hidden="true"></i>
                     <i class="fa fa-star-o fa-2x" v-else @click="clickToCollect" style="cursor:pointer; color:#CCCC00" aria-hidden="true"></i>
                 @endif

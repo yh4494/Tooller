@@ -72,7 +72,8 @@ class ArticleController extends BasicController
             'article' => $article,
             'read'    => $request->get('read') ?? false,
             'isModal' => $request->get('is_modal') ?? false,
-            'isArticle' => $request->get('is_article') ?? false
+            'isArticle' => $request->get('is_article') ?? false,
+            'self'    => $article->user_id == $this->userId
         ]);
     }
 
