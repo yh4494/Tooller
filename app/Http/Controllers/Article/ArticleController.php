@@ -46,7 +46,7 @@ class ArticleController extends BasicController
                     $articles = Article::select('article.*', 'category.name as categoryName')
                         ->leftjoin('category', 'article.child_category_id', 'category.id')
                         ->leftjoin('collect', 'article.id', 'collect.collect_id')
-                        ->where()
+                        ->where($where)
                         ->get($where);
                     break;
             }

@@ -80,28 +80,19 @@
                         <a target="_blank" href="/book/show/{{ $item['id']  }}">
                             {{ $item['title'] }}
                         </a>
-                        <div class="element" style="float: right; line-height: 50px; margin-top: 3px; ">
+                        @if(!isset($type) || !$type)
+                        <div class="element" style="float: right; line-height: 50px; margin-top: 2px; margin-right: 20px;">
                             <a href="javascript:void(0)" @click="clickToDeleteArticle({!! $item['id'] !!})"><i class="fa fa-times" aria-hidden="true"></i></a>
                         </div>
-                        <div class="element" style="float: right; line-height: 50px; margin-top: 3px; margin-right: 20px;">
+                        <div class="element" style="float: right; line-height: 50px; margin-top: 3px; margin-right: 10px;">
                             <a href="javascript:void(0)" @click="clickToEditArticle({!! $item['id'] !!})">
                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                             </a>
                         </div>
-                        <div class="element" style="float: right; padding-right: 20px;">{{ $item->create_time  }}</div>
+                        @endif
                     </li>
                 @endforeach
             </ul>
-{{--            <div style="width: 100%; display: flex; flex-direction: row; justify-content: flex-start; flex-wrap: wrap;">--}}
-{{--                @foreach($articles as $item)--}}
-{{--                    <div class="card" style="width: 195px; height: 288.3px; align-self: flex-start; margin-right: 20px;" v-if="showWay">--}}
-{{--                        <img src="/resources/assets/images/article.jpeg" class="card-img-top" alt="...">--}}
-{{--                        <div class="card-body">--}}
-{{--                            <p class="card-text" style="word-break: break-all; ">{{ $item['title'] }}</p>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                @endforeach--}}
-{{--            </div>--}}
         </div>
     </div>
 @endsection
