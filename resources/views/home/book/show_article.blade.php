@@ -70,8 +70,8 @@
             new Vue({
                 el: '.container',
                 data: {
-                    collect: '{!! $article->collect !!}',
-                    support: '{!! $article->support !!}'
+                    collect: '{!! $article->collect == 1 ? true : false !!}',
+                    support: '{!! $article->support == 1 ? true : false !!}'
                 },
                 methods: {
                     clickToCollect (type) {
