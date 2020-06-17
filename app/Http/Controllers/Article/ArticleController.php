@@ -65,7 +65,7 @@ class ArticleController extends BasicController
             'showWay'  => false,
             'type'     => $request->get('type'),
             'category' => $categorys,
-            'currentCategory' => $request->get('category')
+            'currentCategory' => $request->get('category') ?? 0
         ]);
     }
 
