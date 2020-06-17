@@ -42,6 +42,7 @@ class ArticleController extends BasicController
                     break;
                 case 'collect':
                     $where = [['collect.type', '=', '1'], ['collect.user_id', '=', $this->userId]];
+                    array_push($where, ['article.is_public', '=', 1]);
                     if ($request->get('category')) {
                         array_push($where, ['child_category_id', '=', $request->get('category')]);
                     }
