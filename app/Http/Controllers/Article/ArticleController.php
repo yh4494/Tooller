@@ -42,7 +42,9 @@ class ArticleController extends BasicController
                     break;
                 case 'collect':
                     $where = [['collect.type', '=', '1'], ['collect.user_id', '=', $this->userId]];
-                    array_push($where, ['child_category_id', '=', $request->get('category')]);
+                    if ($request->get('category')) {
+                        array_push($where, ['child_category_id', '=', $request->get('category')]);
+                    }
                     $articles = Article::select('article.*', 'category.name as categoryName')
                         ->leftjoin('category', 'article.child_category_id', 'category.id')
                         ->leftjoin('collect', 'article.id', 'collect.collect_id')
