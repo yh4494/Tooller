@@ -120,6 +120,10 @@ class ArticleController extends BasicController
         if ($collect) {
             $article->collect = true;
         }
+
+        if ($article->is_public == 0 && $this->userId != $article->user_id) {
+            return redirect('/article');
+        }
         return view('home.book.show_article',  [
             'route'   => 'article',
             'id'      => $id,

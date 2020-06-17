@@ -70,7 +70,7 @@
             new Vue({
                 el: '.container',
                 data: {
-                    collect: '{!! $article->collect == 1 ? true : false !!}',
+                    collect: '{!! isset($article) && $article->collect ? true : false !!}',
                     support: '{!! $article->support == 1 ? true : false !!}'
                 },
                 methods: {
