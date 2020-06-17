@@ -74,12 +74,12 @@
                 @foreach($articles as $item)
                     <li>
                         <i class="fa fa-bookmark" aria-hidden="true"></i>
-                        <span style="color: #ccc; font-weight: bold;">
-                            @if(isset($item->categoryName) && $item->categoryName)【{{ $item->categoryName }}】@endif
-                        </span>
                         <a target="_blank" href="/book/show/{{ $item['id']  }}">
                             {{ $item['title'] }}
                         </a>
+                        <span style="color: #ccc; font-weight: bold;">
+                            @if(isset($item->categoryName) && $item->categoryName)【{{ $item->categoryName }}】@endif
+                        </span>
                         @if(!isset($type) || !$type)
                         <div class="element" style="float: right; line-height: 50px; margin-top: 2px; margin-right: 20px;">
                             <a href="javascript:void(0)" @click="clickToDeleteArticle({!! $item['id'] !!})"><i class="fa fa-times" aria-hidden="true"></i></a>

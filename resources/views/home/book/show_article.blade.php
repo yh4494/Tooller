@@ -17,7 +17,7 @@
 @endsection
 
 @section('content')
-    <div class="container" style="padding-top: 20px">
+    <div class="container" style="padding-top: 20px" v-cloak>
 {{--        <nav aria-label="breadcrumb" style="width: 100%">--}}
 {{--            <ol class="breadcrumb" style="width: 100%">--}}
 {{--                <li class="breadcrumb-item"><a href="/">Home</a></li>--}}
