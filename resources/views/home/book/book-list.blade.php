@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('header')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
     <style type="text/css">
         * {
             padding: 0;
@@ -29,6 +30,17 @@
             width: 20px;
             height: 20px;
         }
+        .btn-light {
+            background: #606A71;
+            color: #fff;
+        }
+        .filter-option-inner-inner {
+            color: #fff;
+        }
+        .dropdown-item.active, .dropdown-item:active {
+            background: #f3f3f3;
+            color: #fff;
+        }
     </style>
 @endsection
 
@@ -43,20 +55,17 @@
                    <input type="radio" name="options" id="option1">  <a style="color: #fff;">文库</a>
                 </label>
                 <label class="btn btn-secondary @if($type == 'collect') active @endif" @click="clickToJumping('/article?type=collect')">
-                    <input type="radio" name="options" id="option1">  <a style="color: #fff;">收藏</a>
+                    <input type="radio" name="options" id="option1">  <a style="color: #fff;"><i style="margin-top: 4px; color: #fff" class="fa fa-star" aria-hidden="true"></i></a>
                 </label>
                 <label class="btn btn-secondary" @click="clickToAddArticle">
                     <input type="radio" name="options" id="option1" checked> <i style="margin-top: 4px; color: #fff" class="fa fa-plus" aria-hidden="true"></i>
                 </label>
             </div>
-            <div class="btn-group btn-group-toggle" style="float: right" data-toggle="buttons">
-                <label class="btn btn-secondary active" @click="clickToToggle(false)">
-                    <input type="radio" name="options" id="option1" checked> <i style="color: #fff; margin-top: 2px;" class="fa fa-bars" aria-hidden="true"></i>
-                </label>
-{{--                <label class="btn btn-secondary" @click="clickToToggle(true)">--}}
-{{--                    <input type="radio" name="options" id="option1" checked>--}}
-{{--                    <i style="color: #fff; margin-top: 2px;" class="fa fa-th-large" aria-hidden="true"></i>--}}
-{{--                </label>--}}
+            <div style="float: right" data-toggle="buttons">
+                <select class="selectpicker" style="background: #606A71;" id="selectCategory" v-model="currentCategory" @change="changeCategory" data-live-search="true">
+                    <option value="0">全部</option>
+                    @foreach($category as $c)<option data-tokens="ketchup mustard" :value="{{$c->id}}">{{ $c->name }}</option>@endforeach
+                </select>
             </div>
         </div>
 
@@ -65,6 +74,9 @@
                 @foreach($articles as $item)
                     <li>
                         <i class="fa fa-bookmark" aria-hidden="true"></i>
+                        <span style="color: #ccc; font-weight: bold;">
+                            @if(isset($item->categoryName) && $item->categoryName)【{{ $item->categoryName }}】@endif
+                        </span>
                         <a target="_blank" href="/book/show/{{ $item['id']  }}">
                             {{ $item['title'] }}
                         </a>
@@ -95,13 +107,15 @@
 @endsection
 
 @section('footer')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             var showWay = '{!! $showWay !!}'
             new Vue({
                 el: '.container',
                 data: {
-                    showWay: showWay
+                    showWay: showWay,
+                    currentCategory: '{!! $currentCategory !!}'
                 },
                 mounted () {
                     this.showWay = showWay;
@@ -126,6 +140,9 @@
                     },
                     clickToEditArticle (id) {
                         window.location.href = '/book/add-note?is_article=true&id=' + id
+                    },
+                    changeCategory () {
+                        window.location.href = '/article?category=' + $('#selectCategory').val();
                     }
                 }
             })

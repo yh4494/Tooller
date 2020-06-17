@@ -17,7 +17,8 @@ class CategoryController extends BasicController
      */
     public function all(Request $request)
     {
-
+        $categorys = Category::where([['user_', '=', $this->userId], ['pid', '!=', 0]])->get();
+        return JsonTooller::data(0, '返回成功', $categorys->toArry());
     }
 
     /**

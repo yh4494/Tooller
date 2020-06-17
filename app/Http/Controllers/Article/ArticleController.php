@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Article;
 use App\Http\Controllers\BasicController;
 use App\Lib\JsonTooller;
 use App\Model\Article;
+use App\Model\Category;
 use App\Model\Collect;
 use App\Model\User;
 use Illuminate\Http\Request;
@@ -25,29 +26,46 @@ class ArticleController extends BasicController
     public function article(Request $request)
     {
         $where = [];
+        $categorys = Category::where([['user_id', '=', $this->userId], ['pid', '!=', 0]])->get();
+        if ($request->get('category')) {
+            array_push($where, ['child_category_id', '=', $request->get('category')]);
+        }
         if ($request->get('type')) {
             switch ($request->get('type')) {
                 case 'public':
-                    array_push($where, ['is_public', '=', 1]);
-                    array_push($where, ['user_id', '!=', $this->user->id]);
-                    $articles = Article::where($where)->orderBy('create_at', 'desc')->get();
+                    array_push($where, ['article.is_public', '=', 1]);
+                    array_push($where, ['article.user_id', '!=', $this->user->id]);
+                    $articles = Article::select('article.*', 'category.name as categoryName')
+                        ->leftjoin('category', 'article.child_category_id', 'category.id')
+                        ->where($where)
+                        ->orderBy('article.create_at', 'desc')->get();
                     break;
                 case 'collect':
-                    $articles = Article::select('article.*')
+                    $where = [['collect.type', '=', '1'], ['collect.user_id', '=', $this->userId]];
+                    array_push($where, ['child_category_id', '=', $request->get('category')]);
+                    $articles = Article::select('article.*', 'category.name as categoryName')
+                        ->leftjoin('category', 'article.child_category_id', 'category.id')
                         ->leftjoin('collect', 'article.id', 'collect.collect_id')
-                        ->where([['collect.type', '=', '1'], ['collect.user_id', '=', $this->userId]])
-                        ->get();
+                        ->where()
+                        ->get($where);
                     break;
             }
         } else {
-            array_push($where, ['user_id', '=', $this->user->id]);
-            $articles = Article::where($where)->orderBy('create_at', 'desc')->get();
+            array_push($where, ['article.user_id', '=', $this->user->id]);
+            $articles = Article::select('article.*', 'category.name as categoryName')
+                ->leftjoin('category', 'article.child_category_id', 'category.id')
+                ->where($where)
+                ->orderBy('article.create_at', 'desc')
+                ->get();
         }
+
         return view('home.book.book-list', [
             'route'    => 'article',
             'articles' => $articles,
             'showWay'  => false,
-            'type'     => $request->get('type')
+            'type'     => $request->get('type'),
+            'category' => $categorys,
+            'currentCategory' => $request->get('category')
         ]);
     }
 
@@ -182,15 +200,36 @@ class ArticleController extends BasicController
         }
 
         $articleId = $request->get('articleId');
-        $collect = Collect::where([['type', '=', 1], ['user_id', '=', $this->userId], ['collect_id', '=', $articleId]])->first();
+        $isDelete = false;
+        $collect = Collect::where([['type', '=', $request->get('type')], ['user_id', '=', $this->userId], ['collect_id', '=', $articleId]])->first();
         if (!$collect) {
             $collect = new Collect();
-            $collect->type = 1;
+            $collect->type = $request->get('type');
             $collect->collect_id = $articleId;
             $collect->save();
         } else {
             $collect->delete();
+            $isDelete = true;
         }
+
+        $article = Article::find($articleId);
+        switch ($collect->type) {
+            case 1:
+                if ($isDelete) {
+                    if ($article->collect_num != 0) $article->collect_num -= $article->collect_num;
+                } else {
+                    $article->collect_num = $article->collect_num + 1;
+                }
+                break;
+            case 3:
+                if ($isDelete) {
+                    if ($article->support_num != 0) $article->support_num -= $article->support_num;
+                } else {
+                    $article->support_num = $article->support_num + 1;
+                }
+                break;
+        }
+        $article->save();
 
         return JsonTooller::success();
     }

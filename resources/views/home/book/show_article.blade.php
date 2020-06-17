@@ -31,10 +31,13 @@
             <hr>
             <div style="margin-bottom: 20px;">
                 @if(!isset($self) || !$self)
-                    <i class="fa fa-star fa-2x" v-if="collect == true" @click="clickToCollect" style="cursor:pointer; color:#CCCC00" aria-hidden="true"></i>
-                    <i class="fa fa-star-o fa-2x" v-else @click="clickToCollect" style="cursor:pointer; color:#CCCC00" aria-hidden="true"></i>
+                    <i class="fa fa-star fa-2x" v-if="collect == true" @click="clickToCollect(1)" style="cursor:pointer; margin-right: 10px; color:#CCCC00" aria-hidden="true"></i>
+                    <i class="fa fa-star-o fa-2x" v-else @click="clickToCollect(1)" style="cursor:pointer; margin-right: 10px; color:#CCCC00" aria-hidden="true"></i>
                 @endif
-                <i class="fa fa-share-alt fa-2x" style="cursor:pointer; color:#0099CC; margin-left: 10px;" aria-hidden="true"></i>
+                <i class="fa fa-thumbs-up fa-2x" v-if="support == true" @click="clickToCollect(3)" style="color: #0099CC; cursor:pointer;" aria-hidden="true"></i>
+                <i class="fa fa-thumbs-o-up fa-2x" v-else style="color: #0099CC; cursor:pointer;" @click="clickToCollect(3)" aria-hidden="true"></i>
+
+                <i class="fa fa-share-alt fa-2x" style="cursor:pointer; color:#0099CC; margin-left: 10px; margin-right: 10px" aria-hidden="true"></i>
                 <a href="/article"><i class="fa fa-reply fa-2x" style="cursor:pointer; color:#ccc; margin-left: 10px; float: right" aria-hidden="true"></i></a>
             </div>
             <div style="">
@@ -67,12 +70,19 @@
             new Vue({
                 el: '.container',
                 data: {
-                    collect: '{!! $article->collect !!}'
+                    collect: '{!! $article->collect !!}',
+                    support: '{!! $article->support !!}'
                 },
                 methods: {
-                    clickToCollect () {
-                        this.$http.get('/api/article/collect?articleId=' + '{!! $article->id !!}').then(function(response) {
-                            this.collect = !this.collect;
+                    clickToCollect (type) {
+                        this.$http.get('/api/article/collect?articleId=' + '{!! $article->id !!}' + '&type=' + type).then(function(response) {
+                            switch(type) {
+                                case 1:
+                                    this.collect = !this.collect;
+                                    break;
+                                case 3:
+                                    this.support = !this.support;
+                            }
                         })
                     }
                 }
