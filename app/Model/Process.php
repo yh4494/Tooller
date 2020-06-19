@@ -15,4 +15,8 @@ class Process extends Model
     public function article () {
         return $this->hasOne('App\Model\Article', 'process_id', 'id');
     }
+
+    public function childProcess () {
+        return $this->hasMany('App\Model\Process', 'pid', 'id');
+    }
 }

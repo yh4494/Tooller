@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Validator;
 
 class ArticleController extends BasicController
 {
+    private static $visibleNums = 10;
+
     public function index()
     {
         return view('home.book.book', ['route' => 'book']);
@@ -25,20 +27,23 @@ class ArticleController extends BasicController
      */
     public function article(Request $request)
     {
-        $where = [];
+        $where     = [];
+        $isCollect = false;
+        $columns   = ['article.id', 'article.title', 'article.child_category_id', 'article.create_at', 'category.name as categoryName'];
         $categorys = Category::where([['user_id', '=', $this->userId], ['pid', '!=', 0]])->get();
         if ($request->get('category')) {
             array_push($where, ['child_category_id', '=', $request->get('category')]);
         }
+
+        $page      = $request->get('page') ?? 1;
+        $pageSize  = $request->get('pageSize') ?? 10;
+
         if ($request->get('type')) {
             switch ($request->get('type')) {
                 case 'public':
                     array_push($where, ['article.is_public', '=', 1]);
                     array_push($where, ['article.user_id', '!=', $this->user->id]);
-                    $articles = Article::select('article.*', 'category.name as categoryName')
-                        ->leftjoin('category', 'article.child_category_id', 'category.id')
-                        ->where($where)
-                        ->orderBy('article.create_at', 'desc')->get();
+                    $articles = $this->commonSearchArticle(true, $columns, $where, $page, $pageSize);
                     break;
                 case 'collect':
                     $where = [['collect.type', '=', '1'], ['collect.user_id', '=', $this->userId]];
@@ -46,30 +51,54 @@ class ArticleController extends BasicController
                     if ($request->get('category')) {
                         array_push($where, ['child_category_id', '=', $request->get('category')]);
                     }
-                    $articles = Article::select('article.*', 'category.name as categoryName')
-                        ->leftjoin('category', 'article.child_category_id', 'category.id')
-                        ->leftjoin('collect', 'article.id', 'collect.collect_id')
-                        ->where($where)
-                        ->get($where);
+                    $articles  = $this->commonSearchArticle(true, $columns, $where, $page, $pageSize, true);
+                    $isCollect = true;
                     break;
             }
         } else {
             array_push($where, ['article.user_id', '=', $this->user->id]);
-            $articles = Article::select('article.*', 'category.name as categoryName')
-                ->leftjoin('category', 'article.child_category_id', 'category.id')
-                ->where($where)
-                ->orderBy('article.create_at', 'desc')
-                ->get();
+            $articles = $this->commonSearchArticle(true, $columns, $where, $page, $pageSize);
         }
 
+        $total = $this->commonSearchArticle(false, $columns, $where, $pageSize, $isCollect);
+        $vsi   = $total % $pageSize == 0 ? $total / $pageSize : $total / $pageSize + 1;
         return view('home.book.book-list', [
             'route'    => 'article',
             'articles' => $articles,
             'showWay'  => false,
             'type'     => $request->get('type'),
             'category' => $categorys,
-            'currentCategory' => $request->get('category') ?? 0
+            'currentCategory' => $request->get('category') ?? 0,
+            'page'     => $page,
+            'pageSize' => $pageSize,
+            'total'    => $total,
+            'visible'  => $vsi,
+            'visibleN' => static::$visibleNums
         ]);
+    }
+
+    /**
+     * 文章公共查询
+     *
+     * @param $columns
+     * @param $where
+     * @return mixed
+     */
+    private function commonSearchArticle ($selectType = true, $columns, $where, $page = 1, $pageSize = 10, $type = null) {
+        $connection = Article::select($columns)->leftjoin('category', 'article.child_category_id', 'category.id');
+        if ($type == 'collect') {
+            $connection->leftjoin('collect', 'article.id', 'collect.collect_id');
+        }
+        $connection->where($where);
+        if ($selectType) {
+            $connection->offset(($page - 1) * $pageSize)->limit($pageSize);
+        }
+
+        $connection->orderBy('article.create_at', 'desc');
+        if ($selectType) {
+            return $connection->get();
+        }
+        return $connection->count();
     }
 
     /**

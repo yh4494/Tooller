@@ -41,6 +41,24 @@
             background: #f3f3f3;
             color: #fff;
         }
+        .pagination>li>a, .pagination>li>span {
+            position: relative;
+            float: left;
+            padding: 6px 12px;
+            line-height: 1.42857143;
+            text-decoration: none;
+            color: #666666;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            margin-left: -1px;
+        }
+        .pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+            z-index: 2;
+            color: #fff;
+            background-color: #343A40;
+            border-color: #343A40;
+            cursor: default;
+        }
     </style>
 @endsection
 
@@ -69,6 +87,7 @@
             </div>
         </div>
 
+        <ul id="paginator" class="pagination"></ul>
         <div class="list-allens">
             <ul v-if="!showWay" class="list-of-articles">
                 @foreach($articles as $item)
@@ -99,6 +118,7 @@
 
 @section('footer')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+    <script src="/resources/lib/jqPaginator-2.0.2/jq-paginator.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             var showWay = '{!! $showWay !!}'
@@ -110,6 +130,14 @@
                 },
                 mounted () {
                     this.showWay = showWay;
+                    $('#paginator').jqPaginator({
+                        totalPages: parseInt('{!! $visible !!}'),
+                        visiblePages: parseInt('{!! $visibleN !!}'),
+                        currentPage: parseInt('{!! $page !!}'),
+                        onPageChange: function (num, type) {
+                            if (type !== 'init') window.location = '/article?type={!! $type !!}&page=' + num
+                        }
+                    });
                 },
                 methods: {
                     clickToToggle: function(e) {

@@ -30,18 +30,12 @@ class ProcessController extends BasicController
         if ($request->get('pid') && $request->get('pid') != 'null') {
             array_push($where, ['id', '=', $request->get('pid')]);
         }
-        $process = Process::where($where)->get();
-        foreach ($process as $k => $p) {
-            $tempArr = [];
-            $child = Process::where('pid', $p->id)->with('article')->get();
-            foreach ($child as $s) {
-                if (($s && $s->status != 1) || CommonUtils::Judge($request->get('history'))) {
-                    $tempArr[] = $s;
-                }
+        $process = Process::where($where)->with(['childProcess' => function ($query) use ($request) {
+            $query->with(['article' => function($articleQuery) { return $articleQuery->select('id', 'process_id'); }]);
+            if (!CommonUtils::Judge($request->get('history'))) {
+                $query->where('status', 0);
             }
-            $p->child = $tempArr;
-            array_push($array, $p);
-        }
+        }])->get();
         return JsonTooller::data(0, '返回数据成功', $process->toArray());
     }
 
