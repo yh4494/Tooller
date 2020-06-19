@@ -22,6 +22,17 @@ class JsonTooller
     }
 
     /**
+     * 成功返回数据
+     *
+     * @param $data
+     * @return false|string
+     */
+    public static function successData($data)
+    {
+        return static::data(0, '返回成功', $data);
+    }
+
+    /**
      * 未登录
      *
      * @return false|string

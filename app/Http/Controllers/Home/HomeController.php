@@ -3,14 +3,25 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\BasicController;
+use App\Lib\JsonTooller;
+use App\Model\Article;
 use Illuminate\Http\Request;
 
 class HomeController extends BasicController
 {
 
+    /**
+     * 首页文章推荐列表
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index ()
     {
-        return view('index', ['route' => 'home']);
+        $articles = Article::select('title', 'id', 'description')->where([['is_public', '=', 1]])->limit(20)->get();
+        return view('index', [
+            'route'    => 'home',
+            'articles' => $articles
+        ]);
     }
 
     /**

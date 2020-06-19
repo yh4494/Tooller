@@ -20,6 +20,7 @@ Route::group(['middleware' => ['web', 'login']], function () {
     });
     Route::prefix('article')->group(function () {
         Route::get('/collect',           'Article\ArticleController@collect');
+        Route::get('/recommend',         'Article\ArticleController@recommend');
     });
     Route::resource('/books',            'Book\BookController');
 });

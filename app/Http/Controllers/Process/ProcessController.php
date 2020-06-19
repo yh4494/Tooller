@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Process;
 use App\Http\Controllers\BasicController;
 use App\Lib\CommonUtils;
 use App\Lib\JsonTooller;
+use App\Model\Article;
 use App\Model\Process;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
