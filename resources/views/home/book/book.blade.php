@@ -58,7 +58,7 @@
                 </label>
             </div>
             <div class="book-content" style="margin-top: 15px;">
-                <div class="card" :style="'width: 250px;' + (item.hidden ? '' : 'box-shadow: #ccc 2px 2px 2px;')" v-for="item in mainData">
+                <div class="card" :style="'width: 250px; margin-bottom: 10px;' + (item.hidden ? '' : 'box-shadow: #ccc 2px 2px 2px;')" v-for="item in mainData">
                     <img :src="!item.hidden ? '/resources/assets/images/random00' + item.id % 6 + '.jpeg' : ''" v-show="!item.hidden" style="cursor: pointer" @click="clickToShowBook(item.pdf_url)" class="card-img-top" alt="...">
                     <div class="card-body" v-show="!item.hidden">
                         <h5 class="card-title">@{{item.book_name}}</h5>
