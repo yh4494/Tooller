@@ -24,10 +24,10 @@ php artisan key:generate
 INVITATION_CODE=SOMEAONEWASALLENS
 ~~~
 
-<img width="1000" src="http://120.53.124.65/storage/app/uploadimage/20200622/1592827604442040.png" height="600"/>
-<img width="1000" src="http://120.53.124.65/storage/app/uploadimage/20200622/1592827702893318.png" height="600"/>
-<img width="1000" src="http://120.53.124.65/storage/app/uploadimage/20200622/1592827795432274.png" height="600"/>
-<img width="1000" src="http://120.53.124.65/storage/app/uploadimage/20200622/1592827868167999.png" height="600"/>
-<img width="1000" src="http://120.53.124.65/storage/app/uploadimage/20200622/1592827904743824.png" height="600"/>
+<img width="100%" src="http://120.53.124.65/storage/app/uploadimage/20200622/1592827604442040.png"/>
+<img width="100%" src="http://120.53.124.65/storage/app/uploadimage/20200622/1592827702893318.png"/>
+<img width="100%" src="http://120.53.124.65/storage/app/uploadimage/20200622/1592827795432274.png"/>
+<img width="100%" src="http://120.53.124.65/storage/app/uploadimage/20200622/1592827868167999.png"/>
+<img width="100%" src="http://120.53.124.65/storage/app/uploadimage/20200622/1592827904743824.png"/>
 
 
