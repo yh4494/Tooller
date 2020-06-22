@@ -23,7 +23,7 @@
             }
         </style>
     </head>
-    <body style="z-index: 10000; position: absolute; width: 100%; height: 100%; overflow: scroll">
+    <body style="z-index: 10000; position: absolute; width: 100%; height: 100%; overflow-y: scroll">
         <canvas id="world" style="position: fixed; pointer-events:none; top: 60px; left: 0; z-index: 100;"></canvas>
         @if(explode('_', $route)[0] == 'home')
         @endif
