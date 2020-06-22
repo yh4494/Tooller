@@ -51,7 +51,7 @@ class ArticleController extends BasicController
                     if ($request->get('category')) {
                         array_push($where, ['child_category_id', '=', $request->get('category')]);
                     }
-                    $articles  = $this->commonSearchArticle(true, $columns, $where, $page, $pageSize, true);
+                    $articles  = $this->commonSearchArticle(true, $columns, $where, $page, $pageSize, 'collect');
                     $isCollect = true;
                     break;
             }
@@ -86,9 +86,7 @@ class ArticleController extends BasicController
      */
     private function commonSearchArticle ($selectType = true, $columns, $where, $page = 1, $pageSize = 10, $type = null) {
         $connection = Article::select($columns)->leftjoin('category', 'article.child_category_id', 'category.id');
-        if ($type == 'collect') {
-            $connection->leftjoin('collect', 'article.id', 'collect.collect_id');
-        }
+        $connection->leftjoin('collect', 'article.id', 'collect.collect_id');
         $connection->where($where);
         if ($selectType) {
             $connection->offset(($page - 1) * $pageSize)->limit($pageSize);

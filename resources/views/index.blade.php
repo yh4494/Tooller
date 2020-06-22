@@ -15,7 +15,7 @@
         </div>
 
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner" style="width: 100%; height: 450px; overflow: hidden; margin: 10px 0; border: 1px solid #f3f3f3; box-shadow: #ccc 2px 2px 2px">
+            <div class="carousel-inner" style="width: 100%; opacity: 0.8; height: 450px; overflow: hidden; margin: 10px 0; border: 1px solid #f3f3f3; box-shadow: #ccc 2px 2px 2px">
                 <div class="carousel-item active">
                     <img src="/resources/assets/images/swipe001.png" class="d-block w-100" alt="...">
                 </div>
