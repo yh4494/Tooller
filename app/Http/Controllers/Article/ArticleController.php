@@ -15,6 +15,8 @@ class ArticleController extends BasicController
 {
     private static $visibleNums = 10;
 
+    private static $pageSizeN   = 10;
+
     public function index()
     {
         return view('home.book.book', ['route' => 'book']);
@@ -36,7 +38,7 @@ class ArticleController extends BasicController
         }
 
         $page      = $request->get('page') ?? 1;
-        $pageSize  = $request->get('pageSize') ?? 20;
+        $pageSize  = $request->get('pageSize') ?? self::$pageSizeN;
 
         if ($request->get('type')) {
             switch ($request->get('type')) {
@@ -84,7 +86,7 @@ class ArticleController extends BasicController
      * @param $where
      * @return mixed
      */
-    private function commonSearchArticle ($selectType = true, $columns, $where, $page = 1, $pageSize = 20, $type = null) {
+    private function commonSearchArticle ($selectType = true, $columns, $where, $page = 1, $pageSize = 10, $type = null) {
         $connection = Article::select($columns)->leftjoin('category', 'article.child_category_id', 'category.id');
         $connection->leftjoin('collect', 'article.id', 'collect.collect_id');
         $connection->where($where);

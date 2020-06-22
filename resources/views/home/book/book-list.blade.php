@@ -66,6 +66,7 @@
 
         <ul id="paginator" class="pagination"></ul>
         <div class="list-allens">
+
             <ul v-if="!showWay" class="list-of-articles">
                 @foreach($articles as $item)
                     <li>
