@@ -12,19 +12,22 @@
             <a href="https://www.linuxidc.com/"><div>LINUX 公社</div></a>
             <a href="https://www.github.com/"><div>GITHUB</div></a>
             <a href="https://juejin.im/"><div>掘金社区</div></a>
+            <a href="http://www.htmleaf.com/"><div>JQuery</div></a>
+            <a href="https://xueyuanjun.com/"><div>LARAVEL</div></a>
+            <a href="https://baidu.com/"><div>百度</div></a>
         </div>
 
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner" style="width: 100%; opacity: 0.8; height: 450px; overflow: hidden; margin: 10px 0; border: 1px solid #f3f3f3; box-shadow: #ccc 2px 2px 2px">
+            <div class="carousel-inner" style="width: 100%; height: 350px; opacity: 0.8; overflow: hidden; margin: 10px 0; border: 1px solid #f3f3f3; box-shadow: #ccc 2px 2px 2px">
                 <div class="carousel-item active">
-                    <img src="/resources/assets/images/swipe001.png" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
                     <img src="/resources/assets/images/swipe002.png" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="/resources/assets/images/swipe003.jpg" class="d-block w-100" alt="...">
+                    <img src="/resources/assets/images/swipe001.png" class="d-block w-100" alt="...">
                 </div>
+{{--                <div class="carousel-item">--}}
+{{--                    <img src="/resources/assets/images/swipe003.jpg" class="d-block w-100" alt="...">--}}
+{{--                </div>--}}
             </div>
             <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
