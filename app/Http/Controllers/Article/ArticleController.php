@@ -36,7 +36,7 @@ class ArticleController extends BasicController
         }
 
         $page      = $request->get('page') ?? 1;
-        $pageSize  = $request->get('pageSize') ?? 10;
+        $pageSize  = $request->get('pageSize') ?? 20;
 
         if ($request->get('type')) {
             switch ($request->get('type')) {
@@ -84,7 +84,7 @@ class ArticleController extends BasicController
      * @param $where
      * @return mixed
      */
-    private function commonSearchArticle ($selectType = true, $columns, $where, $page = 1, $pageSize = 10, $type = null) {
+    private function commonSearchArticle ($selectType = true, $columns, $where, $page = 1, $pageSize = 20, $type = null) {
         $connection = Article::select($columns)->leftjoin('category', 'article.child_category_id', 'category.id');
         $connection->leftjoin('collect', 'article.id', 'collect.collect_id');
         $connection->where($where);
