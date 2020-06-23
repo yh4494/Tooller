@@ -30,9 +30,9 @@
             }
         </style>
     </head>
-    <body style="z-index: 10000; position: absolute; width: 100%; height: 100%; overflow-y: scroll">
-        <canvas id="world" style="position: fixed; pointer-events:none; top: 60px; left: 0; z-index: 100;"></canvas>
+    <body style="z-index: 10000; @if(explode('_', $route)[0] == 'home') position: absolute; width: 100%; height: 100%; overflow-y: scroll @endif">
         @if(explode('_', $route)[0] == 'home')
+            <canvas id="world" style="position: fixed; pointer-events:none; top: 60px; left: 0; z-index: 100;"></canvas>
         @endif
         <div style="position: absolute; height: 56px; width: 100%; background: #343a40;" id="navigation-allens"></div>
         <div class="container" id="body-allens">
