@@ -44,7 +44,7 @@
         <div class="list-allens" style="padding-bottom: 20px">
             <div v-if="!showWay">
                 @foreach($articles as $item)
-                    <li>
+                    <li class="animate__animated animate__fadeIn">
                         <i class="fa fa-bookmark" aria-hidden="true"></i>
                         <a target="_blank" href="/book/show/{{ $item['id']  }}">
                             {{ $item['title'] }}

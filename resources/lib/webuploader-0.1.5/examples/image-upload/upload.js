@@ -4,7 +4,8 @@
         var vue = new Vue({
             el: '.container',
             data: {
-                mainData: []
+                mainData: [],
+                showUploader: false
             },
             mounted: function () {
                 this.requestBookList();
@@ -21,8 +22,10 @@
                                 }
                             }
                         }
-                        console.log(this.mainData)
                     });
+                },
+                clickToShowUploader () {
+                    this.showUploader = !this.showUploader;
                 },
                 clickToShowBook (name) {
                     window.open('/resources/lib/pdf/web/viewer.html?file=' + name);
@@ -30,7 +33,6 @@
             }
         })
         var $wrap = $('#uploader'),
-
             // 图片容器
             $queue = $( '<ul class="filelist"></ul>' )
                 .appendTo( $wrap.find( '.queueList' ) ),

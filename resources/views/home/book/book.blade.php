@@ -1,11 +1,14 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<head>
+@extends('layout')
+
+@section('header')
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <title>Allens Tooller</title>
+    <title>Allens Tooller - Books</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="/resources/lib/css/common.css">
     <meta name="viewport" content="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="/resources/lib/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="/resources/lib/webuploader-0.1.5/css/webuploader.css" />
+    <link rel="stylesheet" type="text/css" href="/resources/lib/webuploader-0.1.5/examples/image-upload/style.css" />
     <style type="text/css">
         [v-cloak] {
             display: none;
@@ -19,19 +22,13 @@
         #uploader .queueList {
             margin: 0 !important;
         }
-        body {
-            background: url("/resources/assets/images/bg00{{ env('BACKGROUND_IMAGE') }}.jpg") repeat;
-        }
         #filePicker div:nth-child(2){width:100%!important;height:100%!important;}
     </style>
-    <link rel="stylesheet" type="text/css" href="/resources/lib/webuploader-0.1.5/css/webuploader.css" />
-    <link rel="stylesheet" type="text/css" href="/resources/lib/webuploader-0.1.5/examples/image-upload/style.css" />
-</head>
-<body id="app">
-    <div style="position: absolute; height: 56px; width: 100%; background: #343a40;"></div>
+@endsection
+
+@section('content')
     <div class="container" style="background: #fff; padding-bottom: 20px;" v-cloak>
-        @include('nav')
-        <div id="wrapper" style="display: none">
+        <div id="wrapper" v-show="showUploader">
             <!--头部，相册选择和格式选择-->
             <div id="uploader">
                 <div class="queueList">
@@ -56,8 +53,8 @@
                 <label class="btn btn-secondary active">
                     <input type="radio" name="options" id="option1" checked> 全部
                 </label>
-                <label class="btn btn-secondary">
-                    <input type="radio" class="plus-allens" name="options" id="option1" checked> <i style="margin-top: 4px; color: #fff" class="fa fa-plus" aria-hidden="true"></i>
+                <label class="btn btn-secondary" id="plus-allens" @click="clickToShowUploader">
+                    <input type="radio" id="plus-allens" name="options" id="option1" checked> <i style="margin-top: 4px; color: #fff" class="fa fa-plus" aria-hidden="true"></i>
                 </label>
             </div>
             <div class="book-content" style="margin-top: 15px;">
@@ -70,18 +67,12 @@
             </div>
         </div>
     </div>
-</body>
-<script src="/resources/lib/js/vue.min.js"></script>
-<script type="text/javascript" src="/resources/lib/webuploader-0.1.5/examples/image-upload/jquery.js"></script>
-<script type="text/javascript" src="/resources/lib/webuploader-0.1.5/dist/webuploader.js"></script>
-<script type="text/javascript" src="/resources/lib/webuploader-0.1.5/examples/image-upload/upload.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
-<script>
-    $(function() {
-        var plus = false;
-        $('.plus-allens').click(function(e) {
-            $('#wrapper').toggle()
-        })
-    })
-</script>
-</html>
+@endsection
+
+@section('footer')
+    <script src="/resources/lib/js/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    <script type="text/javascript" src="/resources/lib/webuploader-0.1.5/examples/image-upload/jquery.js"></script>
+    <script type="text/javascript" src="/resources/lib/webuploader-0.1.5/dist/webuploader.js"></script>
+    <script type="text/javascript" src="/resources/lib/webuploader-0.1.5/examples/image-upload/upload.js"></script>
+@endsection
