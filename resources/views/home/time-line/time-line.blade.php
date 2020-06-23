@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="container">
-        <div class="container-allens-time" style="margin-left: 50px;">
+        <div class="container-allens-time" style="margin-left: 50px;padding-bottom: 20px">
             <ul>
                 @foreach($data as $key => $item)
                 <li>

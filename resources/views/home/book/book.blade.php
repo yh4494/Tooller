@@ -19,6 +19,9 @@
         #uploader .queueList {
             margin: 0 !important;
         }
+        body {
+            background: url("/resources/assets/images/bg00{{ env('BACKGROUND_IMAGE') }}.jpg") repeat;
+        }
         #filePicker div:nth-child(2){width:100%!important;height:100%!important;}
     </style>
     <link rel="stylesheet" type="text/css" href="/resources/lib/webuploader-0.1.5/css/webuploader.css" />
@@ -26,7 +29,7 @@
 </head>
 <body id="app">
     <div style="position: absolute; height: 56px; width: 100%; background: #343a40;"></div>
-    <div class="container" v-cloak>
+    <div class="container" style="background: #fff; padding-bottom: 20px;" v-cloak>
         @include('nav')
         <div id="wrapper" style="display: none">
             <!--头部，相册选择和格式选择-->

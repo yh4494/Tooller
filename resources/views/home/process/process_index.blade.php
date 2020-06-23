@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="container" style="padding-bottom: 20px;">
         <div class="alert alert-success" v-if="showAlert" role="alert" v-cloak>
             @{{ alertTitle }}
         </div>

@@ -40,10 +40,10 @@
             @endif
         </ul>
         @if(isset($isLogin) && $isLogin)
-            <div class="nav-item" style="float:right;  width: 40px; height: 40px; border-radius: 20px; overflow: hidden">
-{{--                <img width="100%" height="100%" src="/resources/assets/images/header.png" alt="">--}}
+            <div class="nav-item" style="float:right; width: 40px; border-radius: 17.5px; overflow: hidden">
+                <img width="35" height="35" src="/resources/assets/images/header00{{ isset($userId) ? $userId % env('HEADER_IMAGE_NUMS') : '0' }}.jpg" alt="">
             </div>
-            <div style="color: #fff;width: 100px; text-align: right; margin-left: 10px">{{ isset($userName) ? $userName : ''  }}</div>
+            <div style="color: #fff;width: auto; text-align: right; margin-left: 10px; white-space: nowrap">{{ isset($userName) ? $userName : ''  }}</div>
             <div class="nav-item" style="margin-left: 10px;float:right; line-height: 40px; text-align: center; color: #fff; width: 40px; height: 40px; border-radius: 20px; overflow: hidden">
                 <div style="color: #fff !important;" class="white-a"><a style="color: #fff !important;" href="/logout">退出</a></div>
             </div>

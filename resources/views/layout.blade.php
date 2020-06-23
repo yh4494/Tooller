@@ -21,6 +21,12 @@
                 top: 50%;
                 margin-top: -250px;
             }
+            body {
+                background: url("/resources/assets/images/bg00{{ env('BACKGROUND_IMAGE') }}.jpg") repeat;
+            }
+            .container {
+                background: #fff;
+            }
         </style>
     </head>
     <body style="z-index: 10000; position: absolute; width: 100%; height: 100%; overflow-y: scroll">

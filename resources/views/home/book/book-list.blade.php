@@ -40,7 +40,7 @@
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="container" style="padding-bottom: 20px;">
         <div style="width: 100%; height: auto; margin: 15px 0">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-secondary @if(!isset($type) || !$type) active @endif" @click="clickToJumping('/article')">

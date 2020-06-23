@@ -41,7 +41,7 @@
 
         <div class="rel-title"><div></div>文章推荐</div>
         <div style="clear: both"></div>
-        <div class="list-allens">
+        <div class="list-allens" style="padding-bottom: 20px">
             <div v-if="!showWay">
                 @foreach($articles as $item)
                     <li>

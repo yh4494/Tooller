@@ -38,7 +38,7 @@ class ArticleController extends BasicController
         }
 
         $page      = $request->get('page') ?? 1;
-        $pageSize  = $request->get('pageSize') ?? self::$pageSizeN;
+        $pageSize  = $request->get('pageSize') ?? env('ARTICLE_PAGE_NUMS', self::$pageSizeN);
 
         if ($request->get('type')) {
             switch ($request->get('type')) {

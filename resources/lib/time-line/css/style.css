@@ -48,7 +48,7 @@ body {
 .container-allens-time ul li > span {
   width: 2px;
   height: 100%;
-  background: #fff;
+  background: #f3f3f3;
   left: -30px;
   top: 0;
   position: absolute;
@@ -58,7 +58,7 @@ body {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  border: 2px solid #fff;
+  border: 2px solid #f3f3f3;
   position: absolute;
   background: #86b7e7;
   left: -5px;
