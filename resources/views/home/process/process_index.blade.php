@@ -31,7 +31,7 @@
 {{--            <button type="button" class="btn btn-dark" @click="clickToAddChildTask(0)" data-toggle="modal" data-target="#exampleModalCenter" style="width: 100px;">添加</button>--}}
         </div>
         <div style="width: 100%;" v-cloak>
-            <div v-for="item in listData" :style="item.status == 0 ? 'background: #666666;' : 'background:#99CC33;' " style="width: 100%; background: #28a745; margin-bottom: 5px; color: #fff;padding: 10px; border-radius: 8px;">
+            <div v-for="item in listData" :style="item.status == 0 ? 'background: #666666;' : 'background:#99CC33;' " class="animate__animated animate__fadeIn" style="width: 100%; background: #28a745; margin-bottom: 5px; color: #fff;padding: 10px; border-radius: 8px;">
                 @{{ item.name }}
                 <a href="javascript:void(0)" style="float: right; margin-right: 5px;  color: #fff;" @click="clickToComplete(item.id)">完成</a>
                 <a style="float: right; margin-right: 5px; cursor: pointer; color: #fff;" @click="clickToGiveup(item.id)">放弃</a>
