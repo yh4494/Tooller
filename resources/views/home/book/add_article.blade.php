@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="container" style="padding-bottom: 20px;">
         @if(!$isModal)
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">

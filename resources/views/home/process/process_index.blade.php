@@ -13,12 +13,15 @@
         <div class="alert alert-success" v-if="showAlert" role="alert" v-cloak>
             @{{ alertTitle }}
         </div>
-        <div style="margin: 15px 0; white-space: nowrap;" id="category" v-cloak>
+        <div style="padding: 15px 0; white-space: nowrap;" id="category" v-cloak>
             <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-secondary" @click="requestProcessList(0)">全部</button>
+{{--                <button type="button" class="btn btn-secondary" @click="requestProcessList(0)">全部</button>--}}
 {{--                <button type="button" class="btn btn-secondary" v-for="item in mainData" @click="requestProcessList(item.id)">@{{ item.name }}</button>--}}
                 <button type="button" class="btn btn-secondary" @click="clickToShowHistoryProcess">
                     <i class="fa fa-history" style="color: #fff;" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="btn btn-secondary" @click="clickToShowHistoryProcess">
+                    <i class="fa fa-tasks" style="color: #fff;" aria-hidden="true"></i>
                 </button>
                 <button type="button" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-secondary" @click="clickToAddChildTask(0)" style="color: #fff;">
                     <i class="fa fa-plus" style="color: #fff;" aria-hidden="true"></i>
@@ -26,6 +29,7 @@
             </div>
 
             <select class="form-control form-control" id="changeCateogry" @change="changeCildCategory" style="max-width: 200px; float: right; background: #6E757C; color: #fff;" >
+                <option value="0">全部</option>
                 <option v-for="item in mainData" style="color:#fff" :value="item.id" >@{{ item.name }}</option>
             </select>
 {{--            <button type="button" class="btn btn-dark" @click="clickToAddChildTask(0)" data-toggle="modal" data-target="#exampleModalCenter" style="width: 100px;">添加</button>--}}

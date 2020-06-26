@@ -28,15 +28,41 @@
             .container {
                 background: #fff;
             }
+            .test-5::-webkit-scrollbar {
+                /*滚动条整体样式*/
+                width : 10px;  /*高宽分别对应横竖滚动条的尺寸*/
+                height: 1px;
+            }
+            .test-5::-webkit-scrollbar-thumb {
+                /*滚动条里面小方块*/
+                border-radius   : 10px;
+                background-color: skyblue;
+                background-image: -webkit-linear-gradient(
+                    45deg,
+                    rgba(255, 255, 255, 0.2) 25%,
+                    transparent 25%,
+                    transparent 50%,
+                    rgba(255, 255, 255, 0.2) 50%,
+                    rgba(255, 255, 255, 0.2) 75%,
+                    transparent 75%,
+                    transparent
+                );
+            }
+            .test-5::-webkit-scrollbar-track {
+                /*滚动条里面轨道*/
+                box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+                background   : #ededed;
+                border-radius: 10px;
+            }
         </style>
     </head>
-    <body style="z-index: 10000; @if(explode('_', $route)[0] == 'home') position: absolute; width: 100%; height: 100%; overflow-y: scroll @endif">
+    <body style="z-index: 10000; @if(explode('_', $route)[0] == 'home') position: absolute; width: 100%; height: 100%; overflow-y: scroll @endif" class="test-5">
+        @include('nav')
         @if(explode('_', $route)[0] == 'home')
             <canvas id="world" style="position: fixed; pointer-events:none; top: 60px; left: 0; z-index: 100;"></canvas>
         @endif
-        <div style="position: absolute; height: 56px; width: 100%; background: #343a40;" id="navigation-allens"></div>
+{{--        <div style="position: absolute; height: 56px; width: 100%; background: #343a40;" id="navigation-allens"></div>--}}
         <div class="container" id="body-allens">
-        @include('nav')
         <!-- Content here -->
         @yield("content")
         </div>
@@ -44,12 +70,12 @@
     <script src="/resources/lib/js/jquery.slim.min.js"></script>
 {{--    <script src="/resources/lib/js/jquery-3.3.1.min.js"></script>--}}
     <script type="text/javascript" src="/resources/lib/webuploader-0.1.5/examples/image-upload/jquery.js"></script>
-
     <script src="/resources/lib/layer-v3.1.1/layer/layer.js"></script>
     <script src="/resources/lib/js/popper.min.js"></script>
     <script src="/resources/lib/js/vue.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    <script src="/resources/lib/js/common.js"></script>
     @yield("footer")
     @if(explode('_', $route)[0] == 'home')
     <script>

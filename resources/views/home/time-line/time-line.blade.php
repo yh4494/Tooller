@@ -5,8 +5,8 @@
 @endsection
 
 @section('content')
-    <div class="container">
-        <div class="container-allens-time" style="margin-left: 50px;padding-bottom: 20px">
+    <div class="container" style="padding-top: 50px;">
+        <div class="container-allens-time" style="padding-left: 50px;padding-bottom: 20px">
             <ul>
                 @foreach($data as $key => $item)
                 <li>
@@ -28,5 +28,4 @@
             </ul>
         </div>
     </div>
-
 @endsection
