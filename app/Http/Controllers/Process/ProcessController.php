@@ -12,9 +12,21 @@ use Illuminate\Support\Facades\Validator;
 
 class ProcessController extends BasicController
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('home.process.process_index', ['route' => 'process']);
+        $process = null;
+        $sprint  = $request->get('sprint');
+        if ($sprint && $sprint == 'true') {
+            $process = Process::where([['user_id', '=', $this->userId], ['pid', '!=', 0]])->get()->groupBy('status');
+            isset($process[2]) ? '' : $process[2] = [];
+            isset($process[1]) ? '' : $process[1] = [];
+            isset($process[0]) ? '' : $process[0] = [];
+        }
+        return view('home.process.process_index', [
+            'route'   => 'process',
+            'sprint'  => $sprint  ?? false,
+            'process' => isset($process) ? $process->toArray() : []
+        ]);
     }
 
     /**
@@ -130,5 +142,19 @@ class ProcessController extends BasicController
         }
 
         return JsonTooller::systemError();
+    }
+
+    /**
+     * 改变状态
+     *
+     * @param Request $request
+     * @return false|string
+     */
+    public function changeStatus(Request $request)
+    {
+        $process = Process::find($request->get('id'));
+        $process->status = $request->get('status');
+        $process->save();
+        return JsonTooller::success();
     }
 }

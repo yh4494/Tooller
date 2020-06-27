@@ -68,7 +68,7 @@
         </div>
     </body>
     <script src="/resources/lib/js/jquery.slim.min.js"></script>
-{{--    <script src="/resources/lib/js/jquery-3.3.1.min.js"></script>--}}
+    <script src="/resources/lib/js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="/resources/lib/webuploader-0.1.5/examples/image-upload/jquery.js"></script>
     <script src="/resources/lib/layer-v3.1.1/layer/layer.js"></script>
     <script src="/resources/lib/js/popper.min.js"></script>

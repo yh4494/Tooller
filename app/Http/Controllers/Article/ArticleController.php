@@ -31,6 +31,7 @@ class ArticleController extends BasicController
     {
         $where     = [];
         $isCollect = false;
+        $total     = 0;
         $columns   = ['article.id', 'article.title', 'article.child_category_id', 'article.create_at', 'category.name as categoryName'];
         $categorys = Category::where([['user_id', '=', $this->userId], ['pid', '!=', 0]])->get();
         if ($request->get('category')) {
@@ -56,24 +57,26 @@ class ArticleController extends BasicController
                     $articles  = $this->commonSearchArticle(true, $columns, $where, $page, $pageSize, 'collect');
                     $isCollect = true;
                     break;
+                case 'collection':
+                    break;
             }
         } else {
             array_push($where, ['article.user_id', '=', $this->user->id]);
             $articles = $this->commonSearchArticle(true, $columns, $where, $page, $pageSize);
         }
 
-        $total = $this->commonSearchArticle(false, $columns, $where, $pageSize, $isCollect);
+        if ($request->get('type') !== 'collection') $total = $this->commonSearchArticle(false, $columns, $where, $pageSize, $isCollect);
         $vsi   = $total % $pageSize == 0 ? $total / $pageSize : $total / $pageSize + 1;
         return view('home.book.book-list', [
             'route'    => 'article',
-            'articles' => $articles,
+            'articles' => $articles ?? [],
             'showWay'  => false,
             'type'     => $request->get('type'),
             'category' => $categorys,
             'currentCategory' => $request->get('category') ?? 0,
             'page'     => $page,
             'pageSize' => $pageSize,
-            'total'    => $total,
+            'total'    => $total ?? 0,
             'visible'  => $vsi,
             'visibleN' => static::$visibleNums
         ]);

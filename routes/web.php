@@ -62,6 +62,7 @@ Route::group(['middleware' => ['web', 'login']], function () {
         Route::get('/cancel/{id}',       'Process\ProcessController@cancel');
         Route::post('/add',              'Process\ProcessController@add');
         Route::get('/main',              'Process\ProcessController@mainProcess');
+        Route::get('/change-status',     'Process\ProcessController@changeStatus');
     });
 });
 
