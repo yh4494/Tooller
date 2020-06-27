@@ -57,6 +57,7 @@
             flex: 1;
             padding-left: 10px;
             height: 30px;
+            font-weight: bold;
         }
         .title-flex:first-child {
             padding-left: 0;
@@ -66,30 +67,38 @@
 @endsection
 
 @section('content')
-    <div class="container-fluid" style="padding-bottom: 20px; zoom: 0;">
+    <div class="container" style="padding-bottom: 20px; zoom: 0;">
         <div class="alert alert-success" v-if="showAlert" role="alert" v-cloak>
             @{{ alertTitle }}
         </div>
         <div style="padding: 15px 0; white-space: nowrap;" id="category" v-cloak>
             <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-secondary" @click="clickToShowHistoryProcess">
-                    <i class="fa fa-history" style="color: #fff;" aria-hidden="true"></i>
-                </button>
                 <button type="button" class="btn btn-secondary" @click="clickToShowSprint">
                     @if(isset($sprint) && $sprint)
-                    <i class="fa fa-tasks" style="color: #fff;" aria-hidden="true"></i>
+                        <i class="fa fa-tasks" style="color: #fff;" aria-hidden="true"></i>
                     @else
-                    <i class="fa fa-th" style="color: #fff;" aria-hidden="true"></i>
+                        <i class="fa fa-th" style="color: #fff;" aria-hidden="true"></i>
                     @endif
                 </button>
-                <button type="button" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-secondary" @click="clickToAddChildTask(0)" style="color: #fff;">
-                    <i class="fa fa-plus" style="color: #fff;" aria-hidden="true"></i>
-                </button>
+                @if(isset($sprint) && $sprint)
+
+                @else
+                    <button type="button" class="btn btn-secondary" @click="clickToShowHistoryProcess">
+                        <i class="fa fa-history" style="color: #fff;" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-secondary" @click="clickToAddChildTask(0)" style="color: #fff;">
+                        <i class="fa fa-plus" style="color: #fff;" aria-hidden="true"></i>
+                    </button>
+                @endif
             </div>
+            @if(isset($sprint) && $sprint)
+
+            @else
             <select class="form-control form-control" id="changeCateogry" @change="changeCildCategory" style="max-width: 200px; float: right; background: #6E757C; color: #fff;" >
                 <option value="0">全部</option>
                 <option v-for="item in mainData" style="color:#fff" :value="item.id" >@{{ item.name }}</option>
             </select>
+            @endif
         </div>
         @if(!isset($sprint) || !$sprint)
         <div style="width: 100%;" v-cloak>
@@ -128,21 +137,21 @@
         </div>
         <div id="sprint-container" style="width: 100%; height: 100%; overflow: hidden; zoom:0; margin-top: 10px;" v-cloak>
             <div id="catalog" class="sprint" style="height: 99%">
-                <div class="aaa element test-5" id="cart2" style="width: 400px; max-height: 100%;">
+                <div class="aaa element test-5 animate__animated animate__fadeIn" id="cart2" style="width: 400px; max-height: 100%;">
                     @foreach($process[0] as $item)
-                        <p data-id="{{ $item['id'] }}">{{ $item['name'] }}</p>
+                        <p class="animate__animated animate__fadeInDown" data-id="{{ $item['id'] }}">{{ $item['name'] }}</p>
                     @endforeach
                 </div>
 
-                <div class="aaa element test-5" id="cart" style="width: 400px; max-height: 100%;">
+                <div class="aaa element test-5 animate__animated animate__fadeIn" id="cart" style="width: 400px; max-height: 100%;">
                     @foreach($process[2] as $item)
                         <p data-id="{{ $item['id'] }}">{{ $item['name'] }}</p>
                     @endforeach
                 </div>
 
-                <div class="aaa element test-5" id="cart1" style="width: 400px; max-height: 100%;">
+                <div class="aaa element test-5 animate__animated animate__fadeIn" id="cart1" style="width: 400px; max-height: 100%;">
                     @foreach($process[1] as $item)
-                    <p data-id="{{ $item['id'] }}">{{ $item['name'] }}</p>
+                    <p class="animate__animated animate__fadeInUp" data-id="{{ $item['id'] }}">{{ $item['name'] }}</p>
                     @endforeach
                 </div>
             </div>
