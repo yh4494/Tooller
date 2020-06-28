@@ -1,4 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light navbar-dark bg-dark" id="navigation-allens">
+<div  id="navigation-allens" style="background: #343a40;">
+<nav style="width: 1110px; margin: 0 auto;" class="navbar navbar-expand-lg navbar-light bg-light navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Tooller</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -41,7 +42,7 @@
         </ul>
         @if(isset($isLogin) && $isLogin)
             <div class="nav-item" style="float:right; width: 40px; border-radius: 17.5px; overflow: hidden">
-                <img width="35" height="35" src="/resources/assets/images/header00{{ isset($userId) ? $userId % env('HEADER_IMAGE_NUMS') : '0' }}.jpg" alt="">
+                <img width="35" height="35" src="/resources/assets/images/header00{{ isset($userId) ? $userId % env('HEADER_IMAGE_NUMS') : 1 }}.jpg" alt="">
             </div>
             <div style="color: #fff;width: auto; text-align: right; margin-left: 10px; white-space: nowrap">{{ isset($userName) ? $userName : ''  }}</div>
             <div class="nav-item" style="margin-left: 10px;float:right; line-height: 40px; text-align: center; color: #fff; width: 40px; height: 40px; border-radius: 20px; overflow: hidden">
@@ -54,3 +55,4 @@
         @endif
     </div>
 </nav>
+</div>

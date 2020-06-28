@@ -36,12 +36,27 @@
             border-color: #343A40;
             cursor: default;
         }
+        .collection {
+            width: 100%;
+            height: auto;
+            border: 1px solid #f3f3f3;
+            padding: 10px;
+            box-shadow: #f3f3f3 2px 2px 2px;
+        }
+        .collection ul li {
+            list-style: none;
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            border-top: 1px solid #f3f3f3;
+            box-shadow: #f3f3f3 2px 2px 2px;
+        }
     </style>
 @endsection
 
 @section('content')
     <div class="container" style="padding-bottom: 20px;">
-        <div style="width: 100%; height: auto; margin: 15px 0">
+        <div style="width: 100%; height: auto; padding: 15px 0">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-secondary @if(!isset($type) || !$type) active @endif" @click="clickToJumping('/article')">
                     <input type="radio" name="options" id="option1"> <a style="color: #fff;">PERSONAL &nbsp;<i style="margin-top: 4px; color: #fff" class="fa fa-user-circle-o" aria-hidden="true"></i></a>
@@ -52,13 +67,16 @@
                 <label class="btn btn-secondary @if($type == 'collect') active @endif" @click="clickToJumping('/article?type=collect')">
                     <input type="radio" name="options" id="option1">  <a style="color: #fff;">收藏&nbsp;<i style="margin-top: 4px; color: #fff" class="fa fa-star" aria-hidden="true"></i></a>
                 </label>
-                <label class="btn btn-secondary @if($type == 'collect') active @endif" @click="clickToJumping('/article?type=collect')">
+                <label class="btn btn-secondary @if($type == 'collection') active @endif" @click="clickToJumping('/article?type=collection')">
                     <input type="radio" name="options" id="option1">  <a style="color: #fff;">文集&nbsp;<i style="margin-top: 4px; color: #fff" class="fa fa-th-large" aria-hidden="true"></i></a>
                 </label>
                 <label class="btn btn-secondary" @click="clickToAddArticle">
                     <input type="radio" name="options" id="option1" checked> <i style="margin-top: 4px; color: #fff" class="fa fa-plus" aria-hidden="true"></i>
                 </label>
             </div>
+            @if(isset($type) && $type === 'collection')
+            <button class="btn btn-primary"><i class="fa fa-plus-circle" style="color: #fff;" aria-hidden="true"></i>&nbsp;添加文集</button>
+            @endif
             <div style="float: right" data-toggle="buttons">
                 <select class="selectpicker" style="background: #606A71;" id="selectCategory" v-model="currentCategory" @change="changeCategory" data-live-search="true">
                     <option value="0">全部</option>
@@ -69,7 +87,6 @@
 
         <ul id="paginator" class="pagination"></ul>
         <div class="list-allens">
-
             <ul v-if="!showWay" class="list-of-articles">
                 @foreach($articles as $item)
                     <li class="animate__animated animate__fadeIn">
@@ -94,6 +111,17 @@
                 @endforeach
             </ul>
         </div>
+        @if(isset($type) && $type == 'collection')
+            <div class="collection">
+                <h3>Spring看这篇文集就够了</h3>
+                <div class="elements">
+                    <ul>
+                        <li><a href=""><i class="fa fa-bookmark" aria-hidden="true"></i>&nbsp;Spring 源码解析</a></li>
+                        <li><a href=""><i class="fa fa-bookmark" aria-hidden="true"></i>&nbsp;搞懂Spring Bean 生命周期</a></li>
+                    </ul>
+                </div>
+            </div>
+        @endif
     </div>
 @endsection
 
