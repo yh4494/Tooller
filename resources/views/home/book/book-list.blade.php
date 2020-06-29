@@ -56,6 +56,7 @@
 
 @section('content')
     <div class="container" style="padding-bottom: 20px;">
+        @if(isset($isLogin) && $isLogin)
         <div style="width: 100%; height: auto; padding: 15px 0">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-secondary @if(!isset($type) || !$type) active @endif" @click="clickToJumping('/article')">
@@ -84,6 +85,9 @@
                 </select>
             </div>
         </div>
+        @else
+            <div style="padding-top: 15px"></div>
+        @endif
 
         <ul id="paginator" class="pagination"></ul>
         <div class="list-allens">
@@ -97,7 +101,7 @@
                         <span style="color: #ccc; font-weight: bold;">
                             @if(isset($item->categoryName) && $item->categoryName)【{{ $item->categoryName }}】@endif
                         </span>
-                        @if(!isset($type) || !$type)
+                        @if((!isset($type) || !$type) && isset($isLogin) && $isLogin)
                         <div class="element" style="float: right; line-height: 50px; margin-top: 2px; margin-right: 20px;">
                             <a href="javascript:void(0)" @click="clickToDeleteArticle({!! $item['id'] !!})"><i class="fa fa-times" aria-hidden="true"></i></a>
                         </div>

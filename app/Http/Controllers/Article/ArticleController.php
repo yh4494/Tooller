@@ -61,7 +61,8 @@ class ArticleController extends BasicController
                     break;
             }
         } else {
-            array_push($where, ['article.user_id', '=', $this->user->id]);
+            if (isset($this->user)) array_push($where, ['article.user_id', '=', $this->user->id]);
+            else array_push($where, ['article.is_public', '=', 1]);
             $articles = $this->commonSearchArticle(true, $columns, $where, $page, $pageSize);
         }
 

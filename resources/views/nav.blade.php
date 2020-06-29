@@ -38,6 +38,10 @@
                 <li class="nav-item @if(explode('_', $route)[0] == 'about') active  @endif">
                     <a class="nav-link" href="/about">About</a>
                 </li>
+            @else
+                <li class="nav-item @if(explode('_', $route)[0] == 'article') active  @endif">
+                    <a class="nav-link" href="/article">文章</a>
+                </li>
             @endif
         </ul>
         @if(isset($isLogin) && $isLogin)

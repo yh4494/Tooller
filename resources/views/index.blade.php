@@ -45,7 +45,10 @@
             </a>
         </div>
 
-        <div class="rel-title"><div></div>文章推荐</div>
+        <div style="width: 100%">
+            <div class="rel-title" style="width: 200px; float: left"><div></div>文章推荐</div>
+            <div style="float: right; width: 100px; text-align: right; line-height: 50px"><i class="fa fa-bars" aria-hidden="true"></i>&nbsp;<a style="color: #666666;" href="/article">更多</a></div>
+        </div>
         <div style="clear: both"></div>
         <div class="list-allens" style="padding-bottom: 20px">
             <div v-if="!showWay">

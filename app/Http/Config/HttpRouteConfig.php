@@ -7,7 +7,7 @@ namespace App\Http\Config;
 class HttpRouteConfig
 {
     public static $loginAccess = [
-        'article',
+//        'article',
         'about',
         'process',
         'time-line'
