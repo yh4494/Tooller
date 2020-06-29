@@ -81,7 +81,15 @@
                     @endif
                 </button>
                 @if(isset($sprint) && $sprint)
-
+{{--                    <button type="button" class="btn btn-secondary" @click="clickToShowSprint(0)">--}}
+{{--                        未开始--}}
+{{--                    </button>--}}
+{{--                    <button type="button" class="btn btn-secondary" @click="clickToShowSprint(2)">--}}
+{{--                        进行中--}}
+{{--                    </button>--}}
+{{--                    <button type="button" class="btn btn-secondary" @click="clickToShowSprint(1)">--}}
+{{--                        已完成--}}
+{{--                    </button>--}}
                 @else
                     <button type="button" class="btn btn-secondary" @click="clickToShowHistoryProcess">
                         <i class="fa fa-history" style="color: #fff;" aria-hidden="true"></i>
@@ -135,7 +143,7 @@
             <div class="title-flex" style="margin-left: 15px">进行中</div>
             <div class="title-flex" style="margin-left: 15px">已完成</div>
         </div>
-        <div id="sprint-container" style="width: 100%; height: 100%; overflow: hidden; zoom:0; margin-top: 10px;" v-cloak>
+        <div id="sprint-container" class="animate__animated animate__fadeIn" style="width: 100%; height: 100%; overflow: hidden; zoom:0; margin-top: 10px;" v-cloak>
             <div id="catalog" class="sprint" style="height: 99%">
                 <div class="aaa element test-5 animate__animated animate__fadeIn" id="cart2" style="width: 400px; max-height: 100%;">
                     @foreach($process[0] as $item)
@@ -262,9 +270,9 @@
                         fun();
                     }
                 })
-                $('#sprint-container').height($(window).height() - 184);
+                $('#sprint-container').height($(window).height() - 250);
                 $(window).resize(function () {
-                    $('#sprint-container').height($(window).height() - 184);
+                    $('#sprint-container').height($(window).height() - 250);
                 })
             });
         }
@@ -330,13 +338,21 @@
                     })
                 },
                 clickToDeleteChildTask (pid, id) {
-                    this.$http.get('/process/delete/' + id).then(function(response) {
-                        this.requestProcessList();
-                        var data = response.body;
-                        if (data.code === 0) {
-                            this.requestProcessList(null);
-                        }
-                    })
+                    layer.confirm('是否删除该任务？', {
+                        btn: ['删除','取消'] //按钮
+                    }, function(index){
+                        layer.close(index);
+                        v.$http.get('/process/delete/' + id).then(function(response) {
+                            v.requestProcessList();
+                            var data = response.body;
+                            if (data.code === 0) {
+                                v.requestProcessList(null);
+                            }
+                        })
+                    }, function(){
+
+                    });
+
                 },
                 changeCildCategory (e) {
                     console.log(e)
