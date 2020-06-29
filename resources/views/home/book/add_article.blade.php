@@ -66,6 +66,7 @@
             <div style="display: none;" class="text-des">{!! isset($article) ? $article->description : '' !!}</div>
 
             <button type="button" class="btn btn-primary" @click="clickToSubmit()">提交</button>
+            <button type="button" class="btn btn-secondary" @click="clickToSubmit('save')">保存</button>
         </form>
 
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -142,13 +143,15 @@
             },
             mounted () {
                 this.requestCategoryMain();
-                console.log('+++++++', this.isPublic)
                 this.$watch('categoryParent', function(n, o) {
                     if (n) {
                         this.category.pid = n;
                         this.requestCategoryChild();
                     }
                 })
+                setInterval(function() {
+                    v.clickToSubmit('save')
+                }, 300000)
             },
             methods: {
                 requestCategoryMain () {
@@ -167,10 +170,8 @@
                     if (this.categoryParent && !this.first) {
                         this.first = true;
                         this.category.pid = this.categoryParent;
-                        console.log('-----------------',this.categoryParent)
                     }
                     this.$http.get('/api/category/child/' + this.category.pid).then( function(response) {
-                        console.log(response.body);
                         this.categoryChild = response.body.data;
                         if (!this.categoryChildId || this.categoryChildId == 0) this.categoryChildId = this.categoryChild != null && this.categoryChild.length > 0 ? this.categoryChild[0].id : 0;
                     });
@@ -184,8 +185,12 @@
                         this.requestCategoryMain();
                     });
                 },
-                clickToSubmit () {
+                clickToSubmit (type) {
                     this.content = ue.getAllHtml();
+                    layer.msg('正在保存...', {
+                        icon: 16,
+                        shade: 0.01
+                    });
                     this.$http.post('/book/add/', {
                         title: this.title,
                         content: this.content,
@@ -199,13 +204,17 @@
                         var data = response.body;
                         if (data.code === 0) {
                             if (isArticle) setTimeout(function () {
-                                window.location.href = '/article'
+                                if (type === 'save') {
+                                    layer.msg('保存成功', {icon: 1});
+                                } else {
+                                    window.location.href = '/article'
+                                }
                             }, 1000); else {
                                 var index = parent.layer.getFrameIndex(window.name);
                                 parent.layer.close(index);
                             }
                         } else {
-                            layer.msg('操作失败', {icon: 5});
+                            layer.msg('保存失败', {icon: 6});
                         }
                     })
                 }
