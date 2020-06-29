@@ -1,7 +1,14 @@
 @extends('layout')
 
 @section('header')
-
+    <style>
+        .normal-web {
+            padding-bottom: 0;
+        }
+        .normal-web a {
+            margin-bottom: 15px;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -15,6 +22,8 @@
             <a href="http://www.htmleaf.com/"><div>JQuery</div></a>
             <a href="https://xueyuanjun.com/"><div>LARAVEL</div></a>
             <a href="https://baidu.com/"><div>百度</div></a>
+            <a href="https://tool.lu/favicon/"><div>ICON生成</div></a>
+            <a href="http://tool.chinaz.com/tools/urlencode.aspx"><div>URLDECODE</div></a>
         </div>
 
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">

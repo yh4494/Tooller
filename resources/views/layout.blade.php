@@ -8,6 +8,7 @@
         <meta name="viewport" content="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
         <link rel="stylesheet" href="/resources/lib/font-awesome-4.7.0/css/font-awesome.css">
         <link rel="stylesheet" href="/resources/lib/animate/animate.min.css">
+        <link rel="shortcut icon" href="/public/favicon.ico">
         <style type="text/css">
             [v-cloak] {
                 display: none;
