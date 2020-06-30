@@ -135,7 +135,7 @@
     <script type="text/javascript">
         $(document).ready(function(){
             var showWay = '{!! $showWay !!}'
-            new Vue({
+            var vue = new Vue({
                 el: '.container',
                 data: {
                     showWay: showWay,
@@ -163,12 +163,20 @@
                         window.location.href = ('/book/add-note?is_article=true')
                     },
                     clickToDeleteArticle (id) {
-                        this.$http.get('/book/delete/' + id).then(function(response) {
-                            var data = response.body;
-                            if (data.code === 0) {
-                                window.location.href = '/article'
-                            }
-                        })
+                        layer.confirm('是否删除该文章？', {
+                            btn: ['删除','取消'] //按钮
+                        }, function(index){
+                            layer.close(index);
+                            vue.$http.get('/book/delete/' + id).then(function(response) {
+                                var data = response.body;
+                                if (data.code === 0) {
+                                    window.location.href = '/article'
+                                }
+                            })
+                        }, function(){
+
+                        });
+
                     },
                     clickToEditArticle (id) {
                         window.location.href = '/book/add-note?is_article=true&id=' + id
