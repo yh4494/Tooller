@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Article;
 
 use App\Http\Controllers\BasicController;
 use App\Lib\JsonTooller;
+use App\Lib\Operator\AbstractOperatorFactory;
 use App\Model\Article;
 use App\Model\Category;
 use App\Model\Collect;
@@ -158,6 +159,8 @@ class ArticleController extends BasicController
         if ($article->is_public == 0 && $this->userId != $article->user_id) {
             return redirect('/article');
         }
+
+        AbstractOperatorFactory::getFactory(AbstractOperatorFactory::BROWERS_OPRATOR)->execute($article->id);
         return view('home.book.show_article',  [
             'route'   => 'article',
             'id'      => $id,

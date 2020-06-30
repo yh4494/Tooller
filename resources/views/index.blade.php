@@ -61,6 +61,7 @@
                         <span style="color: #ccc; font-weight: bold;">
                             @if(isset($item->categoryName) && $item->categoryName)【{{ $item->categoryName }}】@endif
                         </span>
+                        <div style="float: right; padding-right: 20px">{{ $item['browers_num'] }}&nbsp;<i class="fa fa-hand-pointer-o" aria-hidden="true"></i></div>
                     </li>
                 @endforeach
             </div>

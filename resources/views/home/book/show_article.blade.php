@@ -67,6 +67,7 @@
             onepre.innerHTML = '<code id="mycode">'+mycode+'</code>';
         }
         $(function() {
+            $('table').attr('class', 'table table-bordered')
             new Vue({
                 el: '.container',
                 data: {

@@ -17,7 +17,7 @@ class HomeController extends BasicController
      */
     public function index ()
     {
-        $articles = Article::select('title', 'id', 'description')->where([['is_public', '=', 1]])->limit(20)->orderBy('create_at', 'desc')->get();
+        $articles = Article::select('title', 'id', 'description', 'browers_num')->where([['is_public', '=', 1]])->limit(20)->orderBy('create_at', 'desc')->get();
         return view('index', [
             'route'    => 'home',
             'articles' => $articles
