@@ -87,6 +87,7 @@
 @endsection
 
 @section('exclude')
+    @if(isset($isLogin) && $isLogin)
     <div id="real-content" v-cloak>
         <div class="allens-slider test-5" style="overflow-y: auto; overflow-x: hidden">
             <div class="title">
@@ -149,6 +150,7 @@
             </div>
         </div>
     </div>
+    @endif
 @endsection
 
 @section('content')
