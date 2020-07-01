@@ -51,7 +51,103 @@
             border-top: 1px solid #f3f3f3;
             box-shadow: #f3f3f3 2px 2px 2px;
         }
+        .allens-slider .title {
+            width: 100%;
+            height: 30px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 30px;
+            border-bottom: 1px solid #f3f3f3;
+            background: #5C5C5C;
+            color: #fff;
+        }
+
+        .allens-slider .title div {
+            color: #fff;
+            font-size: 14px;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .allens-slider .title div:hover {
+            background: #2D3338;
+        }
+
+        .allens-slider .element {
+            width: 100%;
+            height: 30px;
+            font-size: 13px;
+            text-align: left;
+            line-height: 30px;
+            text-indent: 5px;
+            border-bottom: 1px solid #f3f3f3;
+            cursor: pointer;
+        }
     </style>
+@endsection
+
+@section('exclude')
+    <div id="real-content" v-cloak>
+        <div class="allens-slider test-5" style="overflow-y: auto; overflow-x: hidden">
+            <div class="title">
+                <div style="width: 50%; float: left">添加分类</div>
+                <div style="width: 50%; float: left" data-toggle="modal" data-target="#exampleModalCenter">添加书签</div>
+            </div>
+            <div class="element">
+                <div style="float: left; padding-left: 5px">
+                    @{{ currentCategoryName || '全部' }}
+                </div>
+                <div style="float: right; padding-right: 5px;" @click="clickToBack" v-if="showLinksChild">
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;返回
+                </div>
+            </div>
+            <template v-if="!showLinksChild">
+                @foreach($category as $item)
+                    <div class="element" @click="clickToShowLinks('{{ $item->id }}', '{{ $item->name }}')"><i
+                            style="color: #87CFF6" class="fa fa-folder" aria-hidden="true"></i>&nbsp;{{ $item['name'] }}
+                    </div>
+                @endforeach
+                <div class="element"><i class="fa fa-link" aria-hidden="true"></i>&nbsp;<a href="javascript:void(0)"
+                                                                                           @click="clickToJumping('http://www.163.com')">网易邮箱</a>
+                </div>
+            </template>
+            <template v-else>
+                <div class="element" v-for="item in list">
+                    <i class="fa fa-link" aria-hidden="true"></i>&nbsp;
+                    <a href="javascript:void(0)" @click="clickToJumping('http://www.163.com')">网易邮箱</a>
+                </div>
+            </template>
+        </div>
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">添加书签</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form style="margin-top: 15px;">
+                            <div class="form-group">
+                                <label>标题</label>
+                                <input type="text" v-model="name" class="form-control" name="name" placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label>地址</label>
+                                <input type="text" v-model="address" class="form-control" name="content" placeholder="">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                        <button type="button" @click="clickToAddMark()" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('content')
@@ -76,7 +172,7 @@
                 </label>
             </div>
             @if(isset($type) && $type === 'collection')
-            <button class="btn btn-primary"><i class="fa fa-plus-circle" style="color: #fff;" aria-hidden="true"></i>&nbsp;添加文集</button>
+                <button class="btn btn-primary"><i class="fa fa-plus-circle" style="color: #fff;" aria-hidden="true"></i>&nbsp;添加文集</button>
             @endif
             <div style="float: right" data-toggle="buttons">
                 <select class="selectpicker" style="background: #606A71;" id="selectCategory" v-model="currentCategory" @change="changeCategory" data-live-search="true">
@@ -135,6 +231,51 @@
     <script type="text/javascript">
         $(document).ready(function(){
             var showWay = '{!! $showWay !!}'
+            var vue2 = new Vue({
+                el: '#real-content',
+                data: {
+                    list: [],
+                    realUrl: '',
+                    showLinksChild: false,
+                    currentCategoryId: 0,
+                    currentCategoryName: null,
+                    name: '',
+                    address: ''
+                },
+                methods: {
+                    clickToJumping(url) {
+                        //加载层-默认风格
+                        window.open(url)
+                    },
+                    clickToShowLinks(categoryId, categoryName = null) {
+                        this.showLinksChild = true;
+                        this.currentCategoryName = categoryName;
+                        this.currentCategoryId = categoryId;
+                        console.log(this.currentCategoryId)
+                        this.$http.get('/api/mark/links?categoryId=' + categoryId).then(function (response) {
+                            var data = response.body;
+                            this.list = data.data;
+                        })
+                    },
+                    clickToBack() {
+                        this.showLinksChild = false;
+                        this.currentCategoryId = 0;
+                        this.currentCategoryName = null;
+                    },
+                    clickToAddMark() {
+                        var url = ('/api/mark/save?categoryId=' + this.currentCategoryId + '&name=' + this.name + '&address=' + this.address)
+                        this.$http.get(url).then(function (response) {
+                            var data = response.body;
+                            if (data.code !== 0) {
+                                layer.msg(data.msg, {icon: 5});
+                            } else {
+                                $('#exampleModalCenter').modal('hide')
+                                vue2.clickToShowLinks(this.currentCategoryId);
+                            }
+                        })
+                    }
+                }
+            })
             var vue = new Vue({
                 el: '.container',
                 data: {

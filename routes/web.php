@@ -64,5 +64,9 @@ Route::group(['middleware' => ['web', 'login']], function () {
         Route::get('/main',              'Process\ProcessController@mainProcess');
         Route::get('/change-status',     'Process\ProcessController@changeStatus');
     });
+
+    Route::prefix('book-mark')->group(function() {
+        Route::get('/',                  'BookMark\BookMarkController@index');
+    });
 });
 

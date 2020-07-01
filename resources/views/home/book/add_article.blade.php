@@ -206,6 +206,7 @@
                             if (isArticle) setTimeout(function () {
                                 if (type === 'save') {
                                     layer.msg('保存成功', {icon: 1});
+                                    v.id = data.data;
                                 } else {
                                     window.location.href = '/article'
                                 }

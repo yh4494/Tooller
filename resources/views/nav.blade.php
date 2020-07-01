@@ -35,9 +35,9 @@
                 <li class="nav-item @if(explode('_', $route)[0] == 'book') active  @endif">
                     <a class="nav-link" href="/book">书籍</a>
                 </li>
-                <li class="nav-item @if(explode('_', $route)[0] == 'about') active  @endif">
-                    <a class="nav-link" href="/about">About</a>
-                </li>
+{{--                <li class="nav-item @if(explode('_', $route)[0] == 'about') active  @endif">--}}
+{{--                    <a class="nav-link" href="/about">About</a>--}}
+{{--                </li>--}}
             @else
                 <li class="nav-item @if(explode('_', $route)[0] == 'article') active  @endif">
                     <a class="nav-link" href="/article">文章</a>

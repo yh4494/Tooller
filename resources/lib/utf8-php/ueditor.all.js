@@ -24530,6 +24530,8 @@ UE.plugin.register('simpleupload', function (){
                             loader.setAttribute('title', json.title || '');
                             loader.setAttribute('alt', json.original || '');
                             loader.removeAttribute('id');
+                            loader.style = "width:600px";
+
                             domUtils.removeClasses(loader, 'loadingclass');
                         } else {
                             showErrorLoader && showErrorLoader(json.state);

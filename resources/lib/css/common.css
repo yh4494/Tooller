@@ -103,3 +103,22 @@ body {
     width: 20px;
     height: 20px;
 }
+
+.allens-slider {
+    width: 200px;
+    /*height: 100%;*/
+    position: fixed;
+    left: 0;
+    top: 56px;
+    bottom: 0;
+    background: #fff;
+    border-right: 1px solid #666666;
+    /*box-shadow: #f3f3f3 1px 1px 1px 1px;*/
+}
+.allens-mark-content {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 0px;
+    height: 100%;
+}
