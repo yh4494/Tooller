@@ -107,14 +107,15 @@
                             style="color: #87CFF6" class="fa fa-folder" aria-hidden="true"></i>&nbsp;{{ $item['name'] }}
                     </div>
                 @endforeach
-                <div class="element"><i class="fa fa-link" aria-hidden="true"></i>&nbsp;<a href="javascript:void(0)"
-                                                                                           @click="clickToJumping('http://www.163.com')">网易邮箱</a>
+                <div class="element">
+                    <i class="fa fa-link" aria-hidden="true"></i>&nbsp;
+                    <a href="javascript:void(0)" @click="clickToJumping('http://www.163.com')">网易邮箱</a>
                 </div>
             </template>
             <template v-else>
                 <div class="element" v-for="item in list">
                     <i class="fa fa-link" aria-hidden="true"></i>&nbsp;
-                    <a href="javascript:void(0)" @click="clickToJumping('http://www.163.com')">网易邮箱</a>
+                    <a href="javascript:void(0)" @click="clickToJumping(item.address)">@{{ item.name }}</a>
                 </div>
             </template>
         </div>
