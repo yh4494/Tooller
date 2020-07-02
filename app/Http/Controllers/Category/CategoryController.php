@@ -43,7 +43,7 @@ class CategoryController extends BasicController
     {
         $validator = Validator::make($request->all(), [
             'name'        => 'required|max:20',
-            'desc'        => 'required|max:100',
+            'desc'        => 'max:100',
             'pid'         => 'required'
         ]);
 
@@ -53,7 +53,7 @@ class CategoryController extends BasicController
 
         $category = new Category();
         $category->name = $request->get('name');
-        $category->desc = $request->get('desc');
+        $category->desc = $request->get('desc') ?? '';
         $category->pid  = $request->get('pid');
 
         $category->save();

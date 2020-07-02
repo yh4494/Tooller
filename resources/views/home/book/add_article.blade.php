@@ -156,7 +156,6 @@
             methods: {
                 requestCategoryMain () {
                     this.$http.get('/api/category/main').then( function(response) {
-                        console.log(response.body);
                         this.categoryMain = response.body.data;
                         this.category.pid = this.categoryMain[this.categoryMain.length - 1].id;
                         if (!this.categoryParent || this.categoryParent == 0) this.categoryParent = this.category.pid;
@@ -179,7 +178,6 @@
                 // 添加分类
                 clickToAddCategory () {
                     this.$http.post('/api/category/save', this.category).then( function(response) {
-                        console.log(response.body);
                         this.categoryMain = response.body.data;
                         $('#exampleModalCenter').modal('hide');
                         this.requestCategoryMain();

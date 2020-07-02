@@ -52,11 +52,12 @@ body {
 }
 
 .container-allens{width:100%;padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}
+.container-allens{min-width:992px !important}
+
 @media (min-width:576px){.container-allens{max-width:540px}}
 @media (min-width:768px){.container-allens{max-width:720px}}
 @media (min-width:992px){.container-allens{max-width:960px}}
 @media (min-width:1200px){.container-allens{max-width:1140px}}
-.container-allens{min-width:992px !important}
 
 
 .list-allens {
@@ -109,10 +110,11 @@ body {
     /*height: 100%;*/
     position: fixed;
     left: 0;
-    top: 56px;
+    top: 0;
     bottom: 0;
     background: #fff;
     border-right: 1px solid #666666;
+    z-index: 10002;
     /*box-shadow: #f3f3f3 1px 1px 1px 1px;*/
 }
 .allens-mark-content {

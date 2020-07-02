@@ -53,13 +53,14 @@
         }
         .allens-slider .title {
             width: 100%;
-            height: 30px;
+            height: 57px;
             font-weight: bold;
             text-align: center;
-            line-height: 30px;
+            line-height: 56px;
             border-bottom: 1px solid #f3f3f3;
-            background: #5C5C5C;
+            background: #2D3338;
             color: #fff;
+            font-size: 22px;
         }
 
         .allens-slider .title div {
@@ -82,6 +83,13 @@
             text-indent: 5px;
             border-bottom: 1px solid #f3f3f3;
             cursor: pointer;
+
+            display: block; /* 当前元素本身是inline的，因此需要设置成block模式 */
+            white-space: nowrap; /* 因为设置了block，所以需要设置nowrap来确保不换行 */
+            overflow: hidden; /* 超出隐藏结合width使用截取采用效果*/
+            text-overflow: ellipsis; /* 本功能的主要功臣，超出部分的剪裁方式 */
+            -o-text-overflow: ellipsis; /* 特定浏览器前缀 */
+            text-decoration: none; /* 无用 */
         }
     </style>
 @endsection
@@ -91,7 +99,7 @@
     <div id="real-content" v-cloak>
         <div class="allens-slider test-5" style="overflow-y: auto; overflow-x: hidden">
             <div class="title">
-                <div style="width: 50%; float: left">添加分类</div>
+                <div style="width: 50%; float: left" @click="clickToShowCategory">添加分类</div>
                 <div style="width: 50%; float: left" data-toggle="modal" data-target="#exampleModalCenter">添加书签</div>
             </div>
             <div class="element">
@@ -104,13 +112,13 @@
             </div>
             <template v-if="!showLinksChild">
                 @foreach($category as $item)
-                    <div class="element" @click="clickToShowLinks('{{ $item->id }}', '{{ $item->name }}')"><i
-                            style="color: #87CFF6" class="fa fa-folder" aria-hidden="true"></i>&nbsp;{{ $item['name'] }}
+                    <div class="element" @click="clickToShowLinks('{{ $item->id }}', '{{ $item->name }}')">
+                        <i style="color: #87CFF6" class="fa fa-folder" aria-hidden="true"></i>&nbsp;{{ $item['name'] }}
                     </div>
                 @endforeach
-                <div class="element">
+                <div class="element" v-for="item in list">
                     <i class="fa fa-link" aria-hidden="true"></i>&nbsp;
-                    <a href="javascript:void(0)" @click="clickToJumping('http://www.163.com')">网易邮箱</a>
+                    <a href="javascript:void(0)" @click="clickToJumping('http://www.163.com')">@{{ item.name }}</a>
                 </div>
             </template>
             <template v-else>
@@ -243,7 +251,14 @@
                     currentCategoryId: 0,
                     currentCategoryName: null,
                     name: '',
-                    address: ''
+                    address: '',
+                    category: {
+                        name: '',
+                        desc: '',
+                        pid: '1'
+                    },
+                },
+                mounted () {
                 },
                 methods: {
                     clickToJumping(url) {
@@ -260,10 +275,24 @@
                             this.list = data.data;
                         })
                     },
+                    clickToShowCategory () {
+                        layer.open({
+                            title: '',
+                            type: 2,
+                            area: ['40%', '400px'],
+                            fixed: true, //不固定
+                            maxmin: true,
+                            content: '/modal/category?is_modal=true',
+                            end: function() {
+                                window.location.href='/article'
+                            }
+                        });
+                    },
                     clickToBack() {
                         this.showLinksChild = false;
                         this.currentCategoryId = 0;
                         this.currentCategoryName = null;
+                        this.list = [];
                     },
                     clickToAddMark() {
                         var url = ('/api/mark/save?categoryId=' + this.currentCategoryId + '&name=' + this.name + '&address=' + this.address)
@@ -276,7 +305,15 @@
                                 vue2.clickToShowLinks(this.currentCategoryId);
                             }
                         })
-                    }
+                    },
+                    // 添加分类
+                    clickToAddCategory () {
+                        this.$http.post('/api/category/save', this.category).then( function(response) {
+                            this.categoryMain = response.body.data;
+                            $('#exampleModalCenter').modal('hide');
+                            window.localtion.href = '/article'
+                        });
+                    },
                 }
             })
             var vue = new Vue({

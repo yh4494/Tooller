@@ -4,6 +4,7 @@ namespace App\Http\Controllers\BookMark;
 
 use App\Http\Controllers\BasicController;
 use App\Lib\JsonTooller;
+use App\Model\Article;
 use App\Model\Category;
 use App\Model\Mark;
 use Illuminate\Http\Request;
@@ -30,7 +31,11 @@ class BookMarkController extends BasicController
     {
         $categoryId = $request->get('categoryId');
         $links = Mark::where([['category_id', '=', $categoryId ?? 0]])->get();
-        return JsonTooller::successData($links ?? []);
+        $article = Article::select('id', 'title as name')->where([['user_id', '=', $this->userId], ['child_category_id', '=', $categoryId]])->get();
+        foreach ($article as & $item) {
+            $item->address = '/book/show/' . $item->id;
+        }
+        return JsonTooller::successData(array_merge($links ? $links->toArray() : [], $article->toArray()));
     }
 
     /**

@@ -65,6 +65,10 @@ Route::group(['middleware' => ['web', 'login']], function () {
         Route::get('/change-status',     'Process\ProcessController@changeStatus');
     });
 
+    Route::prefix('modal')->group(function() {
+        Route::get('category',           'Modal\ModalController@category');
+    });
+
     Route::prefix('book-mark')->group(function() {
         Route::get('/',                  'BookMark\BookMarkController@index');
     });
