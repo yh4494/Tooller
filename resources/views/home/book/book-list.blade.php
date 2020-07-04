@@ -58,22 +58,19 @@
             text-align: center;
             line-height: 56px;
             border-bottom: 1px solid #f3f3f3;
-            background: #2D3338;
+            background: rgb(52, 58, 64);
             color: #fff;
             font-size: 22px;
         }
-
         .allens-slider .title div {
             color: #fff;
             font-size: 14px;
             height: 100%;
             cursor: pointer;
         }
-
         .allens-slider .title div:hover {
             background: #2D3338;
         }
-
         .allens-slider .element {
             width: 100%;
             height: 30px;
@@ -91,13 +88,28 @@
             -o-text-overflow: ellipsis; /* 特定浏览器前缀 */
             text-decoration: none; /* 无用 */
         }
+        .right-bar {
+            position: absolute;
+            width: 20px;
+            right: 0;
+            height: 40px;
+            background: #000;
+            opacity: 0.5;
+            top: 50%;
+            text-align: center;
+            line-height: 40px;
+        }
     </style>
 @endsection
 
 @section('exclude')
     @if(isset($isLogin) && $isLogin)
-    <div id="real-content" v-cloak>
-        <div class="allens-slider test-5" style="overflow-y: auto; overflow-x: hidden">
+    <div id="real-content" style="width: auto; height: auto" v-cloak>
+        <div class="allens-slider test-5 animate__animated animate__slideInLeft" style="overflow-y: auto; overflow-x: hidden">
+            <div class="right-bar" @click="clickToHiddenBox">
+                <i v-if="hiddenBox"   style="color: #fff;" class="fa fa-angle-right" aria-hidden="true"></i>
+                <i v-else="hiddenBox" style="color: #fff;" class="fa fa-angle-left" aria-hidden="true"></i>
+            </div>
             <div class="title">
                 <div style="width: 50%; float: left" @click="clickToShowCategory">添加分类</div>
                 <div style="width: 50%; float: left" data-toggle="modal" data-target="#exampleModalCenter">添加书签</div>
@@ -257,6 +269,7 @@
                         desc: '',
                         pid: '1'
                     },
+                    hiddenBox: false
                 },
                 mounted () {
                 },
@@ -293,6 +306,12 @@
                         this.currentCategoryId = 0;
                         this.currentCategoryName = null;
                         this.list = [];
+                    },
+                    clickToHiddenBox () {
+                        this.hiddenBox = !this.hiddenBox;
+                        if (this.hiddenBox) {
+                            $('.allens-slider').animate({'left': '-200px'})
+                        }
                     },
                     clickToAddMark() {
                         var url = ('/api/mark/save?categoryId=' + this.currentCategoryId + '&name=' + this.name + '&address=' + this.address)
