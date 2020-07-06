@@ -63,7 +63,7 @@
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">笔记</label>
-                <script name="content" id="editor" type="text/plain" style="width:100%;height:500px;" data-placement="内容"></script>
+                <script name="content" id="uEditor" type="text/plain" style="width:100%; height: 700px" data-placement="内容"></script>
             </div>
             <div style="display: none;" class="text-content">{!! isset($article) ? $article->content : '' !!}</div>
             <div style="display: none;" class="text-des">{!! isset($article) ? $article->description : '' !!}</div>
@@ -113,7 +113,10 @@
     <script>
         //实例化编辑器
         //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-        var ue     = UE.getEditor('editor');
+        var ue = UE.getEditor('uEditor', {
+            autoFloatEnabled: true,
+            autoHeightEnabled: false,
+        });
         // var uedesc = UE.getEditor('desc-editor', {
         //     toolbars: [
         //         ['fullscreen', 'source', 'undo', 'redo'],
@@ -136,6 +139,8 @@
         //     uedesc.setContent($('.text-des').html());
         // });
         $(function() {
+            // edui1_toolbarbox
+
             var v = new Vue({
                 el: '.container',
                 data: {
