@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="/resources/lib/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="/resources/lib/css/common.css">
     @yield("header")
+    <link rel="shortcut icon" href="/public/favicon.ico">
     <meta name="viewport" content="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="/resources/lib/font-awesome-4.7.0/css/font-awesome.css">
     <style type="text/css">

@@ -5,8 +5,10 @@
         .normal-web {
             padding-bottom: 0;
         }
-        .normal-web a {
+        .normal-web div {
             margin-bottom: 15px;
+            width: auto !important;
+            padding: 0px 10px;
         }
     </style>
 @endsection
@@ -24,6 +26,7 @@
             <a href="https://baidu.com/"><div>百度</div></a>
             <a href="https://tool.lu/favicon/"><div>ICON生成</div></a>
             <a href="http://tool.chinaz.com/tools/urlencode.aspx"><div>URLDECODE</div></a>
+            <a href="http://www.16pic.com/"><div>六图网</div></a>
         </div>
 
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
