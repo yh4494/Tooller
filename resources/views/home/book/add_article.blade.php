@@ -114,7 +114,7 @@
         var uedesc = UE.getEditor('desc-editor', {
             toolbars: [
                 ['fullscreen', 'source', 'undo', 'redo'],
-                ['bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']
+                ['bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', 'link', 'background', 'inserttable', 'forecolor', 'insertcode']
             ],
             autoHeightEnabled: true,
             autoFloatEnabled: true
