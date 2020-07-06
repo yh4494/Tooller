@@ -29,7 +29,7 @@
             <a href="http://www.16pic.com/"><div>六图网</div></a>
         </div>
 
-        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div id="carouselExampleControls" class="carousel slide animate__animated animate__fadeIn" data-ride="carousel">
             <div class="carousel-inner" style="width: 100%; height: 350px; opacity: 0.8; overflow: hidden; margin: 10px 0; border: 1px solid #f3f3f3; box-shadow: #ccc 2px 2px 2px">
                 <div class="carousel-item active">
                     <img src="/resources/assets/images/swipe002.png" class="d-block w-100" alt="...">
