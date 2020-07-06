@@ -33,7 +33,7 @@ class ArticleController extends BasicController
         $where     = [];
         $isCollect = false;
         $total     = 0;
-        $columns   = ['article.id', 'article.title', 'article.child_category_id', 'article.create_at', 'category.name as categoryName'];
+        $columns   = ['article.id', 'article.title', 'article.child_category_id', 'article.description', 'article.create_at', 'category.name as categoryName'];
         $categorys = Category::where([['user_id', '=', $this->userId], ['pid', '!=', 0]])->get();
         if ($request->get('category')) {
             array_push($where, ['child_category_id', '=', $request->get('category')]);

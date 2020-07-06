@@ -67,6 +67,7 @@ Route::group(['middleware' => ['web', 'login']], function () {
 
     Route::prefix('modal')->group(function() {
         Route::get('category',           'Modal\ModalController@category');
+        Route::get('mark',               'Modal\ModalController@mark');
     });
 
     Route::prefix('book-mark')->group(function() {

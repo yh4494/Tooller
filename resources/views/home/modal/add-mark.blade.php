@@ -10,17 +10,12 @@
             <h3>创建分类</h3>
             <hr>
             <div class="form-group">
-                <label for="exampleInputEmail1">顶级分类</label>
-                <select class="custom-select" v-model="categoryParent">
-                    @foreach($category as $key => $item)
-                        <option value="{{ $item->id }}" selected>{{ $item->name }}</option>
-                    @endforeach
-                </select>
-                <small id="emailHelp" class="form-text text-muted">必须选择一个顶级分类</small>
+                <label for="exampleInputPassword1">标题</label>
+                <input type="text" class="form-control" v-model="name" id="exampleInputPassword1">
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword1">分类名称</label>
-                <input type="text" class="form-control" v-model="categoryName" id="exampleInputPassword1">
+                <label for="exampleInputPassword1">地址</label>
+                <input type="text" class="form-control" v-model="address" id="exampleInputPassword1">
             </div>
             <button type="button" @click="clickToSubmit" class="btn btn-primary">提交</button>
         </form>
@@ -33,21 +28,21 @@
         new Vue({
             el: '.container',
             data: {
-                categoryParent: '{{ $category[0]['id'] }}',
-                categoryMain: [],
-                categoryName: ''
+                currentCategoryId: '{!! $currentCategoryId !!}',
+                name: '',
+                address: ''
             },
             methods: {
                 clickToSubmit () {
-                    this.$http.post('/api/category/save', {
-                        name: this.categoryName,
-                        desc: '',
-                        pid: this.categoryParent
-                    }).then(function(response) {
-                        this.categoryMain = response.body.data;
+                    var url = ('/api/mark/save?categoryId=' + this.currentCategoryId + '&name=' + this.name + '&address=' + this.address)
+                    this.$http.get(url).then(function (response) {
+                        var data = response.body;
+                        if (data.code !== 0) {
+                            layer.msg(data.msg, {icon: 5});
+                        }
                         var index = parent.layer.getFrameIndex(window.name);
                         parent.layer.close(index);
-                    });
+                    })
                 }
             }
         })

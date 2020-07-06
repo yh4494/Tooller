@@ -55,12 +55,12 @@
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">描述</label>
-                <textarea name="description" width="100%" v-model="description" class="form-control" placeholder="填写备注"></textarea>
+{{--                <textarea name="description" width="100%" v-model="description" class="form-control" placeholder="填写备注"></textarea>--}}
+                <script name="description" id="desc-editor" v-model="description" type="text/plain" style="width:100%;height:200px;" data-placement="内容"></script>
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">笔记</label>
-                <script name="content" id="editor" type="text/plain" style="width:100%;height:500px;" data-placement="内容">
-                </script>
+                <script name="content" id="editor" type="text/plain" style="width:100%;height:500px;" data-placement="内容"></script>
             </div>
             <div style="display: none;" class="text-content">{!! isset($article) ? $article->content : '' !!}</div>
             <div style="display: none;" class="text-des">{!! isset($article) ? $article->description : '' !!}</div>
@@ -110,7 +110,16 @@
         //实例化编辑器
         //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
 
-        var ue = UE.getEditor('editor');
+        var ue     = UE.getEditor('editor');
+        var uedesc = UE.getEditor('desc-editor', {
+            toolbars: [
+                ['fullscreen', 'source', 'undo', 'redo'],
+                ['bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']
+            ],
+            autoHeightEnabled: true,
+            autoFloatEnabled: true
+        });
+
         var content     = `{!! $article ? $article->content : '' !!}`;
         var description = $('.text-des').html();
         var title       = '{!! isset($article) ? $article->title : '' !!}';
@@ -119,6 +128,9 @@
         // UE.getEditor('editor').execCommand('insertHtml', $('.text-content').html())
         ue.ready(function() {
             ue.setContent($('.text-content').html());
+        });
+        uedesc.ready(function() {
+            uedesc.setContent($('.text-des').html());
         });
         var v = new Vue({
             el: '.container',
@@ -184,7 +196,8 @@
                     });
                 },
                 clickToSubmit (type) {
-                    this.content = ue.getAllHtml();
+                    this.content     = ue.getAllHtml();
+                    this.description = uedesc.getAllHtml();
                     layer.msg('正在保存...', {
                         icon: 16,
                         shade: 0.01

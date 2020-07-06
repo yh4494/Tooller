@@ -16,4 +16,12 @@ class ModalController extends BasicController
             'category' => $list
         ]);
     }
+
+    public function mark(Request $request)
+    {
+        $currentCategoryId = $request->get('currentCategoryId');
+        return view('home.modal.add-mark', [
+            'currentCategoryId' => $currentCategoryId
+        ]);
+    }
 }

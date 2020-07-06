@@ -60,11 +60,12 @@
             border-bottom: 1px solid #f3f3f3;
             background: rgb(52, 58, 64);
             color: #fff;
-            font-size: 22px;
+        }
+        .allens-slider .title div {
+            font-size: 15px !important;
         }
         .allens-slider .title div {
             color: #fff;
-            font-size: 14px;
             height: 100%;
             cursor: pointer;
         }
@@ -80,7 +81,7 @@
             text-indent: 5px;
             border-bottom: 1px solid #f3f3f3;
             cursor: pointer;
-
+            padding-right: 10px;
             display: block; /* 当前元素本身是inline的，因此需要设置成block模式 */
             white-space: nowrap; /* 因为设置了block，所以需要设置nowrap来确保不换行 */
             overflow: hidden; /* 超出隐藏结合width使用截取采用效果*/
@@ -89,30 +90,38 @@
             text-decoration: none; /* 无用 */
         }
         .right-bar {
-            position: absolute;
+            position: fixed;
             width: 20px;
-            right: 0;
+            left: 200px;
             height: 40px;
             background: #000;
             opacity: 0.5;
             top: 50%;
             text-align: center;
             line-height: 40px;
+            border-bottom-right-radius: 5px;
+            border-top-right-radius: 5px;
         }
+        .desc-content {
+            list-style: none;
+        }
+/*        .desc-content li {
+            padding-left: 20px;
+        }*/
     </style>
 @endsection
 
 @section('exclude')
     @if(isset($isLogin) && $isLogin)
     <div id="real-content" style="width: auto; height: auto" v-cloak>
-        <div class="allens-slider test-5 animate__animated animate__slideInLeft" style="overflow-y: auto; overflow-x: hidden">
-            <div class="right-bar" @click="clickToHiddenBox">
-                <i v-if="hiddenBox"   style="color: #fff;" class="fa fa-angle-right" aria-hidden="true"></i>
-                <i v-else="hiddenBox" style="color: #fff;" class="fa fa-angle-left" aria-hidden="true"></i>
-            </div>
+        <div class="right-bar animate__animated animate__fadeIn" @click="clickToHiddenBox">
+            <i v-if="hiddenBox"   style="color: #fff;" class="fa fa-angle-right" aria-hidden="true"></i>
+            <i v-else="hiddenBox" style="color: #fff;" class="fa fa-angle-left" aria-hidden="true"></i>
+        </div>
+        <div class="allens-slider test-5 animate__animated animate__fadeIn" style="overflow-y: auto; overflow-x: hidden">
             <div class="title">
-                <div style="width: 50%; float: left" @click="clickToShowCategory">添加分类</div>
-                <div style="width: 50%; float: left" data-toggle="modal" data-target="#exampleModalCenter">添加书签</div>
+                <div style="width: 50%; float: left" @click="clickToShowCategory"><i style="color: #fff;" class="fa fa-th-large" aria-hidden="true"></i>&nbsp;添加分类</div>
+                <div style="width: 50%; float: left" v-if="showLinksChild" @click="clickToAddMark" data-toggle="modal" data-target="#exampleModalCenter"><i style="color: #fff;" class="fa fa-bookmark" aria-hidden="true"></i>&nbsp;添加书签</div>
             </div>
             <div class="element">
                 <div style="float: left; padding-left: 5px">
@@ -139,35 +148,6 @@
                     <a href="javascript:void(0)" @click="clickToJumping(item.address)">@{{ item.name }}</a>
                 </div>
             </template>
-        </div>
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">添加书签</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form style="margin-top: 15px;">
-                            <div class="form-group">
-                                <label>标题</label>
-                                <input type="text" v-model="name" class="form-control" name="name" placeholder="">
-                            </div>
-                            <div class="form-group">
-                                <label>地址</label>
-                                <input type="text" v-model="address" class="form-control" name="content" placeholder="">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                        <button type="button" @click="clickToAddMark()" class="btn btn-primary">保存</button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
     @endif
@@ -212,7 +192,7 @@
         <div class="list-allens">
             <ul v-if="!showWay" class="list-of-articles">
                 @foreach($articles as $item)
-                    <li class="animate__animated animate__fadeIn">
+                    <li class="animate__animated animate__fadeIn" style="overflow: hidden; min-height: 50px; height: auto !important;">
                         <i class="fa fa-bookmark" aria-hidden="true"></i>
                         <a target="_blank" href="/book/show/{{ $item['id']  }}">
                             {{ $item['title'] }}
@@ -230,6 +210,9 @@
                             </a>
                         </div>
                         @endif
+                        <div style="width: 100%;color: #cccc; font-size: 12px; line-height: normal; padding-bottom: 10px;" class="desc-content">
+                            {!! $item->description !!}
+                        </div>
                     </li>
                 @endforeach
             </ul>
@@ -272,6 +255,11 @@
                     hiddenBox: false
                 },
                 mounted () {
+                    if (localStorage.getItem('hiddenLeftSlider')) {
+                        this.hiddenBox = true;
+                        $('.allens-slider').css({'left': '-200px'})
+                        $('.right-bar').css({'left': '0'})
+                    }
                 },
                 methods: {
                     clickToJumping(url) {
@@ -311,25 +299,31 @@
                         this.hiddenBox = !this.hiddenBox;
                         if (this.hiddenBox) {
                             $('.allens-slider').animate({'left': '-200px'})
+                            $('.right-bar').animate({'left': '0'})
+                            localStorage.setItem('hiddenLeftSlider', true);
+                        } else {
+                            $('.allens-slider').animate({'left': '0'})
+                            $('.right-bar').animate({'left': '200px'})
+                            localStorage.removeItem('hiddenLeftSlider')
                         }
                     },
                     clickToAddMark() {
-                        var url = ('/api/mark/save?categoryId=' + this.currentCategoryId + '&name=' + this.name + '&address=' + this.address)
-                        this.$http.get(url).then(function (response) {
-                            var data = response.body;
-                            if (data.code !== 0) {
-                                layer.msg(data.msg, {icon: 5});
-                            } else {
-                                $('#exampleModalCenter').modal('hide')
-                                vue2.clickToShowLinks(this.currentCategoryId);
+                        layer.open({
+                            title: '',
+                            type: 2,
+                            area: ['40%', '400px'],
+                            fixed: true, //不固定
+                            maxmin: true,
+                            content: '/modal/mark?currentCategoryId=' + vue2.currentCategoryId,
+                            end: function() {
+                                vue2.clickToShowLinks(vue2.currentCategoryId);
                             }
-                        })
+                        });
                     },
                     // 添加分类
                     clickToAddCategory () {
                         this.$http.post('/api/category/save', this.category).then( function(response) {
                             this.categoryMain = response.body.data;
-                            $('#exampleModalCenter').modal('hide');
                             window.localtion.href = '/article'
                         });
                     },
