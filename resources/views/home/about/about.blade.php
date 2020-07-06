@@ -43,13 +43,13 @@
                     var editor = new E('#editor');
                     // 自定义菜单配置
                     editor.customConfig.menus = [
-                        'head',      // 标题
-                        'bold',      // 粗体
+                        'head',  // 标题
+                        'bold',  // 粗体
                         'fontSize',  // 字号
                         'fontName',  // 字体
-                        'italic',        // 斜体
-                        'underline',     // 下划线
-                        'strikeThrough', // 删除线
+                        'italic',  // 斜体
+                        'underline',  // 下划线
+                        'strikeThrough',  // 删除线
                         'foreColor',  // 文字颜色
                         'backColor',  // 背景颜色
                         'link',  // 插入链接

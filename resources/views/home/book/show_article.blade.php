@@ -11,12 +11,55 @@
             /*width:500px;*/
             white-space: pre; /*不强制换行*/
         }
-
+        .menu {
+            position: absolute;
+            width: 240px;
+            right: 20px;
+            top: 60px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            box-shadow: #f3f3f3 2px 2px 2px 2px;
+        }
+        .menu a{
+        }
+        .description {
+            list-style: none;
+        }
+        .line {
+            /*line-height: 24px;*/
+            line-height: normal;
+        }
+        .line a {
+            color: #666666;
+        }
+        .a-1 {
+            font-size: 20px;
+        }
+        .a-2 {
+            font-size: 18px;
+        }
+        .a-3 {
+            font-size: 16px;
+            padding-left: 10px;
+        }
+        .a-4 {
+            font-size: 14px;
+            padding-left: 12px;
+        }
+        .a-5 {
+            font-size: 12px;
+            padding-left: 14px;
+        }
+        * {
+            list-style-type: none;
+            list-style: none;
+        }
     </style>
     <link rel="stylesheet" type="text/css" href="/resources/lib/highlight/styles/tomorrow-night-eighties.css">
 @endsection
 
 @section('content')
+    <div class="menu"></div>
     <div class="container" style="padding-top: 20px" v-cloak>
 {{--        <nav aria-label="breadcrumb" style="width: 100%">--}}
 {{--            <ol class="breadcrumb" style="width: 100%">--}}
@@ -44,8 +87,10 @@
                 <p>作者: {{ $article->user->name }}</p>
                 <p>时间: {{ date('Y-m-d H:i:s', $article->create_at)  }}</p>
             </div>
-            <div style="width: 100%; height: auto; border: 2px dashed #f3f3f3; padding: 20px 0 0 20px; margin-bottom: 20px;">{!! isset($article) ? str_replace('\n', '<br/>',$article->description) : '' !!}</div>
-            <div style=" padding-top: 1px;">
+            <div style="width: 100%; height: auto; border: 2px dashed #f3f3f3; padding: 20px 0 0 20px; margin-bottom: 20px;" class="description">
+                {!! isset($article) ? str_replace('\n', '<br/>',$article->description) : '' !!}
+            </div>
+            <div style=" padding-top: 1px;" class="content">
                 {!! isset($article) ? $article->content : '' !!}
             </div>
         </div>
@@ -67,6 +112,23 @@
             onepre.innerHTML = '<code id="mycode">'+mycode+'</code>';
         }
         $(function() {
+            $(".content").children().each(function(index, element) {
+                var tagName=$(this).get(0).tagName;
+                if(tagName.substr(0,1).toUpperCase()=="H"){
+                    var indexS    = tagName.substr(1,2);
+                    var className = 'a-' + indexS;
+                    var insertH   = '';
+                    if (indexS <= 2) {
+                        insertH = '<i class=\"fa fa-bookmark-o\" aria-hidden=\"true\"></i>';
+                    } else {
+                        insertH = '<i class="fa fa-circle-o" aria-hidden="true"></i>';
+                    }
+                    var contentH  = $(this).html();//获取内容
+                    var markid    = "mark-"+tagName + "-" + index.toString();
+                    $(this).attr("id", markid);//为当前h标签设置id
+                    $(".menu").append("<div class='line " + className + "'>" + insertH + "&nbsp;<a href='#"+markid+"'>"+contentH+"</a></div><br/>");//在目标DIV中添加内容
+                }
+            });
             $('table').attr('class', 'table table-bordered')
             new Vue({
                 el: '.container',

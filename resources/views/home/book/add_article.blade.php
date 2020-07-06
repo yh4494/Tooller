@@ -55,8 +55,11 @@
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">描述</label>
+                <div id="wangEditorTest" style="height: auto !important;">
+                    {!! isset($article) ? $article->description : '' !!}
+                </div>
 {{--                <textarea name="description" width="100%" v-model="description" class="form-control" placeholder="填写备注"></textarea>--}}
-                <script name="description" id="desc-editor" v-model="description" type="text/plain" style="width:100%;height:200px;" data-placement="内容"></script>
+{{--                <script name="description" id="desc-editor" v-model="description" type="text/plain" style="width:100%;height:200px;" data-placement="内容"></script>--}}
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">笔记</label>
@@ -101,6 +104,7 @@
 @endsection
 
 @section('footer')
+    <script src="/resources/lib/wangEditor-3.1.1/release/wangEditor.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="/resources/lib/utf8-php/ueditor.config.js"></script>
     <script type="text/javascript" charset="utf-8" src="/resources/lib/utf8-php/ueditor.all.min.js"> </script>
     <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
@@ -109,16 +113,15 @@
     <script>
         //实例化编辑器
         //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-
         var ue     = UE.getEditor('editor');
-        var uedesc = UE.getEditor('desc-editor', {
-            toolbars: [
-                ['fullscreen', 'source', 'undo', 'redo'],
-                ['bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', 'link', 'background', 'inserttable', 'forecolor', 'insertcode']
-            ],
-            autoHeightEnabled: true,
-            autoFloatEnabled: true
-        });
+        // var uedesc = UE.getEditor('desc-editor', {
+        //     toolbars: [
+        //         ['fullscreen', 'source', 'undo', 'redo'],
+        //         ['bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', 'link', 'background', 'inserttable', 'forecolor', 'insertcode']
+        //     ],
+        //     autoHeightEnabled: true,
+        //     autoFloatEnabled: true
+        // });
 
         var content     = `{!! $article ? $article->content : '' !!}`;
         var description = $('.text-des').html();
@@ -129,108 +132,138 @@
         ue.ready(function() {
             ue.setContent($('.text-content').html());
         });
-        uedesc.ready(function() {
-            uedesc.setContent($('.text-des').html());
-        });
-        var v = new Vue({
-            el: '.container',
-            data: {
-                id: '{!! isset($id) ? $id : '' !!}',
-                title: title,
-                content: content,
-                description: description,
-                process_parent_id: '{!! isset($pid) ? $pid : '' !!}',
-                process_id: '{!! isset($id) ? $id : '' !!}',
-                categoryParent: '{!! isset($article) ? $article->parent_category_id : 0 !!}',
-                categoryMain: [],
-                categoryChild: [],
-                categoryChildId: '{!! isset($article) ? $article->child_category_id : 0 !!}',
-                isPublic: '{!! isset($article) ? $article->is_public : 1 !!}',
-                category: {
-                    name: '',
-                    desc: '',
-                    pid: ''
+        // uedesc.ready(function() {
+        //     uedesc.setContent($('.text-des').html());
+        // });
+        $(function() {
+            var v = new Vue({
+                el: '.container',
+                data: {
+                    id: '{!! isset($id) ? $id : '' !!}',
+                    title: title,
+                    content: content,
+                    description: description,
+                    process_parent_id: '{!! isset($pid) ? $pid : '' !!}',
+                    process_id: '{!! isset($id) ? $id : '' !!}',
+                    categoryParent: '{!! isset($article) ? $article->parent_category_id : 0 !!}',
+                    categoryMain: [],
+                    categoryChild: [],
+                    categoryChildId: '{!! isset($article) ? $article->child_category_id : 0 !!}',
+                    isPublic: '{!! isset($article) ? $article->is_public : 1 !!}',
+                    category: {
+                        name: '',
+                        desc: '',
+                        pid: ''
+                    },
+                    first: false,
+                    wangEditor: null
                 },
-                first: false
-            },
-            mounted () {
-                this.requestCategoryMain();
-                this.$watch('categoryParent', function(n, o) {
-                    if (n) {
-                        this.category.pid = n;
-                        this.requestCategoryChild();
-                    }
-                })
-                setInterval(function() {
-                    v.clickToSubmit('save')
-                }, 300000)
-            },
-            methods: {
-                requestCategoryMain () {
-                    this.$http.get('/api/category/main').then( function(response) {
-                        this.categoryMain = response.body.data;
-                        this.category.pid = this.categoryMain[this.categoryMain.length - 1].id;
-                        if (!this.categoryParent || this.categoryParent == 0) this.categoryParent = this.category.pid;
-                        if (this.categoryMain) {
+                mounted () {
+                    this.requestCategoryMain();
+                    this.$watch('categoryParent', function(n, o) {
+                        if (n) {
+                            this.category.pid = n;
                             this.requestCategoryChild();
                         }
-                    });
-                },
-                requestCategoryChild () {
-                    console.log(this.categoryParent);
-                    if (this.categoryParent && !this.first) {
-                        this.first = true;
-                        this.category.pid = this.categoryParent;
-                    }
-                    this.$http.get('/api/category/child/' + this.category.pid).then( function(response) {
-                        this.categoryChild = response.body.data;
-                        if (!this.categoryChildId || this.categoryChildId == 0) this.categoryChildId = this.categoryChild != null && this.categoryChild.length > 0 ? this.categoryChild[0].id : 0;
-                    });
-                },
-                // 添加分类
-                clickToAddCategory () {
-                    this.$http.post('/api/category/save', this.category).then( function(response) {
-                        this.categoryMain = response.body.data;
-                        $('#exampleModalCenter').modal('hide');
-                        this.requestCategoryMain();
-                    });
-                },
-                clickToSubmit (type) {
-                    this.content     = ue.getAllHtml();
-                    this.description = uedesc.getAllHtml();
-                    layer.msg('正在保存...', {
-                        icon: 16,
-                        shade: 0.01
-                    });
-                    this.$http.post('/book/add/', {
-                        title: this.title,
-                        content: this.content,
-                        description: this.description,
-                        id: this.id,
-                        is_article: '{!! $isArticle !!}',
-                        categoryChildId: this.categoryChildId,
-                        categoryParent: this.categoryParent,
-                        isPublic: this.isPublic
-                    }).then(function(response) {
-                        var data = response.body;
-                        if (data.code === 0) {
-                            if (isArticle) setTimeout(function () {
-                                if (type === 'save') {
-                                    layer.msg('保存成功', {icon: 1});
-                                    v.id = data.data;
-                                } else {
-                                    window.location.href = '/article'
-                                }
-                            }, 1000); else {
-                                var index = parent.layer.getFrameIndex(window.name);
-                                parent.layer.close(index);
-                            }
-                        } else {
-                            layer.msg('保存失败', {icon: 6});
-                        }
                     })
+                    setInterval(function() {
+                        v.clickToSubmit('save')
+                    }, 300000)
+                    var E = window.wangEditor;
+                    var editor = new E('#wangEditorTest');
+                    // 自定义菜单配置
+                    editor.customConfig.menus = [
+                        'head',      // 标题
+                        'bold',      // 粗体
+                        'fontSize',  // 字号
+                        'fontName',  // 字体
+                        'italic',        // 斜体
+                        'underline',     // 下划线
+                        'strikeThrough', // 删除线
+                        'foreColor',     // 文字颜色
+                        'backColor', // 背景颜色
+                        'link',      // 插入链接
+                        'list',      // 列表
+                        'justify',   // 对齐方式
+                        'quote',     // 引用
+                        'emoticon',  // 表情
+                        // 'image',  // 插入图片
+                        'table',     // 表格
+                        'video',     // 插入视频
+                        'code',      // 插入代码
+                        'undo',      // 撤销
+                        'redo'       // 重复
+                    ];
+                    // 或者 var editor = new E( document.getElementById('editor') )
+                    editor.create();
+                    this.wangEditor = editor;
+                },
+                methods: {
+                    requestCategoryMain () {
+                        this.$http.get('/api/category/main').then( function(response) {
+                            this.categoryMain = response.body.data;
+                            this.category.pid = this.categoryMain[this.categoryMain.length - 1].id;
+                            if (!this.categoryParent || this.categoryParent == 0) this.categoryParent = this.category.pid;
+                            if (this.categoryMain) {
+                                this.requestCategoryChild();
+                            }
+                        });
+                    },
+                    requestCategoryChild () {
+                        if (this.categoryParent && !this.first) {
+                            this.first = true;
+                            this.category.pid = this.categoryParent;
+                        }
+                        this.$http.get('/api/category/child/' + this.category.pid).then( function(response) {
+                            this.categoryChild = response.body.data;
+                            if (!this.categoryChildId || this.categoryChildId == 0) this.categoryChildId = this.categoryChild != null && this.categoryChild.length > 0 ? this.categoryChild[0].id : 0;
+                        });
+                    },
+                    // 添加分类
+                    clickToAddCategory () {
+                        this.$http.post('/api/category/save', this.category).then( function(response) {
+                            this.categoryMain = response.body.data;
+                            $('#exampleModalCenter').modal('hide');
+                            this.requestCategoryMain();
+                        });
+                    },
+                    clickToSubmit (type) {
+                        this.content     = ue.getAllHtml();
+                        this.description = this.wangEditor.txt.html();
+                        layer.msg('正在保存...', {
+                            icon: 16,
+                            shade: 0.01
+                        });
+                        this.$http.post('/book/add/', {
+                            title: this.title,
+                            content: this.content,
+                            description: this.description,
+                            id: this.id,
+                            is_article: '{!! $isArticle !!}',
+                            categoryChildId: this.categoryChildId,
+                            categoryParent: this.categoryParent,
+                            isPublic: this.isPublic
+                        }).then(function(response) {
+                            var data = response.body;
+                            if (data.code === 0) {
+                                if (isArticle) setTimeout(function () {
+                                    if (type === 'save') {
+                                        layer.msg('保存成功', {icon: 1});
+                                        v.id = data.data;
+                                    } else {
+                                        window.location.href = '/article'
+                                    }
+                                }, 1000); else {
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    parent.layer.close(index);
+                                }
+                            } else {
+                                layer.msg('保存失败', {icon: 6});
+                            }
+                        })
+                    }
                 }
-            }
-        })
+            })
+        });
     </script>
 @endsection
