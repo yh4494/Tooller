@@ -27,27 +27,36 @@
         }
         .line {
             /*line-height: 24px;*/
-            line-height: normal;
+            line-height: 18px;
+            color: #666666;
+            /*display: block; !* 当前元素本身是inline的，因此需要设置成block模式 *!*/
+            white-space: nowrap; /* 因为设置了block，所以需要设置nowrap来确保不换行 */
+            overflow: hidden; /* 超出隐藏结合width使用截取采用效果*/
+            text-overflow: ellipsis; /* 本功能的主要功臣，超出部分的剪裁方式 */
+            -o-text-overflow: ellipsis; /* 特定浏览器前缀 */
+            text-decoration: none; /* 无用 */
+            border-bottom: 1px solid #f3f3f3;
+            padding: 10px 0;
         }
         .line a {
             color: #666666;
         }
         .a-1 {
-            font-size: 20px;
-        }
-        .a-2 {
             font-size: 18px;
         }
-        .a-3 {
+        .a-2 {
             font-size: 16px;
+        }
+        .a-3 {
+            font-size: 14px;
             padding-left: 10px;
         }
         .a-4 {
-            font-size: 14px;
+            font-size: 12px;
             padding-left: 12px;
         }
         .a-5 {
-            font-size: 12px;
+            font-size: 10px;
             padding-left: 14px;
         }
         * {
@@ -61,14 +70,6 @@
 @section('content')
     <div class="menu"></div>
     <div class="container" style="padding-top: 20px" v-cloak>
-{{--        <nav aria-label="breadcrumb" style="width: 100%">--}}
-{{--            <ol class="breadcrumb" style="width: 100%">--}}
-{{--                <li class="breadcrumb-item"><a href="/">Home</a></li>--}}
-{{--                <li class="breadcrumb-item"><a href="/article">文章</a></li>--}}
-{{--                <li class="breadcrumb-item active" aria-current="page">Data</li>--}}
-{{--            </ol>--}}
-{{--        </nav>--}}
-<!-- 代码高亮显示格式：<pre><code>你的代码</code></pre> -->
         <div style="padding: 30px 0 0 0; height: auto">
             <h2 style="text-align: left; margin-bottom: 20px;">{{ isset($article) ? $article->title : ''  }}</h2>
             <hr>
@@ -126,7 +127,7 @@
                     var contentH  = $(this).html();//获取内容
                     var markid    = "mark-"+tagName + "-" + index.toString();
                     $(this).attr("id", markid);//为当前h标签设置id
-                    $(".menu").append("<div class='line " + className + "'>" + insertH + "&nbsp;<a href='#"+markid+"'>"+contentH+"</a></div><br/>");//在目标DIV中添加内容
+                    $(".menu").append("<div class='line " + className + "'>" + insertH + "&nbsp;<a href='#"+markid+"'>"+contentH+"</a></div>");//在目标DIV中添加内容
                 }
             });
             $('table').attr('class', 'table table-bordered')
