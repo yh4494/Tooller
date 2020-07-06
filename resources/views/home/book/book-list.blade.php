@@ -105,9 +105,11 @@
         .desc-content {
             list-style: none;
         }
-/*        .desc-content li {
+        /*
+        .desc-content li {
             padding-left: 20px;
-        }*/
+        }
+        */
     </style>
 @endsection
 
@@ -189,7 +191,7 @@
         @endif
 
         <ul id="paginator" class="pagination"></ul>
-        <div class="list-allens" v-if="showArticleList">
+        <div class="list-allens">
             <ul v-if="!showWay" class="list-of-articles">
                 @foreach($articles as $item)
                     <li class="animate__animated animate__fadeIn" style="overflow: hidden; min-height: 50px; height: auto !important;">
@@ -210,7 +212,7 @@
                             </a>
                         </div>
                         @endif
-                        <div style="width: 100%;color: #cccc; font-size: 12px; line-height: normal; padding-bottom: 10px;" class="desc-content">
+                        <div v-if="showArticleList" style="width: 100%;color: #cccc; font-size: 12px; line-height: normal; padding-bottom: 10px;" class="desc-content">
                             {!! $item->description !!}
                         </div>
                     </li>
