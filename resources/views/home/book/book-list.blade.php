@@ -210,9 +210,9 @@
                             </a>
                         </div>
                         @endif
-                        <div style="width: 100%;color: #cccc; font-size: 12px; line-height: normal; padding-bottom: 10px;" class="desc-content">
-                            {!! $item->description !!}
-                        </div>
+{{--                        <div style="width: 100%;color: #cccc; font-size: 12px; line-height: normal; padding-bottom: 10px;" class="desc-content">--}}
+{{--                            {!! $item->description !!}--}}
+{{--                        </div>--}}
                     </li>
                 @endforeach
             </ul>
