@@ -154,7 +154,7 @@
 @endsection
 
 @section('content')
-    <div class="container" style="padding-bottom: 20px;">
+    <div class="container" style="padding-bottom: 20px;" v-cloak>
         @if(isset($isLogin) && $isLogin)
         <div style="width: 100%; height: auto; padding: 15px 0">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -189,7 +189,7 @@
         @endif
 
         <ul id="paginator" class="pagination"></ul>
-        <div class="list-allens">
+        <div class="list-allens" v-if="showArticleList">
             <ul v-if="!showWay" class="list-of-articles">
                 @foreach($articles as $item)
                     <li class="animate__animated animate__fadeIn" style="overflow: hidden; min-height: 50px; height: auto !important;">
@@ -210,9 +210,9 @@
                             </a>
                         </div>
                         @endif
-{{--                        <div style="width: 100%;color: #cccc; font-size: 12px; line-height: normal; padding-bottom: 10px;" class="desc-content">--}}
-{{--                            {!! $item->description !!}--}}
-{{--                        </div>--}}
+                        <div style="width: 100%;color: #cccc; font-size: 12px; line-height: normal; padding-bottom: 10px;" class="desc-content">
+                            {!! $item->description !!}
+                        </div>
                     </li>
                 @endforeach
             </ul>
@@ -333,7 +333,8 @@
                 el: '.container',
                 data: {
                     showWay: showWay,
-                    currentCategory: '{!! $currentCategory !!}'
+                    currentCategory: '{!! $currentCategory !!}',
+                    showArticleList: false
                 },
                 mounted () {
                     this.showWay = showWay;
@@ -345,6 +346,9 @@
                             if (type !== 'init') window.location = '/article?type={!! $type !!}&page=' + num
                         }
                     });
+                    setTimeout(function () {
+                        vue.showArticleList = true;
+                    }, 600);
                 },
                 methods: {
                     clickToToggle: function(e) {
