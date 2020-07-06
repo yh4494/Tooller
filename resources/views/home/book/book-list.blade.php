@@ -105,6 +105,14 @@
         .desc-content {
             list-style: none;
         }
+        ::marker {
+            list-style-type: none;
+            display: none;
+        }
+        .desc-content ul > li {
+            overflow: hidden;
+            padding-left: 15px;
+        }
         /*
         .desc-content li {
             padding-left: 20px;
@@ -212,7 +220,7 @@
                             </a>
                         </div>
                         @endif
-                        <div v-if="showArticleList" style="width: 100%;color: #cccc; font-size: 12px; line-height: normal; padding-bottom: 10px;" class="desc-content">
+                        <div v-if="showArticleList" style="width: 100%;color: #cccc; font-size: 12px !important; line-height: normal; padding-bottom: 10px;" class="desc-content">
                             {!! $item->description !!}
                         </div>
                     </li>
