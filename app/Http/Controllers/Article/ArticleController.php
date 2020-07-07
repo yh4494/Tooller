@@ -187,6 +187,10 @@ class ArticleController extends BasicController
             return JsonTooller::paramsFail();
         }
 
+        if (!$this->userId) {
+            return JsonTooller::unLogin();
+        }
+
         if ($request->get('id') && ($request->get('is_article') == 'false' || !$request->get('is_article'))) {
             $article = Article::where('process_id', $request->get('id'))->first();
         } else {

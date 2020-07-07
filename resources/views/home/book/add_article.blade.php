@@ -1,7 +1,7 @@
 @extends('modal')
 
 @section('header')
-
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -55,7 +55,8 @@
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">描述</label>
-                <textarea name="description" width="100%" style="height: 200px" v-model="description" class="form-control" placeholder="填写备注"></textarea>
+                <div id="summernote"></div>
+{{--                <textarea name="description" width="100%" style="height: 200px" v-model="description" class="form-control" placeholder="填写备注"></textarea>--}}
 {{--                <script name="description" id="desc-editor" v-model="description" type="text/plain" style="width:100%;height:200px;" data-placement="内容"></script>--}}
             </div>
             <div class="form-group">
@@ -101,8 +102,9 @@
 @endsection
 
 @section('footer')
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="/resources/lib/utf8-php/ueditor.config.js"></script>
-    <script type="text/javascript" charset="utf-8" src="/resources/lib/utf8-php/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="/resources/lib/utf8-php/ueditor.all.js"> </script>
     <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
     <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
     <script type="text/javascript" charset="utf-8" src="/resources/lib/utf8-php/lang/zh-cn/zh-cn.js"></script>
@@ -110,19 +112,30 @@
         //实例化编辑器
         //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
         var ue     = UE.getEditor('uEditor');
-        var uedesc = UE.getEditor('desc-editor', {
-            toolbars: [
-                ['fullscreen', 'source', 'undo', 'redo'],
-                ['bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'selectall', 'cleardoc', 'link', 'background', 'inserttable', 'forecolor', 'insertcode']
-            ],
-            autoHeightEnabled: true,
-            autoFloatEnabled: false
-        });
+        // var uedesc = UE.getEditor('desc-editor', {
+        //     toolbars: [
+        //         ['fullscreen', 'source', 'undo', 'redo'],
+        //         ['bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'selectall', 'cleardoc', 'link', 'background', 'inserttable', 'forecolor', 'insertcode']
+        //     ],
+        //     autoHeightEnabled: true,
+        //     autoFloatEnabled: false
+        // });
 
         var content     = `{!! $article ? $article->content : '' !!}`;
         var description = $('.text-des').html();
         var title       = '{!! isset($article) ? $article->title : '' !!}';
         var isArticle   = '{!! $isArticle !!}';
+
+        $(document).ready(function() {
+            $('#summernote').summernote('code', description)
+                $('#summernote').summernote({
+                placeholder: '请填写文章介绍',
+                tabsize: 2,
+                height: 150,
+                code: description
+            });
+            console.log()
+        });
 
         // UE.getEditor('editor').execCommand('insertHtml', $('.text-content').html())
         ue.ready(function() {
@@ -196,7 +209,7 @@
                 },
                 clickToSubmit (type) {
                     this.content     = ue.getAllHtml();
-                    this.description = this.description;
+                    this.description = $('#summernote').summernote('code');
                     layer.msg('正在保存...', {
                         icon: 16,
                         shade: 0.01
