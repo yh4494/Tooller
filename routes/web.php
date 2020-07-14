@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::group(['middleware' => ['web', 'login']], function () {
     Route::get('/',                      'Home\HomeController@index');
 
@@ -40,6 +41,8 @@ Route::group(['middleware' => ['web', 'login']], function () {
     Route::get('/time-line',             'User\UserController@timeLine');
 
     Route::post('/upload',               'Upload\UploadController@upload');
+
+    Route::get('/swagger',               'Home\HomeController@swagger');
 
     Route::prefix('tool')->group(function () {
         Route::get('/time',              'Tool\TimeToolController@index');

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>业务组Swagger中心</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      #wrapper {
+        width: 1200px;
+        height: auto;
+        margin: 20px auto;
+      }
+      #wrapper .elements {
+        display: flex;
+        display: -webkit-flex;
+        flex-direction: row;
+      }
+      #wrapper .elements .element {
+        height: 150px;
+        background: black;
+        flex: 1;
+        margin-right: 10px;
+      }
+      #wrapper .elements .element h2 {
+        text-align: center;
+        color: #fff;
+        padding: 20px 0;
+      }
+      .child {
+        padding: 10px 20px;
+        background: #fff;
+        margin-right: 10px;
+        cursor: pointer;
+      }
+      .child:last-child {
+        margin-right: 0;
+      }
+      .child:hover {
+        background: red;
+        color: #fff;s
+      }
+    </style>
+  </head>
+  <body>
+    <h1 style="text-align: center; padding: 20px;">业务组Swagger center</h1>
+    <div id="wrapper">
+      <div class="elements">
+        <div class="element" style="background: blueviolet;">
+          <h2>FMS-CRM</h2>
+          <div style="width: 100%; display: flex; flex-direction: row; align-content: center; justify-content: center;">
+            <div class="child" @click="clickToOpenUrl('dev',  'fms-crm')">开发</div>
+            <div class="child" @click="clickToOpenUrl('test', 'fms-crm')">测试</div>
+            <div class="child" @click="clickToOpenUrl('prod', 'fms-crm')">生产</div>
+          </div>
+        </div>
+        <div class="element" style="background: #232323;">
+          <h2>FMS-BASE</h2>
+          <div style="width: 100%; display: flex; flex-direction: row; align-content: center; justify-content: center;">
+            <div class="child" @click="clickToOpenUrl('dev',  'fms-base')">开发</div>
+            <div class="child" @click="clickToOpenUrl('test', 'fms-base')">测试</div>
+            <div class="child" @click="clickToOpenUrl('prod', 'fms-base')">生产</div>
+          </div>
+        </div>
+        <div class="element" style="background:#abcdef;">
+          <h2>FMS</h2>
+          <div style="width: 100%; display: flex; flex-direction: row; align-content: center; justify-content: center;">
+            <div class="child" @click="clickToOpenUrl('dev',  'fms')">开发</div>
+            <div class="child" @click="clickToOpenUrl('test', 'fms')">测试</div>
+            <div class="child" @click="clickToOpenUrl('prod', 'fms')">生产</div>
+          </div>
+        </div>
+      </div>
+      <div class="elements" style="margin-top:20px;">
+        <div class="element" style="background: #003366;">
+          <h2>FMSMEMBERSHIP</h2>
+          <div style="width: 100%; display: flex; flex-direction: row; align-content: center; justify-content: center;">
+            <div class="child" @click="clickToOpenUrl('dev',  'fmsmembership')">开发</div>
+            <div class="child" @click="clickToOpenUrl('test', 'fmsmembership')">测试</div>
+            <div class="child" @click="clickToOpenUrl('prod', 'fmsmembership')">生产</div>
+          </div>
+        </div>
+        <div class="element" style="background: #666666;">
+          <h2>FMS-AIR</h2>
+          <div style="width: 100%; display: flex; flex-direction: row; align-content: center; justify-content: center;">
+            <div class="child" @click="clickToOpenUrl('dev',  'fms-air')">开发</div>
+            <div class="child" @click="clickToOpenUrl('test', 'fms-air')">测试</div>
+            <div class="child" @click="clickToOpenUrl('prod', 'fms-air')">生产</div>
+          </div>
+        </div>
+        <div class="element" style="background:#003300;">
+          <h2>DZG-COMMON</h2>
+          <div style="width: 100%; display: flex; flex-direction: row; align-content: center; justify-content: center;">
+            <div class="child" @click="clickToOpenUrl('dev',  'dzg-common')">开发</div>
+            <div class="child" @click="clickToOpenUrl('test', 'dzg-common')">测试</div>
+            <div class="child" @click="clickToOpenUrl('prod', 'dzg-common')">生产</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#wrapper',
+      data: {
+        
+      },
+      methods: {
+        clickToOpenUrl: function(env, project) {
+          switch (project) {
+            case 'fms-crm':
+              window.open(this.gainHost(env) + 'fms-crm-rest/rest/api/doc/index.html')
+              break;
+            case 'fms':
+              window.open(this.gainHost(env) + 'fms-rest/rest/api/doc/index.html')
+              break;
+            case 'fms-base':
+              window.open(this.gainHost(env) + 'fms-base-rest/rest/api/doc/index.html')
+              break;
+            case 'fmsmembership':
+              window.open(this.gainHost(env) + 'fmsmembership-rest/rest/api/doc/index.html')
+              break;
+            case 'fms-air':
+              window.open(this.gainHost(env) + 'fms-air-rest/rest/api/doc/index.html')
+              break;
+          }
+        },
+        gainHost: function (env) {
+          switch (env) {
+            case 'dev':
+              return 'http://sdf.600jit.com/';
+            case 'test':
+              return 'http://jt.test.200jit.com/';
+            case 'prod':
+              return 'https://gm1-scjtzb.100jit.com/';
+          }
+        }
+      }
+    })
+  </script>
+</html>

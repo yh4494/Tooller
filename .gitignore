@@ -14,3 +14,4 @@ yarn-error.log
 .phpunit.result.cache
 /resources/lib/.DS_Store
 .gitignore
+/public/swagger-center.html
