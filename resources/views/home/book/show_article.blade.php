@@ -60,8 +60,8 @@
             padding-left: 14px;
         }
         * {
-            list-style-type: none;
-            list-style: none;
+            /*list-style-type: none;*/
+            /*list-style: none;*/
         }
     </style>
     <link rel="stylesheet" type="text/css" href="/resources/lib/highlight/styles/tomorrow-night-eighties.css">
