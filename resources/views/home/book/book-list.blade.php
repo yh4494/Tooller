@@ -113,13 +113,23 @@
             overflow: hidden;
             padding-left: 15px;
         }
-        /*
-        .desc-content li {
-            padding-left: 20px;
+        .operator-line {
+            width: 1080px;
+            height: 36px;
         }
-        */
+        .operator-line .search {
+            width: 280px;
+            height: 100%;
+            background: #545F65;
+            float: right;
+            border-radius: 5px;
+            /*margin-right: 0;*/
+        }
         #real-content ::-webkit-scrollbar{
             display:none;
+        }
+        .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+            width: 280px;
         }
     </style>
 @endsection
@@ -147,7 +157,7 @@
             <template v-if="!showLinksChild">
                 @foreach($category as $item)
                     <div class="element" @click="clickToShowLinks('{{ $item->id }}', '{{ $item->name }}')">
-                        <i style="color: #87CFF6" class="fa fa-folder" aria-hidden="true"></i>&nbsp;{{ $item['name'] }}
+                        <i style="color: #2D3338" class="fa fa-folder" aria-hidden="true"></i>&nbsp;{{ $item['name'] }}
                     </div>
                 @endforeach
                 <div class="element" v-for="item in list">
@@ -190,10 +200,10 @@
             @if(isset($type) && $type === 'collection')
                 <button class="btn btn-primary"><i class="fa fa-plus-circle" style="color: #fff;" aria-hidden="true"></i>&nbsp;添加文集</button>
             @endif
-            <div style="float: right" data-toggle="buttons">
-                <select class="selectpicker" style="background: #606A71;" id="selectCategory" v-model="currentCategory" @change="changeCategory" data-live-search="true">
-                    <option value="0">全部</option>
-                    @foreach($category as $c)<option data-tokens="ketchup mustard" :value="{{$c->id}}">{{ $c->name }}</option>@endforeach
+            <div style="float: right; width: 280px;" data-toggle="buttons">
+                <select class="selectpicker" style="background: #606A71; width: 280px;" id="selectCategory" v-model="currentCategory" @change="changeCategory" data-live-search="true">
+                    <option style="width: 280px;" value="0">全部</option>
+                    @foreach($category as $c)<option style="width: 280px;" data-tokens="ketchup mustard" :value="{{$c->id}}">{{ $c->name }}</option>@endforeach
                 </select>
             </div>
         </div>
@@ -201,18 +211,40 @@
             <div style="padding-top: 15px"></div>
         @endif
 
-        <ul id="paginator" class="pagination"></ul>
+        <div class="operator-line">
+            <ul id="paginator" style="float: left;" class="pagination"></ul>
+            <div class="search">
+                <form>
+                    <div class="form-group" style="width: 200px; height: 30px; margin-top: 3px;margin-left: 3px; float: left">
+                        <input type="text" style="height: 30px;" class="form-control" v-model="searchValue">
+                    </div>
+                    <div
+                        style="cursor: pointer; color: #fff; text-align: center; line-height: 34px; width: 36px; height: 36px; float: right"
+                        @click="clickToRest"
+                    >
+                        <i class="fa fa-reply" style="color: #fff;" aria-hidden="true"></i>
+                    </div>
+                    <div
+                        style="cursor: pointer; color: #fff; text-align: center; line-height: 34px; width: 36px; height: 36px; float: right"
+                        @click="clickToSearch"
+                    >
+                        <i class="fa fa-search" style="color: #fff;" aria-hidden="true"></i>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <div class="list-allens">
             <ul v-if="!showWay" class="list-of-articles">
                 @foreach($articles as $item)
                     <li class="animate__animated animate__fadeIn" style="overflow: hidden; min-height: 50px; height: auto !important;">
                         <i class="fa fa-bookmark" aria-hidden="true"></i>
-                        <a target="_blank" href="/book/show/{{ $item['id']  }}">
-                            {{ $item['title'] }}
-                        </a>
-                        <span style="color: #ccc; font-weight: bold;">
+                        <span style="color: #6699CC; font-weight: bold;">
                             @if(isset($item->categoryName) && $item->categoryName)【{{ $item->categoryName }}】@endif
                         </span>
+                        <a target="_blank" href="/book/show/{{ $item['id']  }}">
+                            <span style="color: #666666;">{{ $item['title'] }}</span>
+                        </a>
                         @if((!isset($type) || !$type) && isset($isLogin) && $isLogin)
                         <div class="element" style="float: right; line-height: 50px; margin-top: 2px; margin-right: 20px;">
                             <a href="javascript:void(0)" @click="clickToDeleteArticle({!! $item['id'] !!})"><i class="fa fa-times" aria-hidden="true"></i></a>
@@ -347,13 +379,14 @@
                 data: {
                     showWay: showWay,
                     currentCategory: '{!! $currentCategory !!}',
-                    showArticleList: false
+                    showArticleList: false,
+                    searchValue: '{!! $searchV !!}'
                 },
                 mounted () {
                     this.showWay = showWay;
                     $('#paginator').jqPaginator({
                         totalPages: parseInt('{!! $visible !!}'),
-                        visiblePages: parseInt('{!! $visibleN !!}'),
+                        visiblePages: 4,
                         currentPage: parseInt('{!! $page !!}'),
                         onPageChange: function (num, type) {
                             if (type !== 'init') window.location = '/article?type={!! $type !!}&page=' + num
@@ -364,6 +397,12 @@
                     }, 600);
                 },
                 methods: {
+                    clickToSearch () {
+                        window.location.href = '/article?type=' + '{!! $type !!}&page=' + '{!! $page !!}' + '&searchValue=' + this.searchValue;
+                    },
+                    clickToRest () {
+                        window.location.href = '/article?type=' + '{!! $type !!}&page=' + '{!! $page !!}';
+                    },
                     clickToToggle: function(e) {
                         this.showWay = e
                     },
