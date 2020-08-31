@@ -39,6 +39,11 @@ class ArticleController extends BasicController
             array_push($where, ['child_category_id', '=', $request->get('category')]);
         }
 
+        // 模糊查询
+        if ($request->get('searchValue')) {
+            array_push($where, ['article.title', 'like', "%{$request->get('searchValue')}%"]);
+        }
+
         $page      = $request->get('page') ?? 1;
         $pageSize  = $request->get('pageSize') ?? env('ARTICLE_PAGE_NUMS', self::$pageSizeN);
 
@@ -80,7 +85,8 @@ class ArticleController extends BasicController
             'pageSize' => $pageSize,
             'total'    => $total ?? 0,
             'visible'  => $vsi,
-            'visibleN' => static::$visibleNums
+            'visibleN' => static::$visibleNums,
+            'searchV'  => $request->get('searchValue') ?? ''
         ]);
     }
 

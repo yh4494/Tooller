@@ -19,6 +19,10 @@
             padding: 15px;
             border: 1px solid #ccc;
             box-shadow: #f3f3f3 2px 2px 2px 2px;
+            background: #fff;
+        }
+        body {
+            background: #f3f3f3;
         }
         .menu a{
         }
@@ -69,7 +73,7 @@
 
 @section('content')
     <div class="menu"></div>
-    <div class="container" style="padding-top: 20px" v-cloak>
+    <div class="container" style="padding-top: 20px; padding-bottom: 20px; background: #fff;" v-cloak>
         <div style="padding: 30px 0 0 0; height: auto">
             <h2 style="text-align: left; margin-bottom: 20px;">{{ isset($article) ? $article->title : ''  }}</h2>
             <hr>
