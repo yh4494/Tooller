@@ -118,6 +118,9 @@
             padding-left: 20px;
         }
         */
+        #real-content ::-webkit-scrollbar{
+            display:none;
+        }
     </style>
 @endsection
 

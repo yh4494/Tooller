@@ -24,4 +24,11 @@ class ModalController extends BasicController
             'currentCategoryId' => $currentCategoryId
         ]);
     }
+
+    public function process(Request $request)
+    {
+        return view('home.modal.add-process', [
+            'pid' => $request->get('pid')
+        ]);
+    }
 }

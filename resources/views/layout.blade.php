@@ -37,7 +37,7 @@
             .test-5::-webkit-scrollbar-thumb {
                 /*滚动条里面小方块*/
                 border-radius   : 10px;
-                background-color: skyblue;
+                background-color: #AFCB80;
                 background-image: -webkit-linear-gradient(
                     45deg,
                     rgba(255, 255, 255, 0.2) 25%,
@@ -52,7 +52,7 @@
             .test-5::-webkit-scrollbar-track {
                 /*滚动条里面轨道*/
                 box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
-                background   : #ededed;
+                background   : #fff;
                 border-radius: 10px;
             }
         </style>

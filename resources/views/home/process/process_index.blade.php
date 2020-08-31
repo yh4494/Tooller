@@ -94,7 +94,7 @@
                     <button type="button" class="btn btn-secondary" @click="clickToShowHistoryProcess">
                         <i class="fa fa-history" style="color: #fff;" aria-hidden="true"></i>
                     </button>
-                    <button type="button" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-secondary" @click="clickToAddChildTask(0)" style="color: #fff;">
+                    <button type="button" data-toggle="modal" class="btn btn-secondary" @click="showAddProcess()" style="color: #fff;">
                         <i class="fa fa-plus" style="color: #fff;" aria-hidden="true"></i>
                     </button>
                 @endif
@@ -114,7 +114,7 @@
                 @{{ item.name }}
                 <a href="javascript:void(0)" style="float: right; margin-right: 5px;  color: #fff;" @click="clickToComplete(item.id)">完成</a>
                 <a style="float: right; margin-right: 5px; cursor: pointer; color: #fff;" @click="clickToGiveup(item.id)">放弃</a>
-                <a style="float: right; margin-right: 5px; cursor: pointer; color: #fff;" @click="clickToAddChildTask(item.id)" data-toggle="modal" data-target="#exampleModalCenter">子任务</a>
+                <a style="float: right; margin-right: 5px; cursor: pointer; color: #fff;" @click="showAddProcess(item.id)">子任务</a>
 
                 <div style="width: 100%; margin-top: 10px; height: 30px; background: #fff; line-height: 30px;padding-left: 5px; box-shadow: #f3f3f3 1px 1px 1px" v-for="i in item.child_process" :class="i.status == 1 ? 'child-done' : ''">
                     <i class="fa fa-circle-o"></i>
@@ -165,64 +165,6 @@
             </div>
         </div>
         @endif
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">添加任务</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form style="margin-top: 15px;">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">标题</label>
-                            <input type="text" v-model="name" class="form-control" name="name" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">描述</label>
-                            <input type="text" v-model="content" class="form-control" name="content" placeholder="">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                    <button type="button" @click="clickToAddProcess()" class="btn btn-primary">保存</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="addChildTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" v-cloak>
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">添加子任务</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form style="margin-top: 15px;">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">标题</label>
-                            <input type="email" v-model="name" class="form-control" name="name" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">描述</label>
-                            <input type="email" v-model="content" class="form-control" name="content" placeholder="">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                    <button type="button" @click="clickToAddProcess()" class="btn btn-primary">保存</button>
-                </div>
-            </div>
-        </div>
     </div>
 @endsection
 
@@ -292,6 +234,23 @@
                 sprint: '{!! isset($sprint) && $sprint ? true : false !!}'
             },
             methods: {
+                showAddProcess (pid = 0) {
+                    layer.open({
+                        title: '',
+                        type: 2,
+                        area: ['40%', '400px'],
+                        fixed: true, //不固定
+                        maxmin: true,
+                        content: '/modal/process?pid=' + pid,
+                        end: function() {
+                            v.requestProcessList();
+                            v.requestProcessMain();
+                            setTimeout(function () {
+                                v.showAlert = false;
+                            }, 1500);
+                        }
+                    });
+                },
                 clickToAddProcess: function () {
                     $.ajax({
                         url:'/process/add',
