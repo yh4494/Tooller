@@ -10,6 +10,9 @@
         <link rel="stylesheet" href="/resources/lib/animate/animate.min.css">
         <link rel="shortcut icon" href="/public/favicon.ico">
         <style type="text/css">
+            * {
+                font-family: "微软雅黑", "宋体", "Sans-Serif";
+            }
             [v-cloak] {
                 display: none;
             }
@@ -24,7 +27,11 @@
                 margin-top: -250px;
             }
             body {
-                background: url("/resources/assets/images/bg00{{ env('BACKGROUND_IMAGE') }}.jpg") repeat;
+                @if(env('SHOW_DA_BACKGROUND') != 'TRUE')
+                    background: url("/resources/assets/images/bg00{{ env('BACKGROUND_IMAGE') }}.jpg") repeat;
+                @else
+                    background: #0B0B04;
+                @endif
             }
             .container {
                 background: #fff;
@@ -59,6 +66,8 @@
     </head>
     <body style="z-index: 10000; @if(explode('_', $route)[0] == 'home') position: absolute; width: 100%; height: 100%; overflow-y: scroll @endif" class="test-5">
         @include('nav')
+
+
         @if(explode('_', $route)[0] == 'home')
             <canvas id="world" style="position: fixed; pointer-events:none; top: 60px; left: 0; z-index: 100;"></canvas>
         @endif
@@ -68,6 +77,21 @@
         <!-- Content here -->
         @yield("content")
         </div>
+
+        @if(env('SHOW_DA_BACKGROUND') == 'TRUE')
+        <main style="position: absolute; z-index: -10000">
+            <div class="content content--canvas">
+{{--                <h2 class="content__title">Helloweba</h2>--}}
+            </div>
+        </main>
+
+        <script src="/resources/lib/cool-background/js/noise.min.js"></script>
+        <script src="/resources/lib/cool-background/js/util.js"></script>
+        <script src="/resources/lib/cool-background/js/coalesce.js"></script>
+        <script>
+            {setTimeout(() => document.body.classList.add('render'), 60);}
+        </script>
+        @endif
     </body>
     <script src="/resources/lib/js/jquery.slim.min.js"></script>
     <script src="/resources/lib/js/jquery-3.3.1.min.js"></script>
@@ -196,6 +220,9 @@
             step();
 
         }).call(this);
+        $(function() {
+            document.documentElement.className="js";var supportsCssVars=function(){var e,t=document.createElement("style");return t.innerHTML="root: { --tmp-var: bold; }",document.head.appendChild(t),e=!!(window.CSS&&window.CSS.supports&&window.CSS.supports("font-weight","var(--tmp-var)")),t.parentNode.removeChild(t),e};supportsCssVars()||alert("Please view this demo in a modern browser that supports CSS Variables.");
+        })
     </script>
     @endif
 </html>

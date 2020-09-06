@@ -122,6 +122,9 @@
                     <a v-if="i.status == 0" style="float: right; margin: 1px 10px 0 0;" href="javascript:void(0)" @click="clickToDoneChildTask(item.id, i.id)" data-toggle="modal" data-target=".bd-example-modal-xl">
                         <i class="fa fa-plus-o" >DONE</i>
                     </a>
+                    <a v-if="i.status == 0" style="float: right; margin: 1px 10px 0 0;" href="javascript:void(0)" @click="clickToShowMind(item.id, i.id)" data-toggle="modal" data-target=".bd-example-modal-xl">
+                        <i class="fa fa-sitemap" ></i>
+                    </a>
                     <a style="float: right; margin: 1px 10px 0 0;" href="javascript:void(0)" @click="clickToDeleteChildTask(item.id, i.id)" data-toggle="modal" data-target=".bd-example-modal-xl">
                         <i class="fa fa-times" aria-hidden="true"></i>
                     </a>
@@ -284,6 +287,16 @@
                 },
                 clickToDoneChildTask (pid, id) {
                     this.clickToComplete(id)
+                },
+                clickToShowMind (pid, id) {
+                    layer.open({
+                        title: '',
+                        type: 2,
+                        area: ['90%', '90%'],
+                        fixed: true, //不固定
+                        maxmin: true,
+                        content: '/tool/mind?is_modal=true&pid=' + pid + '&id=' + id
+                    });
                 },
                 clickToCancelChildTask (pid, id) {
                     this.$http.get('/process/cancel/' + id).then(function(response) {

@@ -58,8 +58,9 @@
             text-align: center;
             line-height: 56px;
             border-bottom: 1px solid #f3f3f3;
-            background: rgb(52, 58, 64);
+            background: #0B0B04;
             color: #fff;
+            opacity: 0.8;
         }
         .allens-slider .title div {
             font-size: 15px !important;
@@ -88,6 +89,7 @@
             text-overflow: ellipsis; /* 本功能的主要功臣，超出部分的剪裁方式 */
             -o-text-overflow: ellipsis; /* 特定浏览器前缀 */
             text-decoration: none; /* 无用 */
+            background: #fff;
         }
         .right-bar {
             position: fixed;
@@ -214,23 +216,21 @@
         <div class="operator-line">
             <ul id="paginator" style="float: left;" class="pagination"></ul>
             <div class="search">
-                <form>
-                    <div class="form-group" style="width: 200px; height: 30px; margin-top: 3px;margin-left: 3px; float: left">
-                        <input type="text" style="height: 30px;" class="form-control" v-model="searchValue">
-                    </div>
-                    <div
-                        style="cursor: pointer; color: #fff; text-align: center; line-height: 34px; width: 36px; height: 36px; float: right"
-                        @click="clickToRest"
-                    >
-                        <i class="fa fa-reply" style="color: #fff;" aria-hidden="true"></i>
-                    </div>
-                    <div
-                        style="cursor: pointer; color: #fff; text-align: center; line-height: 34px; width: 36px; height: 36px; float: right"
-                        @click="clickToSearch"
-                    >
-                        <i class="fa fa-search" style="color: #fff;" aria-hidden="true"></i>
-                    </div>
-                </form>
+                <div class="form-group" style="width: 200px; height: 30px; margin-top: 3px;margin-left: 3px; float: left">
+                    <input type="text" style="height: 30px;" placeholder="请输入查询内容" class="form-control" v-model="searchValue">
+                </div>
+                <div
+                    style="cursor: pointer; color: #fff; text-align: center; line-height: 34px; width: 36px; height: 36px; float: right"
+                    @click="clickToRest"
+                >
+                    <i class="fa fa-reply" style="color: #fff;" aria-hidden="true"></i>
+                </div>
+                <div
+                    style="cursor: pointer; color: #fff; text-align: center; line-height: 34px; width: 36px; height: 36px; float: right"
+                    @click="clickToSearch"
+                >
+                    <i class="fa fa-search" style="color: #fff;" aria-hidden="true"></i>
+                </div>
             </div>
         </div>
 

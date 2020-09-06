@@ -47,6 +47,7 @@ Route::group(['middleware' => ['web', 'login']], function () {
     Route::prefix('tool')->group(function () {
         Route::get('/time',              'Tool\TimeToolController@index');
         Route::get('/crypt',             'Tool\TimeToolController@crypt');
+        Route::get('/mind',              'Tool\ToollerController@mind');
     });
 
     Route::prefix('book')->group(function () {

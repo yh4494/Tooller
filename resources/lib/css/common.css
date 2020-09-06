@@ -117,8 +117,8 @@ ol {
     left: 0;
     top: 0;
     bottom: 0;
-    background: #fff;
-    border-right: 1px solid #666666;
+    /*background: #fff;*/
+    /*border-right: 1px solid #666666;*/
     z-index: 10002;
     /*box-shadow: #f3f3f3 1px 1px 1px 1px;*/
 }
