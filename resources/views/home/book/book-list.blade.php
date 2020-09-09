@@ -128,6 +128,9 @@
         .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
             width: 280px;
         }
+        .description img {
+            width: 100% !important;
+        }
     </style>
 @endsection
 
@@ -252,7 +255,7 @@
                             </a>
                         </div>
                         @endif
-                        <div v-if="showArticleList" style="width: 100%;color: #cccc; font-size: 12px !important; line-height: normal; padding-bottom: 10px;" class="desc-content">
+                        <div v-if="showArticleList" class="description" style="width: 100%;color: #cccc; font-size: 12px !important; line-height: normal; padding-bottom: 10px; padding-right: 10px;" class="desc-content">
                             {!! $item->description !!}
                         </div>
                     </li>
