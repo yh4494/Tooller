@@ -52,15 +52,16 @@
             box-shadow: #f3f3f3 2px 2px 2px;
         }
         .allens-slider .title {
-            width: 100%;
+            width: 200px;
             height: 57px;
             font-weight: bold;
             text-align: center;
             line-height: 56px;
             border-bottom: 1px solid #f3f3f3;
-            background: #0B0B04;
+            background: #0E0E05;
             color: #fff;
-            opacity: 0.8;
+            // opacity: 0.8;
+            position: fixed;
         }
         .allens-slider .title div {
             font-size: 15px !important;
@@ -133,49 +134,49 @@
         .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
             width: 280px;
         }
-        .description img {
-            width: 100% !important;
-        }
     </style>
 @endsection
 
 @section('exclude')
     @if(isset($isLogin) && $isLogin)
-    <div id="real-content" style="width: auto; height: auto" v-cloak>
+    <div id="real-content" style="width: auto; height: auto;" v-cloak>
         <div class="right-bar animate__animated animate__fadeIn" @click="clickToHiddenBox">
             <i v-if="hiddenBox"   style="color: #fff;" class="fa fa-angle-right" aria-hidden="true"></i>
             <i v-else="hiddenBox" style="color: #fff;" class="fa fa-angle-left" aria-hidden="true"></i>
         </div>
-        <div class="allens-slider test-5 animate__animated animate__fadeIn" style="overflow-y: auto; overflow-x: hidden">
+        <div class="allens-slider test-5 animate__animated animate__fadeIn" style="overflow-y: auto;  overflow-x: hidden">
             <div class="title">
                 <div style="width: 50%; float: left" @click="clickToShowCategory"><i style="color: #fff;" class="fa fa-th-large" aria-hidden="true"></i>&nbsp;添加分类</div>
                 <div style="width: 50%; float: left" v-if="showLinksChild" @click="clickToAddMark" data-toggle="modal" data-target="#exampleModalCenter"><i style="color: #fff;" class="fa fa-bookmark" aria-hidden="true"></i>&nbsp;添加书签</div>
             </div>
-            <div class="element">
-                <div style="float: left; padding-left: 5px">
-                    @{{ currentCategoryName || '全部' }}
-                </div>
-                <div style="float: right; padding-right: 5px;" @click="clickToBack" v-if="showLinksChild">
-                    <i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;返回
-                </div>
-            </div>
-            <template v-if="!showLinksChild">
-                @foreach($category as $item)
-                    <div class="element" @click="clickToShowLinks('{{ $item->id }}', '{{ $item->name }}')">
-                        <i style="color: #2D3338" class="fa fa-folder" aria-hidden="true"></i>&nbsp;{{ $item['name'] }}
+            <div style="margin-top: 56px;">
+                <div class="element">
+                    <div style="float: left; padding-left: 5px">
+                        @{{ currentCategoryName || '全部' }}
                     </div>
-                @endforeach
-                <div class="element" v-for="item in list">
-                    <i class="fa fa-link" aria-hidden="true"></i>&nbsp;
-                    <a href="javascript:void(0)" @click="clickToJumping('http://www.163.com')">@{{ item.name }}</a>
+                    <div style="float: right; padding-right: 5px;" @click="clickToBack" v-if="showLinksChild">
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;返回
+                    </div>
                 </div>
-            </template>
-            <template v-else>
-                <div class="element" v-for="item in list">
-                    <i class="fa fa-link" aria-hidden="true"></i>&nbsp;
-                    <a href="javascript:void(0)" @click="clickToJumping(item.address)">@{{ item.name }}</a>
-                </div>
-            </template>
+                <template v-if="!showLinksChild">
+                    @foreach($category as $item)
+                        <div class="element" @click="clickToShowLinks('{{ $item->id }}', '{{ $item->name }}')">
+                            <i style="color: #2D3338" class="fa fa-folder" aria-hidden="true"></i>&nbsp;{{ $item['name'] }}
+                        </div>
+                    @endforeach
+                    <div class="element" v-for="item in list">
+                        <i class="fa fa-link" aria-hidden="true"></i>&nbsp;
+                        <a href="javascript:void(0)" @click="clickToJumping('http://www.163.com')">@{{ item.name }}</a>
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="element" v-for="item in list">
+                        <i class="fa fa-link" aria-hidden="true"></i>&nbsp;
+                        <a href="javascript:void(0)" @click="clickToJumping(item.address)">@{{ item.name }}</a>
+                    </div>
+                </template>
+            </div>
+            <div style="height: 100%; position: absolute; top: 0; z-index: -10000; width: 100%; background: #fff;"></div>
         </div>
     </div>
     @endif
@@ -240,7 +241,7 @@
         <div class="list-allens">
             <ul v-if="!showWay" class="list-of-articles">
                 @foreach($articles as $item)
-                    <li class="animate__animated animate__fadeIn" style="overflow: hidden; min-height: 50px; height: auto !important;">
+                    <li class="animate__animated animate__fadeIn" style="overflow: hidden; min-height: 50px; height: auto !important; padding-right: 10px;">
                         <i class="fa fa-bookmark" aria-hidden="true"></i>
                         <span style="color: #6699CC; font-weight: bold;">
                             @if(isset($item->categoryName) && $item->categoryName)【{{ $item->categoryName }}】@endif
@@ -258,7 +259,7 @@
                             </a>
                         </div>
                         @endif
-                        <div v-if="showArticleList" class="description" style="width: 100%;color: #cccc; font-size: 12px !important; line-height: normal; padding-bottom: 10px; padding-right: 10px;" class="desc-content">
+                        <div v-if="showArticleList" class="description desc-content" style="width: 100%; overflow: hidden; color: #cccc; font-size: 12px !important; line-height: normal; padding-bottom: 10px; padding-right: 10px;">
                             {!! $item->description !!}
                         </div>
                     </li>
