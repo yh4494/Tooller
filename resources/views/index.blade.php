@@ -10,6 +10,9 @@
             width: auto !important;
             padding: 0px 10px;
         }
+        body {
+            background: #0B0B04;
+        }
     </style>
 @endsection
 

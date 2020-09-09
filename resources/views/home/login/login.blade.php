@@ -8,6 +8,9 @@
             margin: 0 auto;
             margin-top: 100px;
         }
+        * {
+            color: #fff;
+        }
     </style>
 @endsection
 
@@ -52,10 +55,27 @@
             </form>
         </div>
     </div>
+    @if(env('SHOW_DA_BACKGROUND') == 'TRUE')
+        <main style="position: absolute; z-index: -10000">
+            <div class="content content--canvas">
+                {{--                <h2 class="content__title">Helloweba</h2>--}}
+            </div>
+        </main>
+
+        <script src="/resources/lib/cool-background/js/noise.min.js"></script>
+        <script src="/resources/lib/cool-background/js/util.js"></script>
+        <script src="/resources/lib/cool-background/js/coalesce.js"></script>
+        <script>
+            {setTimeout(() => document.body.classList.add('render'), 60);}
+        </script>
+    @endif
 @endsection
 
 @section('footer')
     <script>
+        $(function() {
+            document.documentElement.className="js";var supportsCssVars=function(){var e,t=document.createElement("style");return t.innerHTML="root: { --tmp-var: bold; }",document.head.appendChild(t),e=!!(window.CSS&&window.CSS.supports&&window.CSS.supports("font-weight","var(--tmp-var)")),t.parentNode.removeChild(t),e};supportsCssVars()||alert("Please view this demo in a modern browser that supports CSS Variables.");
+        })
         new Vue({
             el: '#content-login',
             data: {
