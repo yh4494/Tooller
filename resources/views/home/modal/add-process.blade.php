@@ -7,7 +7,7 @@
 @section('content')
     <div class="container" style="padding: 40px 20px;">
         <form>
-            <h3>创建分类</h3>
+            <h3>创建任务</h3>
             <hr>
             <div class="form-group">
                 <label for="exampleInputEmail1">任务名称</label>
