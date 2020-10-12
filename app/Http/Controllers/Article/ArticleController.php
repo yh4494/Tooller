@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Validator;
 
 class ArticleController extends BasicController
 {
-    private static $visibleNums = 10;
+    private static $visibleNums = 20;
 
-    private static $pageSizeN   = 10;
+    private static $pageSizeN   = 20;
 
     public function index()
     {

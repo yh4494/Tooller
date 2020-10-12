@@ -67,6 +67,7 @@ Route::group(['middleware' => ['web', 'login']], function () {
         Route::post('/add',              'Process\ProcessController@add');
         Route::get('/main',              'Process\ProcessController@mainProcess');
         Route::get('/change-status',     'Process\ProcessController@changeStatus');
+        Route::get('/today-task',        'Process\ProcessController@todayTask');
     });
 
     Route::prefix('modal')->group(function() {

@@ -110,6 +110,31 @@
         </div>
         @if(!isset($sprint) || !$sprint)
         <div style="width: 100%;" v-cloak>
+            <div  class="animate__animated animate__fadeIn" style="width: 100%; background: #993333; margin-bottom: 5px; color: #fff;padding: 10px; border-radius: 8px;">
+                今日任务
+                <div style="width: 100%; margin-top: 10px; height: 30px; background: #fff; line-height: 30px;padding-left: 5px; box-shadow: #f3f3f3 1px 1px 1px" v-for="i in today" :class="i.status == 1 ? 'child-done' : ''">
+                    <i class="fa fa-circle-o"></i>
+                    <span>@{{ i.name }}</span>
+                    <a v-if="i.status == 0" style="float: right; margin: 1px 10px 0 0;" href="javascript:void(0)" @click="clickToDoneChildTask(i.pid, i.id)" data-toggle="modal" data-target=".bd-example-modal-xl">
+                        <i class="fa fa-plus-o" >DONE</i>
+                    </a>
+                    <a v-if="i.status == 0" style="float: right; margin: 1px 10px 0 0;" href="javascript:void(0)" @click="clickToShowMind(i.pid, i.id)" data-toggle="modal" data-target=".bd-example-modal-xl">
+                        <i class="fa fa-sitemap" ></i>
+                    </a>
+                    <a style="float: right; margin: 1px 10px 0 0;" href="javascript:void(0)" @click="clickToDeleteChildTask(i.pid, i.id)" data-toggle="modal" data-target=".bd-example-modal-xl">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </a>
+                    <a v-if="i.status == 1" style="float: right; margin: 1px 10px 0 0;" href="javascript:void(0)" @click="clickToCancelChildTask(i.pid, i.id)" data-toggle="modal" data-target=".bd-example-modal-xl">
+                        <i class="fa fa-reply" aria-hidden="true"></i>
+                    </a>
+                    <a style="float: right; margin: 2px 10px 0 0;" href="javascript:void(0)" @click="clickToAddArticle(i.pid, i.id)" data-toggle="modal" data-target=".bd-example-modal-xl">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                    <a v-if="i.article !== null" style="float: right; margin: 1px 10px 0 0;" href="javascript:void(0)" @click="clickToAddArticle(i.pid, i.id, true)" data-toggle="modal" data-target=".bd-example-modal-xl">
+                        <i class="fa fa-book" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
             <div v-for="item in listData" :style="item.status == 0 ? 'background: #666666;' : 'background:#99CC33;' " class="animate__animated animate__fadeIn" style="width: 100%; background: #28a745; margin-bottom: 5px; color: #fff;padding: 10px; border-radius: 8px;">
                 @{{ item.name }}
                 <a href="javascript:void(0)" style="float: right; margin-right: 5px;  color: #fff;" @click="clickToComplete(item.id)">完成</a>
@@ -234,7 +259,8 @@
                 parentId: 0,
                 currentPid: 0,
                 history: false,
-                sprint: '{!! isset($sprint) && $sprint ? true : false !!}'
+                sprint: '{!! isset($sprint) && $sprint ? true : false !!}',
+                today: []
             },
             methods: {
                 showAddProcess (pid = 0) {
@@ -339,6 +365,11 @@
                         this.listData = response.body.data;
                     });
                 },
+                requestTodayList: function (pid) {
+                    this.$http.get('/process/today-task').then( function(response) {
+                        this.today = response.body.data;
+                    });
+                },
                 requestProcessMain: function () {
                     this.$http.get('/process/main').then( function(response) {
                         console.log(response.body);
@@ -397,6 +428,7 @@
             mounted: function () {
                 this.requestProcessList(null);
                 this.requestProcessMain();
+                this.requestTodayList()
                 init();
             }
         })

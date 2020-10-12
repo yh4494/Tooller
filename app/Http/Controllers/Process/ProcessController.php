@@ -12,6 +12,21 @@ use Illuminate\Support\Facades\Validator;
 
 class ProcessController extends BasicController
 {
+    /**
+     * 今日任务
+     * @param Request $request
+     * @return false|string
+     */
+    public function todayTask(Request $request)
+    {
+        $process = Process::select('*')->with('article')->where([
+            ['pid', '!=', 0],
+            ['create_at', '>', strtotime(date('ymd', time())) - 24 * 60 * 60],
+            ['create_at', '<', strtotime(date('ymd', time())) + 24 * 60 * 60]
+        ])->get();
+        return JsonTooller::data(0, '返回成功', $process->toArray());
+    }
+
     public function index(Request $request)
     {
         $process = null;
