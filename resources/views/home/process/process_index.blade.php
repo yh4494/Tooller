@@ -110,7 +110,7 @@
         </div>
         @if(!isset($sprint) || !$sprint)
         <div style="width: 100%;" v-cloak>
-            <div  class="animate__animated animate__fadeIn" style="width: 100%; background: #993333; margin-bottom: 5px; color: #fff;padding: 10px; border-radius: 8px;">
+            <div  class="animate__animated animate__fadeIn" style="width: 100%; background: #000; margin-bottom: 5px; color: #fff;padding: 10px; border-radius: 8px;">
                 今日任务
                 <div style="width: 100%; margin-top: 10px; height: 30px; background: #fff; line-height: 30px;padding-left: 5px; box-shadow: #f3f3f3 1px 1px 1px" v-for="i in today" :class="i.status == 1 ? 'child-done' : ''">
                     <i class="fa fa-circle-o"></i>
