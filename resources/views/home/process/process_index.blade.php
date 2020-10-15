@@ -62,6 +62,10 @@
         .title-flex:first-child {
             padding-left: 0;
         }
+        #hover-class :hover {
+            background: #ccc;
+            color: #fff;
+        }
     </style>
     <link rel="stylesheet" href="/resources/lib/css/jquery-ui-git.css" rel="external nofollow" >
 @endsection
@@ -110,7 +114,7 @@
         </div>
         @if(!isset($sprint) || !$sprint)
         <div style="width: 100%;" v-cloak>
-            <div  class="animate__animated animate__fadeIn" style="width: 100%; background: #000; margin-bottom: 5px; color: #fff;padding: 10px; border-radius: 8px;">
+            <div class="animate__animated animate__fadeIn" style="width: 100%; background: #0B0B04; margin-bottom: 5px; color: #fff;padding: 10px; border-radius: 8px;">
                 今日任务
                 <div style="width: 100%; margin-top: 10px; height: 30px; background: #fff; line-height: 30px;padding-left: 5px; box-shadow: #f3f3f3 1px 1px 1px" v-for="i in today" :class="i.status == 1 ? 'child-done' : ''">
                     <i class="fa fa-circle-o"></i>
@@ -364,6 +368,7 @@
                         console.log(response.body);
                         this.listData = response.body.data;
                     });
+                    this.requestTodayList()
                 },
                 requestTodayList: function (pid) {
                     this.$http.get('/process/today-task').then( function(response) {
