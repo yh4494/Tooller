@@ -17,6 +17,8 @@ class UploadController extends BasicController
      */
     public function upload(Request $request)
     {
+        echo $request->get('markInput');
+        exit;
         $fileCharater = $request->file('file');
         if ($fileCharater->isValid()) { // 括号里面的是必须加的哦
             //如果括号里面的不加上的话，下面的方法也无法调用的
@@ -32,7 +34,8 @@ class UploadController extends BasicController
 
             $book = new Book();
             $book->book_name = str_replace('.' . $ext, '', $filennameOrigin);
-            $book->pdf_url = '/storage/app/public/' . $filename;
+            $book->pdf_url   = '/storage/app/public/' . $filename;
+            $book->mark      = $request->get('markInput');
             $book->save();
 
             //存储文件。disk里面的public。总的来说，就是调用disk模块里的public配置

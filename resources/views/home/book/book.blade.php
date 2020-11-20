@@ -29,6 +29,12 @@
 @section('content')
     <div class="container" style="background: #fff; padding-bottom: 20px;" v-cloak>
         <div id="wrapper" v-show="showUploader">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">书籍分类</span>
+                </div>
+                <input type="text" class="form-control" id="markInput" placeholder="请输入书籍的分类，未指定将会置为未定义分类" aria-label="Dollar amount (with dot and two decimal places)">
+            </div>
             <!--头部，相册选择和格式选择-->
             <div id="uploader">
                 <div class="queueList">
@@ -58,12 +64,20 @@
                 </label>
             </div>
             <div class="book-content" style="padding-top: 15px;">
-                <div class="card" :style="'width: 250px; margin-bottom: 10px;' + (item.hidden ? '' : 'box-shadow: #ccc 2px 2px 2px;')" v-for="item in mainData">
-                    <img :src="!item.hidden ? '/resources/assets/images/random00' + item.id % 6 + '.jpeg' : ''" v-show="!item.hidden" style="cursor: pointer" @click="clickToShowBook(item.pdf_url)" class="card-img-top" alt="...">
-                    <div class="card-body" v-show="!item.hidden">
-                        <h5 class="card-title">@{{item.book_name}}</h5>
+                <template v-for="(i, key) in mainData">
+                    <div style="width: 100%">
+                        <h4 style="font-weight: bold; background: #ccc; padding: 10px 0 10px 10px"><i class="fa fa-bookmark" aria-hidden="true"></i>&nbsp;&nbsp;@{{ key }}</h4>
                     </div>
-                </div>
+                    <template v-for="item in i">
+                        <div class="card" :style="'width: 250px; margin-bottom: 10px;' + (item.hidden ? '' : 'box-shadow: #ccc 2px 2px 2px;')" >
+                            <img :src="!item.hidden ? '/resources/assets/images/random00' + item.id % 6 + '.jpeg' : ''" v-show="!item.hidden" style="cursor: pointer" @click="clickToShowBook(item.pdf_url)" class="card-img-top" alt="...">
+                            <div class="card-body" v-show="!item.hidden">
+                                <h5 class="card-title">@{{item.book_name}}</h5>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+
             </div>
         </div>
     </div>

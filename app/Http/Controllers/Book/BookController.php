@@ -13,6 +13,13 @@ class BookController extends BasicController
     public function index()
     {
         $books = Book::where([['user_id', '=', $this->user->id]])->get();
-        return JsonTooller::data(0, '返回成功', $books->toArray());
+        $tempArr = [];
+        foreach ($books as $item) {
+            if (empty($item->mark)) {
+                $item->mark = '未定义';
+            }
+            $tempArr[$item->mark][] = $item;
+        }
+        return JsonTooller::data(0, '返回成功', $tempArr);
     }
 }

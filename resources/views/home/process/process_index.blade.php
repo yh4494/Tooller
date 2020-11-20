@@ -85,15 +85,6 @@
                     @endif
                 </button>
                 @if(isset($sprint) && $sprint)
-{{--                    <button type="button" class="btn btn-secondary" @click="clickToShowSprint(0)">--}}
-{{--                        未开始--}}
-{{--                    </button>--}}
-{{--                    <button type="button" class="btn btn-secondary" @click="clickToShowSprint(2)">--}}
-{{--                        进行中--}}
-{{--                    </button>--}}
-{{--                    <button type="button" class="btn btn-secondary" @click="clickToShowSprint(1)">--}}
-{{--                        已完成--}}
-{{--                    </button>--}}
                 @else
                     <button type="button" class="btn btn-secondary" @click="clickToShowHistoryProcess">
                         <i class="fa fa-history" style="color: #fff;" aria-hidden="true"></i>
@@ -114,7 +105,7 @@
         </div>
         @if(!isset($sprint) || !$sprint)
         <div style="width: 100%;" v-cloak>
-            <div class="animate__animated animate__fadeIn" style="width: 100%; background: #0B0B04; margin-bottom: 5px; color: #fff;padding: 10px; border-radius: 8px;">
+            <div class="animate__animated animate__fadeIn" style="background: #0B0B04;width: 100%;margin-bottom: 5px; color: #fff; font-weight: bold; padding: 10px; border-radius: 8px;">
                 今日任务
                 <div style="width: 100%; margin-top: 10px; height: 30px; background: #fff; line-height: 30px;padding-left: 5px; box-shadow: #f3f3f3 1px 1px 1px" v-for="i in today" :class="i.status == 1 ? 'child-done' : ''">
                     <i class="fa fa-circle-o"></i>
@@ -139,7 +130,7 @@
                     </a>
                 </div>
             </div>
-            <div v-for="item in listData" :style="item.status == 0 ? 'background: #666666;' : 'background:#99CC33;' " class="animate__animated animate__fadeIn" style="width: 100%; background: #28a745; margin-bottom: 5px; color: #fff;padding: 10px; border-radius: 8px;">
+            <div v-for="item in listData" :style="item.status == 0 ? 'background: #6E757C;' : 'background:#99CC33;' " class="animate__animated animate__fadeIn" style="width: 100%; background: #28a745; margin-bottom: 5px; color: #fff;padding: 10px; border-radius: 8px;">
                 @{{ item.name }}
                 <a href="javascript:void(0)" style="float: right; margin-right: 5px;  color: #fff;" @click="clickToComplete(item.id)">完成</a>
                 <a style="float: right; margin-right: 5px; cursor: pointer; color: #fff;" @click="clickToGiveup(item.id)">放弃</a>

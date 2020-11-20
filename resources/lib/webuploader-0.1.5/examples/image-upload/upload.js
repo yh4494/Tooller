@@ -5,7 +5,8 @@
             el: '.container',
             data: {
                 mainData: [],
-                showUploader: false
+                showUploader: false,
+                mark: ''
             },
             mounted: function () {
                 this.requestBookList();
@@ -14,14 +15,18 @@
                 requestBookList() {
                     this.$http.get('/api/books').then( function(response) {
                         this.mainData = response.body.data;
-                        if (this.mainData.length % 4 !== 0) {
-                            while (true) {
-                                this.mainData.push({ 'hidden': true });
-                                if (this.mainData.length % 4 === 0) {
-                                    break;
+                        var mainTempData = []
+                        Object.values(this.mainData).forEach(function (e) {
+                            if (e.length % 4 !== 0) {
+                                while (true) {
+                                    e.push({ 'hidden': true });
+                                    if (e.length % 4 === 0) {
+                                        break;
+                                    }
                                 }
                             }
-                        }
+                        })
+                        console.log(this.mainData)
                     });
                 },
                 clickToShowUploader () {
@@ -468,6 +473,8 @@
                     break;
 
                 case 'ready':
+                    uploader.options.formData.mark = $('#markInput').val()
+                    console.log(uploader.options.formData)
                     $placeHolder.addClass( 'element-invisible' );
                     $( '#filePicker2' ).removeClass( 'element-invisible');
                     $queue.show();
@@ -490,6 +497,8 @@
                     $progress.hide();
                     $( '#filePicker2' ).removeClass( 'element-invisible' );
                     $upload.text( '开始上传' );
+                    uploader.options.formData.mark = $('#markInput').val()
+                    console.log(uploader.options.formData)
 
                     stats = uploader.getStats();
                     if ( stats.successNum && !stats.uploadFailNum ) {

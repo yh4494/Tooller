@@ -51,6 +51,43 @@
             </a>
         </div>
 
+        <div style="width: 100%; clear: both;">
+            <div class="rel-title" style="width: 200px; float: left"><div></div>推荐文章</div>
+            <div style="clear: both"></div>
+            <div style="width: 100%">
+                <div class="card" style="width: 250px; float: left; margin-right: 26px;">
+                    <img src="/resources/assets/images/random001.jpeg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+                <div class="card" style="width: 250px; float: left; margin-right: 26px;">
+                    <img src="/resources/assets/images/random002.jpeg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+                <div class="card" style="width: 250px; float: left; margin-right: 26px;">
+                    <img src="/resources/assets/images/random003.jpeg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+                <div class="card" style="width: 250px; float: left;">
+                    <img src="/resources/assets/images/random004.jpeg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="clear: both"></div>
+
         <div style="width: 100%">
             <div class="rel-title" style="width: 200px; float: left"><div></div>文章推荐</div>
             <div style="float: right; width: 100px; text-align: right; line-height: 50px"><i class="fa fa-bars" aria-hidden="true"></i>&nbsp;<a style="color: #666666;" href="/article">更多</a></div>

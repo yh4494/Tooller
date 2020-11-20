@@ -91,6 +91,8 @@
             -o-text-overflow: ellipsis; /* 特定浏览器前缀 */
             text-decoration: none; /* 无用 */
             background: #fff;
+            color:#666;
+            font-weight: bold;
         }
         .right-bar {
             position: fixed;
@@ -241,13 +243,13 @@
         <div class="list-allens">
             <ul v-if="!showWay" class="list-of-articles">
                 @foreach($articles as $item)
-                    <li class="animate__animated animate__fadeIn" style="overflow: hidden; min-height: 50px; height: auto !important; padding-right: 10px;">
+                    <li class="animate__animated animate__fadeIn" style="overflow: hidden; min-height: 50px; height: auto !important; padding-right: 10px; padding-bottom: 10px;">
                         <i class="fa fa-bookmark" aria-hidden="true"></i>
                         <span style="color: #6699CC; font-weight: bold;">
                             @if(isset($item->categoryName) && $item->categoryName)【{{ $item->categoryName }}】@endif
                         </span>
                         <a target="_blank" href="/book/show/{{ $item['id']  }}">
-                            <span style="color: #666666;">{{ $item['title'] }}</span>
+                            <span style="color: #666666; font-weight: bold;">{{ $item['title'] }}</span>
                         </a>
                         @if((!isset($type) || !$type) && isset($isLogin) && $isLogin)
                         <div class="element" style="float: right; line-height: 50px; margin-top: 2px; margin-right: 20px;">
@@ -259,7 +261,7 @@
                             </a>
                         </div>
                         @endif
-                        <div v-if="showArticleList" class="description desc-content" style="width: 100%; overflow: hidden; color: #cccc; font-size: 12px !important; line-height: normal; padding-bottom: 10px; padding-right: 10px;">
+                        <div v-if="showArticleList" class="description desc-content" style="max-height: 300px; width: 100%; overflow: hidden; color: #ccc; font-size: 12px !important; line-height: normal; padding-bottom: 10px; padding-right: 10px;">
                             {!! $item->description !!}
                         </div>
                     </li>
@@ -301,7 +303,8 @@
                         desc: '',
                         pid: '1'
                     },
-                    hiddenBox: false
+                    hiddenBox: false,
+
                 },
                 mounted () {
                     if (localStorage.getItem('hiddenLeftSlider')) {
@@ -309,6 +312,8 @@
                         $('.allens-slider').css({'left': '-200px'})
                         $('.right-bar').css({'left': '0'})
                     }
+                },
+                activated: function () {
                 },
                 methods: {
                     clickToJumping(url) {
