@@ -9,7 +9,7 @@
             margin-top: 100px;
         }
         * {
-            color: #fff;
+            color: #000;
         }
     </style>
 @endsection
@@ -25,7 +25,7 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">密码</label>
-                    <input type="password" class="form-control" v-model="formData.password" id="exampleInputPassword1" placeholder="密码">
+                    <input type="password" @keyup.enter="clickToShowReg(false)" class="form-control" v-model="formData.password" id="exampleInputPassword1" placeholder="密码">
                 </div>
                 <button type="button" class="btn btn-primary" @click="clickToShowReg(false)">登录</button>
                 <a href="javascript:void(0)" style="float: right; margin-top: 18px;"  @click="clickToShowReg(true)">注册</a>

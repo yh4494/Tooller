@@ -223,7 +223,7 @@
             <ul id="paginator" style="float: left;" class="pagination"></ul>
             <div class="search">
                 <div class="form-group" style="width: 200px; height: 30px; margin-top: 3px;margin-left: 3px; float: left">
-                    <input type="text" style="height: 30px;" placeholder="请输入查询内容" class="form-control" v-model="searchValue">
+                    <input type="text" style="height: 30px;" @keyup.enter="clickToSearch" placeholder="请输入查询内容" class="form-control" v-model="searchValue">
                 </div>
                 <div
                     style="cursor: pointer; color: #fff; text-align: center; line-height: 34px; width: 36px; height: 36px; float: right"
@@ -261,7 +261,7 @@
                             </a>
                         </div>
                         @endif
-                        <div v-if="showArticleList" class="description desc-content" style="max-height: 300px; width: 100%; overflow: hidden; color: #ccc; font-size: 12px !important; line-height: normal; padding-bottom: 10px; padding-right: 10px;">
+                        <div v-if="showArticleList" class="description desc-content" style="max-height:500px; width: 100%; overflow: hidden; color: #ccc; font-size: 12px !important; line-height: normal; padding-bottom: 10px; padding-right: 10px;">
                             {!! $item->description !!}
                         </div>
                     </li>

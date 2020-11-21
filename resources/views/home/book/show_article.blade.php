@@ -74,7 +74,7 @@
 @section('content')
     <div class="menu"></div>
     <div class="container" style="padding-top: 20px; padding-bottom: 20px; background: #fff;" v-cloak>
-        <div style="padding: 30px 0 0 0; height: auto">
+        <div style="padding: 30px 0 0 20px; height: auto">
             <h2 style="text-align: left; margin-bottom: 20px;">{{ isset($article) ? $article->title : ''  }}</h2>
             <hr>
             <div style="margin-bottom: 20px;">

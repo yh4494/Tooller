@@ -10,6 +10,7 @@ use App\Model\Category;
 use App\Model\Collect;
 use App\Model\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ArticleController extends BasicController
@@ -41,7 +42,8 @@ class ArticleController extends BasicController
 
         // 模糊查询
         if ($request->get('searchValue')) {
-            array_push($where, ['article.title', 'like', "%{$request->get('searchValue')}%"]);
+            $lowerSearchStr = strtolower($request->get('searchValue'));
+            array_push($where, [DB::raw('lower(t_article.title)'), 'like', "%{$lowerSearchStr}%"]);
         }
 
         $page      = $request->get('page') ?? 1;

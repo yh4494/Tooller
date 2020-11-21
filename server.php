@@ -7,6 +7,9 @@
  * @author   Taylor Otwell <taylor@laravel.com>
  */
 
+header('Access-Control-Allow-Origin:*');        //允许所有来源访问
+header('Access-Control-Allow-Method:POST,GET'); //允许访问的方式
+
 $uri = urldecode(
     parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
 );
