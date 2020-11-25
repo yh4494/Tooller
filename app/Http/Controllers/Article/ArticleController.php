@@ -35,12 +35,12 @@ class ArticleController extends BasicController
     public function goodArticles(Request $request)
     {
         $count     = Mark::select('id')->count();
-        $randomNum = Cache::get('RANMDOM_NUM', 0);
-        $seeds = random_int(1, intval($count / 10));
+        $randomNum = Cache::get('RANMDOM_NUM');
+        $seeds     = random_int(1, intval($count / 10));
         while($randomNum == $seeds) {
             $seeds = random_int(1, intval($count / 10));
         }
-        Cache::put('RANMDOM_NUM', $seeds);
+        Cache::put('RANMDOM_NUM', $seeds, 1);
         $marks = Mark::select('*')->offset($seeds * 10)->limit(10)->get();
         return JsonTooller::successData($marks->toArray());
     }
