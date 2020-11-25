@@ -11,47 +11,54 @@
         * {
             color: #000;
         }
+        body {
+            @if(env('SHOW_DA_BACKGROUND') != 'TRUE')
+                    background: url("/resources/assets/images/bg00{{ env('BACKGROUND_IMAGE') }}.jpg") repeat;
+            @else
+                background: #0B0B04;
+            @endif
+        }
     </style>
 @endsection
 
 @section('content')
     <div id="content-login" v-cloak>
         <div class="input-select" v-if="!isReg">
-            <h5 style="margin-bottom: 20px;">登录Tooller</h5>
+            <h5 style="margin-bottom: 20px; color: #fff;">登录Tooller</h5>
             <form>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">账号</label>
+                    <label for="exampleInputEmail1" style="color: #fff;">账号</label>
                     <input type="text" class="form-control" v-model="formData.name" placeholder="请输入账号">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">密码</label>
+                    <label for="exampleInputPassword1" style="color: #fff;">密码</label>
                     <input type="password" @keyup.enter="clickToShowReg(false)" class="form-control" v-model="formData.password" id="exampleInputPassword1" placeholder="密码">
                 </div>
                 <button type="button" class="btn btn-primary" @click="clickToShowReg(false)">登录</button>
-                <a href="javascript:void(0)" style="float: right; margin-top: 18px;"  @click="clickToShowReg(true)">注册</a>
+                <a href="javascript:void(0)" style="float: right; margin-top: 18px; color: #fff;"  @click="clickToShowReg(true)">注册</a>
             </form>
         </div>
         <div class="input-select" v-if="isReg" v-cloak>
-            <h5 style="margin-bottom: 20px;">注册Tooller</h5>
+            <h5 style="margin-bottom: 20px; color: #fff;">注册Tooller</h5>
             <form>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">账号</label>
+                    <label for="exampleInputEmail1" style="color: #fff;">账号</label>
                     <input type="email" v-model="formData.name" class="form-control" placeholder="请输入账号">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">邮箱</label>
+                    <label for="exampleInputEmail1" style="color: #fff;">邮箱</label>
                     <input type="email" v-model="formData.email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="请输入账号">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">密码</label>
+                    <label for="exampleInputPassword1" style="color: #fff;">密码</label>
                     <input type="password" v-model="formData.password" class="form-control"  placeholder="请输入密码">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">邀请码</label>
+                    <label for="exampleInputEmail1" style="color: #fff;">邀请码</label>
                     <input type="email" v-model="formData.invitationCode" class="form-control" placeholder="请输入邀请码">
                 </div>
                 <button type="button" class="btn btn-default" @click="clickToRegister(true)">注册</button>
-                <a href="javascript:void(0)" style="float: right; margin-top: 18px;" @click="clickToJumpLogin(false)">登录</a>
+                <a href="javascript:void(0)" style="float: right; margin-top: 18px; color: #fff;" @click="clickToJumpLogin(false)">登录</a>
             </form>
         </div>
     </div>

@@ -17,10 +17,14 @@ class HomeController extends BasicController
      */
     public function index ()
     {
+        $recommandArticles = Article::select('article.id', 'article.title', 'article.description')
+            ->where([['is_recommand', '=', 1]])
+            ->get();
         $articles = Article::select('title', 'id', 'description', 'browers_num')->where([['is_public', '=', 1]])->limit(20)->orderBy('create_at', 'desc')->get();
         return view('index', [
-            'route'    => 'home',
-            'articles' => $articles
+            'route'     => 'home',
+            'articles'  => $articles,
+            'recommand' => $recommandArticles
         ]);
     }
 
