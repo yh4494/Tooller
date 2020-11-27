@@ -33,7 +33,7 @@ class UploadController extends BasicController
             $book = new Book();
             $book->book_name = str_replace('.' . $ext, '', $filennameOrigin);
             $book->pdf_url   = '/storage/app/public/' . $filename;
-            $book->mark      = $request->get('markInput');
+            $book->mark      = $request->get('mark');
             $book->save();
 
             //存储文件。disk里面的public。总的来说，就是调用disk模块里的public配置
