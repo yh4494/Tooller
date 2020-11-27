@@ -66,7 +66,7 @@
             <div class="book-content" style="padding-top: 15px;">
                 <template v-for="(i, key) in mainData">
                     <div style="width: 100%">
-                        <h5 style="border-radius: 5px; font-weight: bold; color: #fff; background: #202020; padding: 10px 0 10px 10px"><i class="fa fa-bookmark" aria-hidden="true"></i>&nbsp;&nbsp;@{{ key }}</h5>
+                        <h5 style="border-radius: 5px; font-weight: bold; color: #666666; padding: 10px 0 10px 10px"><i class="fa fa-bookmark" aria-hidden="true"></i>&nbsp;&nbsp;@{{ key }}</h5>
                     </div>
                     <template v-for="item in i">
                         <div class="card" :style="'width: 250px; margin-bottom: 10px;' + (item.hidden ? '' : 'box-shadow: #ccc 2px 2px 2px;')" >
