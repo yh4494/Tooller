@@ -17,8 +17,6 @@ class UploadController extends BasicController
      */
     public function upload(Request $request)
     {
-        echo $request->get('markInput');
-        exit;
         $fileCharater = $request->file('file');
         if ($fileCharater->isValid()) { // 括号里面的是必须加的哦
             //如果括号里面的不加上的话，下面的方法也无法调用的
