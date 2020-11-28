@@ -11,4 +11,8 @@ class Mark extends Model
     protected $guarded = [];
 
     public $timestamps = null;
+
+    public function category () {
+        return $this->hasOne('App\Model\Category', 'id', 'category_id');
+    }
 }

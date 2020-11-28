@@ -186,6 +186,26 @@
 
 @section('content')
     <div class="container" style="padding-bottom: 20px;" v-cloak>
+        <div id="list-content">
+            <div style="width: 100%; clear: both;">
+                <div class="rel-title" style="width: 200px; float: left"><div></div>推荐链接</div>
+                <div style="float: right; width: 100px; text-align: right; line-height: 50px"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;
+                    <a style="color: #666666;" href="javascript:void(0)" @click="clickToRefresh">刷新</a>
+                </div>
+                <div style="clear: both"></div>
+            </div>
+
+            <div style="clear: both"></div>
+            <div class="list-allens" style="padding-bottom: 20px; background: #f3f3f3;">
+                <li class="animate__animated animate__fadeIn" style="list-style: none; padding-top: 10px; padding-left: 10px;" v-for="item in listLinks">
+                    <i class="fa fa-bookmark" aria-hidden="true"></i>
+                    <a target="_blank" style="color: #666666; font-weight: bold;" :href="item.address">&nbsp;&nbsp;@{{ item.name }}</a>
+                    <div style="float: right; padding-right: 20px">
+                        <span style="color: #ccc; font-weight: bold; text-align: right">【@{{ item.category.name }}】</span>
+                    </div>
+                </li>
+            </div>
+        </div>
         @if(isset($isLogin) && $isLogin)
         <div style="width: 100%; height: auto; padding: 15px 0">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -389,7 +409,8 @@
                     showWay: showWay,
                     currentCategory: '{!! $currentCategory !!}',
                     showArticleList: false,
-                    searchValue: '{!! $searchV !!}'
+                    searchValue: '{!! $searchV !!}',
+                    listLinks: []
                 },
                 mounted () {
                     this.showWay = showWay;
@@ -401,11 +422,21 @@
                             if (type !== 'init') window.location = '/article?type={!! $type !!}&page=' + num
                         }
                     });
+                    this.requestMarks();
                     setTimeout(function () {
                         vue.showArticleList = true;
                     }, 600);
                 },
                 methods: {
+                    clickToRefresh () {
+                        this.requestMarks();
+                    },
+                    requestMarks () {
+                        this.$http.get('/api/article/goodArticles').then(function(data) {
+                            this.listLinks = data.body.data
+                            console.log(this.listLinks)
+                        })
+                    },
                     clickToSearch () {
                         window.location.href = '/article?type=' + '{!! $type !!}&page=' + '{!! $page !!}' + '&searchValue=' + this.searchValue;
                     },
