@@ -136,6 +136,14 @@
         .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
             width: 280px;
         }
+        .category-bar {
+            line-height: 40px; padding-left: 20px; width: 100%; height: 40px; border-top-left-radius: 20px; border-bottom-left-radius: 20px; background: #fff; margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .category-bar:hover{
+            background: #000;
+            color: #fff;
+        }
     </style>
 @endsection
 
@@ -185,7 +193,17 @@
 @endsection
 
 @section('content')
-    <div class="container" style="padding-bottom: 20px;" v-cloak>
+    <div style="width: 200px; height: 100px; position: fixed; top: 70px; right: 0px;">
+        @foreach($pCategory as $item)
+            <a href="/article?pCategory={{ $item->id }}">
+                <div class="category-bar" style="@if($currentParentCategory == $item->id) background: #000; color: #fff; @endif">
+                    {{ $item->name }}
+                </div>
+            </a>
+        @endforeach
+    </div>
+
+    <div class="container" style="padding-bottom: 20px; position: relative" v-cloak>
         <div id="list-content">
             <div style="width: 100%; clear: both;">
                 <div class="rel-title" style="width: 200px; float: left"><div></div>推荐链接</div>
@@ -206,6 +224,7 @@
                 </li>
             </div>
         </div>
+
         @if(isset($isLogin) && $isLogin)
         <div style="width: 100%; height: auto; padding: 15px 0">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -415,7 +434,7 @@
                 mounted () {
                     this.showWay = showWay;
                     $('#paginator').jqPaginator({
-                        totalPages: parseInt('{!! $visible !!}'),
+                        totalPages: parseInt('{!! $visible !!}') || 1,
                         visiblePages: 4,
                         currentPage: parseInt('{!! $page !!}'),
                         onPageChange: function (num, type) {

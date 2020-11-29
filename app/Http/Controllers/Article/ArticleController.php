@@ -56,9 +56,14 @@ class ArticleController extends BasicController
         $isCollect = false;
         $total     = 0;
         $columns   = ['article.id', 'article.title', 'article.child_category_id', 'article.description', 'article.create_at', 'category.name as categoryName'];
+        $pCategory = Category::where([['pid', '=', 0]])->get();
         $categorys = Category::where([['user_id', '=', $this->userId], ['pid', '!=', 0]])->get();
         if ($request->get('category')) {
             array_push($where, ['child_category_id', '=', $request->get('category')]);
+        }
+
+        if ($request->get('pCategory')) {
+            array_push($where, ['parent_category_id', '=', $request->get('pCategory')]);
         }
 
         // 模糊查询
@@ -109,7 +114,9 @@ class ArticleController extends BasicController
             'total'    => $total ?? 0,
             'visible'  => $vsi,
             'visibleN' => static::$visibleNums,
-            'searchV'  => $request->get('searchValue') ?? ''
+            'searchV'  => $request->get('searchValue') ?? '',
+            'pCategory' => $pCategory,
+            'currentParentCategory' => $request->get('pCategory') ?? -1
         ]);
     }
 
