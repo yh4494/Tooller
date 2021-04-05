@@ -41,6 +41,7 @@ Route::group(['middleware' => ['web', 'login']], function () {
     Route::get('/time-line',             'User\UserController@timeLine');
 
     Route::post('/upload',               'Upload\UploadController@upload');
+    Route::post('/upload-pic',           'Upload\UploadController@uploadPicture');
 
     Route::get('/swagger',               'Home\HomeController@swagger');
 

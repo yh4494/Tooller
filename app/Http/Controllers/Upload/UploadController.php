@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Upload;
 
 
 use App\Http\Controllers\BasicController;
+use App\Lib\JsonTooller;
 use App\Model\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -38,6 +39,36 @@ class UploadController extends BasicController
 
             //存储文件。disk里面的public。总的来说，就是调用disk模块里的public配置
             Storage::disk('public')->put($filename, file_get_contents($path));
+        }
+
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function uploadPicture(Request $request)
+    {
+        $fileCharater = ($request->file('editormd-image-file'));
+        if ($fileCharater->isValid()) { // 括号里面的是必须加的哦
+            //如果括号里面的不加上的话，下面的方法也无法调用的
+            //获取文件的扩展名
+            $ext = $fileCharater->getClientOriginalExtension();
+            //获取文件的绝对路径
+            $path = $fileCharater->getRealPath();
+            $filennameOrigin = $fileCharater->getClientOriginalName();
+
+            Log::info($filennameOrigin);
+            Log::info(explode('.', $filennameOrigin)[0]);
+            $filename = md5(date('Y-m-d-h-i-s')) . '.' .$ext;
+
+            //存储文件。disk里面的public。总的来说，就是调用disk模块里的public配置
+            Storage::disk('public')->put($filename, file_get_contents($path));
+
+            return json_encode([
+                'success' => 1,
+                'message' => '上传成功',
+                'url'     => '/storage/app/public/' . $filename
+            ]);
         }
 
     }
