@@ -69,9 +69,7 @@
                 <label for="exampleInputPassword1">笔记</label>
                 <!--                <script name="content" id="uEditor" type="text/plain" style="width:100%; height: 500px;" data-placement="内容"></script>-->
                 <div id="test-editormd">
-                <textarea style="display:none;">
-
-                </textarea>
+                <textarea style="display:none;">{{ isset($article) ? $article->markdown : '' }}</textarea>
                 </div>
             </div>
             <div style="display: none;" class="text-content">{!! isset($article) ? $article->content : '' !!}</div>
@@ -257,6 +255,7 @@
                         content: this.content,
                         description: this.description,
                         id: this.id,
+                        markdown: testEditor.getMarkdown(),
                         is_article: '{!! $isArticle !!}',
                         categoryChildId: this.categoryChildId,
                         categoryParent: this.categoryParent,

@@ -236,6 +236,7 @@ class ArticleController extends BasicController
 
         $article->title              = $request->get('title');
         $article->content            = $request->get('content');
+        $article->markdown           = $request->get('markdown');
         $article->description        = $request->get('description');
         $article->process_parent_id  = $request->get('pid');
         $article->user_id            = $request->session()->get('user_id');
