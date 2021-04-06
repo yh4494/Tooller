@@ -44,6 +44,19 @@ class ProcessController extends BasicController
         ]);
     }
 
+    public function wall(Request $request)
+    {
+        $process = Process::where([['user_id', '=', $this->userId], ['pid', '!=', 0]])->get()->groupBy('status');
+        isset($process[2]) ? '' : $process[2] = [];
+        isset($process[1]) ? '' : $process[1] = [];
+        isset($process[0]) ? '' : $process[0] = [];
+        return view('home.process.process_wall', [
+            'route'   => 'wall',
+            'sprint'  => $sprint  ?? false,
+            'process' => isset($process) ? $process->toArray() : []
+        ]);
+    }
+
     /**
      * 获取所有
      *

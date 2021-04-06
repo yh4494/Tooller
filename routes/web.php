@@ -26,6 +26,8 @@ Route::group(['middleware' => ['web', 'login']], function () {
 
     Route::get('/article',               'Article\ArticleController@article');
 
+    Route::get('/wall',                  'Process\ProcessController@wall');
+
     Route::get('/login',                 'Home\HomeController@login');
 
     Route::post('/register',             'User\UserController@register');
@@ -54,6 +56,7 @@ Route::group(['middleware' => ['web', 'login']], function () {
     Route::prefix('book')->group(function () {
         Route::get('/',                  'Article\ArticleController@index');
         Route::get('/add-note',          'Article\ArticleController@addNote');
+        Route::get('/add-note-u',        'Article\ArticleController@addNoteUeditor');
         Route::get('/show/{id}',         'Article\ArticleController@show');
         Route::post('/add',              'Article\ArticleController@add');
         Route::get('/delete/{id}',       'Article\ArticleController@delete');

@@ -55,7 +55,7 @@ class ArticleController extends BasicController
         $where     = [];
         $isCollect = false;
         $total     = 0;
-        $columns   = ['article.id', 'article.title', 'article.child_category_id', 'article.description', 'article.create_at', 'category.name as categoryName'];
+        $columns   = ['article.id', 'article.title', 'article.child_category_id', 'article.description', 'article.create_at', 'category.name as categoryName', 'is_markdown'];
         $pCategory = Category::where([['pid', '=', 0]])->get();
         $categorys = Category::where([['user_id', '=', $this->userId], ['pid', '!=', 0]])->get();
         if ($request->get('category')) {
@@ -176,6 +176,39 @@ class ArticleController extends BasicController
     }
 
     /**
+     * 添加笔记
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function addNoteUeditor(Request $request)
+    {
+        $article = null;
+        if ($request->get('id') && !$request->get('is_article')){
+            $article = Article::where('process_id', $request->get('id'))->first();
+        } else {
+            $article = Article::where('id', $request->get('id'))->first();
+        }
+
+        if ($article) {
+            $user = User::find($article->user_id);
+            $article->user = $user;
+            $article->content = str_replace('\n', '', $article->content);
+        }
+
+        $request->get('read') == 'true' ? $showView = 'home.book.show_article' : $showView = 'home.book.add_article_ueditor';
+        return view($showView,  [
+            'route'   => 'process',
+            'pid'     => $request->get('pid'),
+            'id'      => $request->get('id'),
+            'article' => $article,
+            'read'    => $request->get('read') ?? false,
+            'isModal' => $request->get('is_modal') ?? false,
+            'isArticle' => $request->get('is_article') ?? false,
+            'self'    => isset($article) ? $article->user_id == $this->userId : true
+        ]);
+    }
+
+    /**
      * 展示文章
      *
      * @param Request $request
@@ -243,6 +276,7 @@ class ArticleController extends BasicController
         $article->is_public          = $request->get('isPublic');
         $article->parent_category_id = $request->get('categoryParent');
         $article->child_category_id  = $request->get('categoryChildId');
+        $article->is_markdown        = $request->get('is_markdown') && $request->get('is_markdown') == 1 ? 1 : 0;
 
         if ($request->has('is_about')) {
             $article->is_about = $request->get('is_about') ?? 0;

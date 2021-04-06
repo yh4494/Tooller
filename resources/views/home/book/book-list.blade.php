@@ -295,7 +295,7 @@
                             <a href="javascript:void(0)" @click="clickToDeleteArticle({!! $item['id'] !!})"><i class="fa fa-times" aria-hidden="true"></i></a>
                         </div>
                         <div class="element" style="float: right; line-height: 50px; margin-top: 3px; margin-right: 10px;">
-                            <a href="javascript:void(0)" @click="clickToEditArticle({!! $item['id'] !!})">
+                            <a href="javascript:void(0)" @click="clickToEditArticle({!! $item['id'] !!}, {!! $item['is_markdown'] !!})">
                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                             </a>
                         </div>
@@ -487,8 +487,8 @@
                         });
 
                     },
-                    clickToEditArticle (id) {
-                        window.location.href = '/book/add-note?is_article=true&id=' + id
+                    clickToEditArticle (id, isMarkDown) {
+                        isMarkDown === 1 ? window.location.href = '/book/add-note?is_article=true&id=' + id : window.location.href = '/book/add-note-u?is_article=true&id=' + id
                     },
                     changeCategory () {
                         window.location.href = '/article?category=' + $('#selectCategory').val();

@@ -26,6 +26,9 @@
                 <li class="nav-item @if(explode('_', $route)[0] == 'process') active  @endif">
                     <a class="nav-link" href="/process">任务</a>
                 </li>
+{{--                <li class="nav-item @if(explode('_', $route)[0] == 'wall') active  @endif">--}}
+{{--                    <a class="nav-link" href="/wall">任务墙</a>--}}
+{{--                </li>--}}
                 <li class="nav-item @if(explode('_', $route)[0] == 'article') active  @endif">
                     <a class="nav-link" href="/article">文章</a>
                 </li>
