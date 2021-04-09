@@ -156,7 +156,7 @@
             });
         });
 
-        var content = `{!! $article ? $article->content : '' !!}`;
+        {{--// var content = '{!! $article ? $article->content : '' !!}';--}}
         var description = $('.text-des').html();
         var title = '{!! isset($article) ? $article->title : '' !!}';
         var isArticle = '{!! $isArticle !!}';
@@ -169,7 +169,6 @@
                 height: 150,
                 code: description
             });
-            console.log()
         });
 
         // UE.getEditor('editor').execCommand('insertHtml', $('.text-content').html())
@@ -184,7 +183,7 @@
             data: {
                 id: '{!! isset($id) ? $id : '' !!}',
                 title: title,
-                content: content,
+                content: null,
                 description: description,
 
                 process_parent_id: '{!! isset($pid) ? $pid : '' !!}',
