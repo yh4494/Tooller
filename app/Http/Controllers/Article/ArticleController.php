@@ -121,6 +121,18 @@ class ArticleController extends BasicController
     }
 
     /**
+     * mark详情
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\View\View
+     */
+    public function markDetail (Request $request) {
+        $url = $request->get('url');
+        return view('home.book.book-mark', [
+            'url' => $url
+        ]);
+    }
+
+    /**
      * 文章公共查询
      *
      * @param $columns

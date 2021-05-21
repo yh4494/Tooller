@@ -182,7 +182,7 @@
                 <template v-else>
                     <div class="element" v-for="item in list">
                         <i class="fa fa-link" aria-hidden="true"></i>&nbsp;
-                        <a href="javascript:void(0)" @click="clickToJumping(item.address)">@{{ item.name }}</a>
+                        <a href="javascript:void(0)" @click="clickToJumping(item.name, item.address)">@{{ item.name }}</a>
                     </div>
                 </template>
             </div>
@@ -190,6 +190,10 @@
         </div>
     </div>
     @endif
+@endsection
+
+@section('dialog')
+
 @endsection
 
 @section('content')
@@ -355,9 +359,18 @@
                 activated: function () {
                 },
                 methods: {
-                    clickToJumping(url) {
+
+                    clickToJumping(title, url) {
                         //加载层-默认风格
-                        window.open(url)
+                        // window.open(url)
+                        layer.open({
+                            title: title,
+                            type: 2,
+                            area: ['90%', '90%'],
+                            fixed: true, //不固定
+                            maxmin: true,
+                            content: '/mark/detail?url=' + url
+                        });
                     },
                     clickToShowLinks(categoryId, categoryName = null) {
                         this.showLinksChild = true;
