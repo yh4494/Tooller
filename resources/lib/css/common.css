@@ -76,7 +76,7 @@ ol {
     list-style: none;
     text-decoration: none;
     line-height: 50px;
-    box-shadow: #ccc 2px 2px 2px;
+    box-shadow: #ccc 0px 2px 2px;
     padding-left: 10px;
 }
 .list-allens > ul > li div.element {

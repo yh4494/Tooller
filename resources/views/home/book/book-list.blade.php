@@ -147,6 +147,7 @@
     </style>
 @endsection
 
+{{-- 左侧分类导航栏 --}}
 @section('exclude')
     @if(isset($isLogin) && $isLogin)
     <div id="real-content" style="width: auto; height: auto;" v-cloak>
@@ -192,6 +193,7 @@
     @endif
 @endsection
 
+{{-- 文章列表 --}}
 @section('content')
     <div style="width: 200px; height: 100px; position: fixed; top: 70px; right: 0px;">
         @foreach($pCategory as $item)
@@ -207,8 +209,8 @@
         <div id="list-content">
             <div style="width: 100%; clear: both;">
                 <div class="rel-title" style="width: 200px; float: left"><div></div>推荐链接</div>
-                <div style="float: right; width: 100px; text-align: right; line-height: 50px"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;
-                    <a style="color: #666666;" href="javascript:void(0)" @click="clickToRefresh">刷新</a>
+                <div style="float: right; width: 100px; text-align: right; line-height: 50px">
+                    <i class="fa fa-refresh" @click="clickToRefresh"></i>&nbsp;
                 </div>
                 <div style="clear: both"></div>
             </div>
@@ -284,12 +286,12 @@
                 @foreach($articles as $item)
                     <li class="animate__animated animate__fadeIn" style="overflow: hidden; min-height: 50px; height: auto !important; padding-right: 10px; padding-bottom: 10px;">
                         <i class="fa fa-bookmark" aria-hidden="true"></i>
-                        <span style="color: #6699CC; font-weight: bold;">
-                            @if(isset($item->categoryName) && $item->categoryName)【{{ $item->categoryName }}】@endif
-                        </span>
                         <a target="_blank" href="/book/show/{{ $item['id']  }}">
                             <span style="color: #666666; font-weight: bold;">{{ $item['title'] }}</span>
                         </a>
+                        <span style="color: #ccc; font-size: 10px;  font-weight: bold;">
+                            @if(isset($item->categoryName) && $item->categoryName)【{{ $item->categoryName }}】@endif
+                        </span>
                         @if((!isset($type) || !$type) && isset($isLogin) && $isLogin)
                         <div class="element" style="float: right; line-height: 50px; margin-top: 2px; margin-right: 20px;">
                             <a href="javascript:void(0)" @click="clickToDeleteArticle({!! $item['id'] !!})"><i class="fa fa-times" aria-hidden="true"></i></a>
@@ -307,6 +309,7 @@
                 @endforeach
             </ul>
         </div>
+
         @if(isset($type) && $type == 'collection')
             <div class="collection">
                 <h3>Spring看这篇文集就够了</h3>
