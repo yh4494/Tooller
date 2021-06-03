@@ -72,6 +72,7 @@
             <canvas id="world" style="position: fixed; pointer-events:none; top: 60px; left: 0; z-index: 100;"></canvas>
         @endif
         @yield('exclude')
+        @yield('dialog')
         {{-- <div style="position: absolute; height: 56px; width: 100%; background: #343a40;" id="navigation-allens"></div>--}}
         <div class="container" id="body-allens">
         <!-- Content here -->

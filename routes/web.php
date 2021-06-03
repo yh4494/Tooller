@@ -16,6 +16,8 @@ Route::group(['middleware' => ['web', 'login']], function () {
 
     Route::get('/template',              'Home\HomeController@template');
 
+    Route::get('/mark/detail',           'Article\ArticleController@markDetail');
+
     Route::get('/template/edit',         'Home\HomeController@edit');
 
     Route::get('/template/create',       'Home\HomeController@create');

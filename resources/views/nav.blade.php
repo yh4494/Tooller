@@ -9,19 +9,19 @@
             <li class="nav-item @if(explode('_', $route)[0] == 'home') active  @endif">
                 <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item dropdown @if(explode('_', $route)[0] == 'tool') active  @endif">
-                <a class="nav-link dropdown-toggle" href="/development" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    开发工具
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">JSON 格式化</a>
+{{--            <li class="nav-item dropdown @if(explode('_', $route)[0] == 'tool') active  @endif">--}}
+{{--                <a class="nav-link dropdown-toggle" href="/development" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
+{{--                    开发工具--}}
+{{--                </a>--}}
+{{--                <div class="dropdown-menu" aria-labelledby="navbarDropdown">--}}
+{{--                    <a class="dropdown-item" href="#">JSON 格式化</a>--}}
 
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/tool/crypt">加密工具</a>
-                    <a class="dropdown-item" href="/tool/time">时间工具</a>
-                    {{--<a class="dropdown-item" href="#">Other</a>--}}
-                </div>
-            </li>
+{{--                    <div class="dropdown-divider"></div>--}}
+{{--                    <a class="dropdown-item" href="/tool/crypt">加密工具</a>--}}
+{{--                    <a class="dropdown-item" href="/tool/time">时间工具</a>--}}
+{{--                    --}}{{--<a class="dropdown-item" href="#">Other</a>--}}
+{{--                </div>--}}
+{{--            </li>--}}
             @if(isset($isLogin) && $isLogin)
                 <li class="nav-item @if(explode('_', $route)[0] == 'process') active  @endif">
                     <a class="nav-link" href="/process">任务</a>
