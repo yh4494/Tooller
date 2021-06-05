@@ -926,6 +926,10 @@ body .ui-tooltip {
 	color: #333333/*{fcHeader}*/;
 }
 
+.ui-state-default {
+    z-index: 10000;
+}
+
 /* Interaction states
 ----------------------------------*/
 .ui-state-default,

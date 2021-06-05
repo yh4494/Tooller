@@ -44,7 +44,7 @@
             .test-5::-webkit-scrollbar-thumb {
                 /*滚动条里面小方块*/
                 border-radius   : 10px;
-                background-color: #AFCB80;
+                background-color: #666666;
                 background-image: -webkit-linear-gradient(
                     45deg,
                     rgba(255, 255, 255, 0.2) 25%,
