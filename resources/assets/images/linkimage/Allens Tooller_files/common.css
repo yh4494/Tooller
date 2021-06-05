@@ -1,0 +1,131 @@
+body {
+}
+.normal-web {
+    width: 100%;
+    height: auto;
+    border: 1px solid #f3f3f3;
+    padding: 15px;
+    overflow: hidden;
+}
+.normal-web a {
+    float: left;
+}
+.normal-web div{
+    width: 100px;
+    height: 30px;
+    background: #ccc;
+    line-height: 30px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 3px;
+    margin-right: 10px;
+}
+.normal-web div:hover {
+    background: #343a40;
+    color: #fff;
+}
+* {
+    color: #666666;
+    /*list-style-type:none;*/
+}
+ol {
+    padding-inline-start: 0;
+    padding-left: 15px;
+}
+.rel-title {
+    padding: 15px 0 15px 15px; color: #666666; font-size: 18px; position: relative;
+}
+.rel-title div {
+    width: 3px; height: 15px; background: #00a0e9; position: absolute; left: 0; top: 21px;
+}
+.book-content {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: space-between;
+    flex: 4;
+}
+.book-content .card {
+    float: left !important;
+    width: 250px;
+    align-content: space-between;
+    border: none;
+
+}
+
+.container-allens{width:100%;padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}
+.container-allens{min-width:992px !important}
+
+@media (min-width:576px){.container-allens{max-width:540px}}
+@media (min-width:768px){.container-allens{max-width:720px}}
+@media (min-width:992px){.container-allens{max-width:960px}}
+@media (min-width:1200px){.container-allens{max-width:1140px}}
+
+
+.list-allens {
+    width: 100%;
+}
+.list-allens > ul > li {
+    margin-top: 10px;
+    width: 100%;
+    height: 50px;
+    border: 1px solid #f3f3f3;
+    list-style: none;
+    text-decoration: none;
+    line-height: 50px;
+    box-shadow: #ccc 0px 2px 2px;
+    padding-left: 10px;
+}
+.list-allens > ul > li div.element {
+    width: 20px;
+    height: 20px;
+}
+.list-allens > ul > li a {
+    color: #1b1e21;
+    width: 20px;
+    height: 20px;
+}
+
+.list-allens div > li {
+    margin-top: 10px;
+    width: 100%;
+    height: 50px;
+    border: 1px solid #f3f3f3;
+    list-style: none;
+    text-decoration: none;
+    line-height: 50px;
+    box-shadow: #ccc 2px 2px 2px;
+    padding-left: 10px;
+}
+.list-allens div > li div.element {
+    width: 20px;
+    height: 20px;
+}
+.list-allens div > li a {
+    color: #1b1e21;
+    width: 20px;
+    height: 20px;
+}
+
+.allens-slider {
+    width: 200px;
+    /*height: 100%;*/
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    /*background: #fff;*/
+    /*border-right: 1px solid #666666;*/
+    z-index: 10002;
+    /*box-shadow: #f3f3f3 1px 1px 1px 1px;*/
+}
+.allens-mark-content {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 0px;
+    height: 100%;
+}

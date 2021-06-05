@@ -144,6 +144,37 @@
             background: #000;
             color: #fff;
         }
+        .link {
+            width: 100%; clear: both; display: block; padding-top: 5px;
+            padding-bottom: 15px;
+            overflow: hidden;
+        }
+        .link .element {
+            height: 240px; width: 258px; background: #ccc; margin-right: 15px; flex-grow: 1;
+            float: left;
+        }
+        .link .element:hover img {
+            opacity: 1;
+        }
+        .link .element img {
+            width: 100%;
+            height: 150px;
+            opacity: 0.6;
+        }
+        .link .element p {
+            font-size: 15px;
+            font-weight: bold;
+            padding: 5px;
+        }
+        .link .element p a {
+            color: #666666;
+        }
+        .link .element:last-child {
+            margin-right: 0;
+        }
+        .layui-layer-content {
+            color: #fff;
+        }
     </style>
 @endsection
 
@@ -212,21 +243,29 @@
         <div id="list-content">
             <div style="width: 100%; clear: both;">
                 <div class="rel-title" style="width: 200px; float: left"><div></div>推荐链接</div>
-                <div style="float: right; width: 100px; text-align: right; line-height: 50px"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;
-                    <a style="color: #666666;" href="javascript:void(0)" @click="clickToRefresh">刷新</a>
-                </div>
-                <div style="clear: both"></div>
+{{--                <div style="float: right; width: 100px; text-align: right; line-height: 50px"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;--}}
+{{--                    <a style="color: #666666;" href="javascript:void(0)" @click="clickToRefresh">刷新</a>--}}
+{{--                </div>--}}
+{{--                <div style="clear: both"></div>--}}
             </div>
 
-            <div style="clear: both"></div>
-            <div class="list-allens" style="padding-bottom: 20px; background: #f3f3f3;">
-                <li class="animate__animated animate__fadeIn" style="list-style: none; padding-top: 10px; padding-left: 10px;" v-for="item in listLinks">
-                    <i class="fa fa-bookmark" aria-hidden="true"></i>
-                    <a target="_blank" style="color: #666666; font-weight: bold;" :href="item.address">&nbsp;&nbsp;@{{ item.name }}</a>
-                    <div style="float: right; padding-right: 20px">
-                        <span style="color: #ccc; font-weight: bold; text-align: right">【@{{ item.category.name }}】</span>
-                    </div>
-                </li>
+{{--            列表形式图文链接--}}
+{{--            <div style="clear: both"></div>--}}
+{{--            <div class="list-allens" style="padding-bottom: 20px; background: #f3f3f3;">--}}
+{{--                <li class="animate__animated animate__fadeIn" style="list-style: none; padding-top: 10px; padding-left: 10px;" v-for="item in listLinks">--}}
+{{--                    <i class="fa fa-bookmark" aria-hidden="true"></i>--}}
+{{--                    <a target="_blank" style="color: #666666; font-weight: bold;" :href="item.address">&nbsp;&nbsp;@{{ item.name }}</a>--}}
+{{--                    <div style="float: right; padding-right: 20px">--}}
+{{--                        <span style="color: #ccc; font-weight: bold; text-align: right">【@{{ item.category.name }}】</span>--}}
+{{--                    </div>--}}
+{{--                </li>--}}
+{{--            </div>--}}
+            <!-- 图文形式链接 -->
+            <div style="" class="link" v-for="item in links">
+                <div class="element" v-for="i in item">
+                    <img :src="'/resources/assets/images/linkimage/link00' + Math.ceil(Math.random() * 10) + '.jpeg'"  alt="">
+                    <p><a :href="i.address" target="__blank">@{{ i.name }}</a></p>
+                </div>
             </div>
         </div>
 
@@ -349,7 +388,6 @@
                         pid: '1'
                     },
                     hiddenBox: false,
-
                 },
                 mounted () {
                     if (localStorage.getItem('hiddenLeftSlider')) {
@@ -361,7 +399,7 @@
                 activated: function () {
                 },
                 methods: {
-
+                    // 点击进行跳转
                     clickToJumping(title, url) {
                         //加载层-默认风格
                         // window.open(url)
@@ -374,6 +412,7 @@
                             content: '/mark/detail?url=' + url
                         });
                     },
+                    // 点击查看链接详情
                     clickToShowLinks(categoryId, categoryName = null) {
                         this.showLinksChild = true;
                         this.currentCategoryName = categoryName;
@@ -444,7 +483,8 @@
                     currentCategory: '{!! $currentCategory !!}',
                     showArticleList: false,
                     searchValue: '{!! $searchV !!}',
-                    listLinks: []
+                    listLinks: [],
+                    links: []
                 },
                 mounted () {
                     this.showWay = showWay;
@@ -469,6 +509,16 @@
                         this.$http.get('/api/article/goodArticles').then(function(data) {
                             this.listLinks = data.body.data
                             console.log(this.listLinks)
+                            var tempArr = []
+                            for (var i = 0; i < this.listLinks.length; i ++) {
+                                if ((i + 1) % 4 === 0) {
+                                    tempArr.push(this.listLinks[i])
+                                    this.links.push(tempArr)
+                                    tempArr = []
+                                } else {
+                                    tempArr.push(this.listLinks[i])
+                                }
+                            }
                         })
                     },
                     clickToSearch () {
@@ -484,7 +534,20 @@
                         window.location.href = url;
                     },
                     clickToAddArticle () {
-                        window.location.href = ('/book/add-note?is_article=true')
+                        layer.msg('请选择何种编辑器进行编辑文章？', {
+                            time: 0 //不自动关闭
+                            ,btn: ['MARKDOWN', '富文本']
+                            ,yes: function(index){
+                                layer.close(index);
+                                window.location.href = ('/book/add-note?is_article=true')
+                            },cancel: function(index){
+                                layer.close(index);
+                                window.location.href = ('/book/add-note-u?is_article=true')
+                            },btn2: function(index, layero){
+                                layer.close(index);
+                                window.location.href = ('/book/add-note-u?is_article=true')
+                            },
+                        });
                     },
                     clickToDeleteArticle (id) {
                         layer.confirm('是否删除该文章？', {
