@@ -176,12 +176,12 @@
                             <i class="fa fa-reply" aria-hidden="true"></i>
                         </a>
                         <a style="float: right; margin: 2px 10px 0 0;" href="javascript:void(0)"
-                           @click="clickToAddArticle(i.pid, i.id)" data-toggle="modal"
+                           @click="clickToAddArticle(i.pid, i)" data-toggle="modal"
                            data-target=".bd-example-modal-xl">
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </a>
                         <a v-if="i.article !== null" style="float: right; margin: 1px 10px 0 0;"
-                           href="javascript:void(0)" @click="clickToAddArticle(i.pid, i.id, true)" data-toggle="modal"
+                           href="javascript:void(0)" @click="clickToAddArticle(i.pid, i, true)" data-toggle="modal"
                            data-target=".bd-example-modal-xl">
                             <i class="fa fa-book" aria-hidden="true"></i>
                         </a>
@@ -225,12 +225,12 @@
                             <i class="fa fa-reply" aria-hidden="true"></i>
                         </a>
                         <a style="float: right; margin: 2px 10px 0 0;" href="javascript:void(0)"
-                           @click="clickToAddArticle(item.id, i.id)" data-toggle="modal"
+                           @click="clickToAddArticle(item.id, i)" data-toggle="modal"
                            data-target=".bd-example-modal-xl">
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </a>
                         <a v-if="i.article !== null" style="float: right; margin: 1px 10px 0 0;"
-                           href="javascript:void(0)" @click="clickToAddArticle(item.id, i.id, true)" data-toggle="modal"
+                           href="javascript:void(0)" @click="clickToAddArticle(item.id, i, true)" data-toggle="modal"
                            data-target=".bd-example-modal-xl">
                             <i class="fa fa-book" aria-hidden="true"></i>
                         </a>
@@ -285,7 +285,6 @@
                     helper: "clone",
                 });
             }
-
             $('.ui-state-active-class').css('z-index', '100000')
             $(function () {
                 fun();
@@ -442,7 +441,6 @@
                     }, function () {
 
                     });
-
                 },
                 changeCildCategory(e) {
                     console.log(e)
@@ -490,11 +488,19 @@
                             this.showAlertMethod('完成失败');
                     })
                 },
+                // 点击展示历史进度
                 clickToShowHistoryProcess() {
                     this.history = !this.history;
                     this.requestProcessList();
                 },
-                clickToAddArticle(pid, id, read = false) {
+                // 点击添加文章
+                clickToAddArticle(pid, i, read = false) {
+                    console.log(i)
+                    var route = 'add-note'
+                    if (i.article && i.article.is_markdown === 0) {
+                        route += '-u'
+                    }
+
                     //iframe层-父子操作
                     layer.open({
                         title: '',
@@ -502,7 +508,7 @@
                         area: ['90%', '90%'],
                         fixed: true, //不固定
                         maxmin: true,
-                        content: '/book/add-note?is_modal=true&pid=' + pid + '&id=' + id + '&read=' + read
+                        content: '/book/' + route + '?is_modal=true&pid=' + pid + '&id=' + i.id + '&read=' + read
                     });
                 },
                 clickToAddChildTask(id) {

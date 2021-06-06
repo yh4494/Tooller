@@ -64,6 +64,17 @@ class ProcessController extends BasicController
     }
 
     /**
+     * 便签模式
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\View\View
+     */
+    public function tag (Request $request) {
+        return view('home.tag.tag', [
+            'route'   => 'process'
+        ]);
+    }
+
+    /**
      * 获取所有
      *
      * @return false|string
@@ -80,7 +91,7 @@ class ProcessController extends BasicController
             array_push($where, ['id', '=', $request->get('pid')]);
         }
         $process = Process::where($where)->with(['childProcess' => function ($query) use ($request) {
-            $query->with(['article' => function($articleQuery) { return $articleQuery->select('id', 'process_id'); }]);
+            $query->with(['article' => function($articleQuery) { return $articleQuery->select('id', 'process_id', 'is_markdown'); }]);
             if (!CommonUtils::Judge($request->get('history'))) {
                 $query->where('status', 0);
             }
