@@ -114,7 +114,6 @@
             @{{ alertTitle }}
         </div>
         @if(isset($sprint) && !$sprint)
-
             <div style="padding: 15px 0; white-space: nowrap;" id="category" v-cloak>
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <button type="button" class="btn btn-secondary" @click="clickToShowSprint">
@@ -128,6 +127,9 @@
                     @else
                         <button type="button" class="btn btn-secondary" @click="clickToShowHistoryProcess">
                             <i class="fa fa-history" style="color: #fff;" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary" @click="clickToShowTagView">
+                            <i class="fa fa-tags" style="color: #fff;" aria-hidden="true"></i>
                         </button>
                         <button type="button" data-toggle="modal" class="btn btn-secondary" @click="showAddProcess()"
                                 style="color: #fff;">
@@ -279,6 +281,9 @@
 @section('footer')
     <script src="/resources/lib/js/jquery-ui.js"></script>
     <script>
+        /**
+         * 初始化拖拽功能
+         */
         function init() {
             function fun() {
                 $(".aaa .element").draggable({
@@ -371,6 +376,9 @@
                         }
                     });
                 },
+                clickToShowTagView: function () {
+                    window.location.href = '/process/tag'
+                },
                 clickToAddProcess: function () {
                     $.ajax({
                         url: '/process/add',
@@ -412,7 +420,7 @@
                         area: ['90%', '90%'],
                         fixed: true, //不固定
                         maxmin: true,
-                        content: '/tool/mind?is_modal=true&pid=' + pid + '&id=' + id
+                        content: '/tool/mind?is_modal=true&pid=' + pid + '&id=' + id + '&history' + v.history
                     });
                 },
                 clickToCancelChildTask(pid, id) {
@@ -462,8 +470,7 @@
                     });
                 },
                 requestProcessMain: function () {
-                    this.$http.get('/process/main').then(function (response) {
-                        console.log(response.body);
+                    this.$http.get('/process/main?history=' + this.history).then(function (response) {
                         this.mainData = response.body.data;
                     });
                 },
@@ -491,6 +498,7 @@
                 // 点击展示历史进度
                 clickToShowHistoryProcess() {
                     this.history = !this.history;
+                    this.requestProcessMain()
                     this.requestProcessList();
                 },
                 // 点击添加文章

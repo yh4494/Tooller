@@ -82,6 +82,7 @@ Route::group(['middleware' => ['web', 'login']], function () {
         Route::get('category',           'Modal\ModalController@category');
         Route::get('mark',               'Modal\ModalController@mark');
         Route::get('process',            'Modal\ModalController@process');
+        Route::get('process-child',      'Modal\ModalController@processChild');
     });
 
     Route::prefix('book-mark')->group(function() {

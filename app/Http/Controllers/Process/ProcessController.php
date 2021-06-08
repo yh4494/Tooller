@@ -107,7 +107,14 @@ class ProcessController extends BasicController
      */
     public function mainProcess(Request $request)
     {
-        $process = Process::where([['pid', '=', 0], ['user_id', '=', $this->user->id]])->get();
+        $history = $request->get('history');
+        $where = [];
+        array_push($where, ['pid', '=', 0]);
+        array_push($where, ['user_id', '=', $this->user->id]);
+        if ($history == 'false') {
+            array_push($where, ['status', '=', 0]);
+        }
+        $process = Process::where($where)->get();
         return JsonTooller::data(0, '返回数据成功', $process->toArray());
     }
 
@@ -178,11 +185,21 @@ class ProcessController extends BasicController
             return JsonTooller::paramsFail();
         }
 
-        $process = new Process();
-        $process->name    = $request->get('name');
-        $process->content = $request->get('content');
+        if ($request->has('id') && $request->get('id')) {
+            $process = Process::find($request->get('id'));
+        } else {
+            $process = new Process();
+        }
+        if ($request->get('name')) {
+            $process->name = $request->get('name');
+        }
+        if ($request->get('content')) {
+            $process->content = $request->get('content');
+        }
         $process->status  = 0;
-        $process->pid     = $request->get('pid');
+        if ($request->get('pid') || $request->get('pid') == 0) {
+            $process->pid = $request->get('pid');
+        }
 
         if ($process->save()) {
             return JsonTooller::success();

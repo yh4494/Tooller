@@ -1,5 +1,5 @@
 (function(global, noGlobal) {
-    var self = new Vue({
+    var that = new Vue({
         el: '.container',
         data: {
             listData: [],
@@ -10,15 +10,70 @@
         },
         methods: {
             requestProcessList: function () {
-                this.$http.get('/process/all?pid=0' + '&history=' + this.history).then(function (response) {
-                    self.listData = response.body.data;
-                    self.listData.forEach(function(e) {
+                this.$http.get('/process/all?pid=0&history=false').then(function (response) {
+                    that.listData = response.body.data;
+                    that.unDelStatus = []
+                    that.listData.forEach(function(e) {
                         if (e.status === 0) {
-                            self.unDelStatus.push.apply(self.unDelStatus, e.child_process);
-                            domReady.ready(store.setup);
+                            that.unDelStatus.push.apply(that.unDelStatus, e.child_process);
                         }
                     });
+                    domReady.ready(store.setup);
                 });
+            },
+            clickToComplete: function (id) {
+                this.$http.get('/process/complete/' + id).then(function (response) {
+                    var data = response.body;
+                    if (data.code === 0) {
+                        window.location.href = '/process/tag'
+                    }
+                })
+            },
+            clickToShowSprint: function () {
+                window.location.href = '/process'
+            },
+            clickToAddSprint: function () {
+                layer.open({
+                    title: '',
+                    type: 2,
+                    area: ['40%', '450px'],
+                    fixed: true, //不固定
+                    maxmin: true,
+                    content: '/modal/process-child',
+                    end: function () {
+                        that.requestProcessList()
+                    }
+                });
+            },
+            clickToAddProcess: function (id, name, content, pid) {
+                $.ajax({
+                    url: '/process/add',
+                    method: 'POST',
+                    type: 'json',
+                    data: {id, name, content, pid},
+                    success: function (data) {
+                        v.requestProcessList();
+                    }
+                })
+            },
+            clickToDeleteChildTask(id) {
+                layer.confirm('是否删除该任务？', {
+                    btn: ['删除', '取消'] //按钮
+                }, function (index) {
+                    layer.close(index);
+                    that.$http.get('/process/delete/' + id).then(function (response) {
+                        that.requestProcessList();
+                        var data = response.body;
+                        if (data.code === 0) {
+                            window.location.href = '/process/tag'
+                        }
+                    })
+                }, function () {
+
+                });
+            },
+            clickToRefresh: function() {
+                that.requestProcessList()
             }
         }
     });
@@ -52,6 +107,11 @@
       });
     }
 
+    editor () {
+        this.content = this.noteContent.innerHTML;
+        that.clickToAddProcess(this.id, this.title, this.content, this.pid)
+    }
+
     close() {
       if (this.root) {
         this.root.removeChild(this.container);
@@ -81,6 +141,7 @@
       });
 
       addEvent(self.noteContent, 'keyup', function(e) {
+          self.editor()
         self.save();
       });
 
@@ -89,32 +150,40 @@
         self.save();
       });
 
+      addEvent(self.finish, 'click', function(e) {
+          store.remove(self.id);
+          that.clickToComplete(self.id)
+          self.close();
+      });
+
       addEvent(self.btnNew, 'click', function(e) {
-        var x = self.x,
-            y = self.y,
-            maxWidth = document.documentElement.clientWidth - self.width,
-            maxHeight = document.documentElement.clientHeight - self.height;
-        if ( x >= maxWidth || x < 0 ) {
-          vx *= -1;
-        }
-
-        if ( y >= maxHeight || y < 0 ) {
-          vy *= -1;
-        }
-
-        x = x + 20 * vx;
-        y = y + 20 * vy;
-
-        new StickyNote({
-          root: self.root,
-          x: x,
-          y: y,
-          layer: StickyNote.top++
-        });
+          that.clickToAddSprint()
+        // var x = self.x,
+        //     y = self.y,
+        //     maxWidth = document.documentElement.clientWidth - self.width,
+        //     maxHeight = document.documentElement.clientHeight - self.height;
+        // if ( x >= maxWidth || x < 0 ) {
+        //   vx *= -1;
+        // }
+        //
+        // if ( y >= maxHeight || y < 0 ) {
+        //   vy *= -1;
+        // }
+        //
+        // x = x + 20 * vx;
+        // y = y + 20 * vy;
+        //
+        // new StickyNote({
+        //   root: self.root,
+        //   x: x,
+        //   y: y,
+        //   layer: StickyNote.top++
+        // });
       });
       addEvent(self.btnRemove, 'click', function(e) {
-        store.remove(self.id);
-        self.close();
+          that.clickToDeleteChildTask(self.id)
+        // store.remove(self.id);
+        // self.close();
       });
 
       addEvent(self.container, 'mousedown', function(e) {
@@ -137,8 +206,8 @@
       self.noteContent = self.container.querySelector('.note-content');
       self.btnClose = self.container.querySelector('.btn-close');
       self.btnNew = self.container.querySelector('.btn-new');
-        self.finish = self.container.querySelector('.btn-finish');
-        self.btnRemove = self.container.querySelector('.btn-remove');
+      self.finish = self.container.querySelector('.btn-finish');
+      self.btnRemove = self.container.querySelector('.btn-remove');
       self.container.style.position = 'absolute';
       self.container.style.left = self.x + 'px';
       self.container.style.top = self.y + 'px';
@@ -160,6 +229,7 @@
     textBtnRemove: '删除任务',
     container: null,
     titleBar: null,
+      pid: 0,
     width: 300,
     height: 400,
     x: 0,
@@ -178,8 +248,8 @@
     '<div class="note-content" contenteditable="true"></div>',
     '<div class="note-footer">',
     '   <button class="btn-new">{{textBtnNew}}</button>',
-      '   <button class="btn-finish">{{finishTask}}</button>',
-      '   <button class="btn-remove">{{textBtnRemove}}</button>',
+    '   <button class="btn-finish">{{finishTask}}</button>',
+    '   <button class="btn-remove">{{textBtnRemove}}</button>',
     '</div>'
   ].join('\n');
 
@@ -223,16 +293,24 @@
     setup() {
       try {
         // store.data =  JSON.parse(localStorage[store.appId]) || {};
-
-        console.log('store.data:', store.data, self.unDelStatus)
           var tempArr = {}
           var i = 1;
-          self.unDelStatus.forEach(function (e) {
-              console.log('DKJHFKSFHDKJDHFKFDJHKJ')
-              tempArr[e.id] = { content: e.content, layer: i, postTime: e.create_at || 0, x: i * 25 + 10, y: 85 }
+          var x = 0;
+          var y = 0;
+          that.unDelStatus.forEach(function (e) {
+              if ((i - 1) % 10 === 0 && (i - 1) !== 0) {
+                  x += 310;
+                  y = 0;
+              }
+              var indent = (i - 1) / 10 / 5;
+              if (indent >= 1 && (i - 1) / 10 % 5 === 0) {
+                  x = 0;
+              }
+              tempArr[e.id] = { content: e.content, layer: i, postTime: e.create_at || 0, x: 80 + x, y: 80 + (y * 40) + (parseInt(indent) * 780), title: e.name, pid: e.pid }
               i ++;
+              y ++;
           })
-          console.log('tempArr', tempArr)
+          console.log(tempArr)
           store.data = tempArr
       } catch(e) {
         store.data = {};
@@ -245,16 +323,20 @@
             id: k,
             x: data[k].x,
             y: data[k].y,
+            title: data[k].title,
             layer: data[k].layer,
-            content: data[k].content
+            content: data[k].content,
+            pid: data[k].pid
           });
         }
       } else {
-        new StickyNote({
-          root:document.body,
-          x: (document.documentElement.clientWidth - config.width) / 2,
-          y: document.documentElement.clientHeight- config.height,
-        });
+        // new StickyNote({
+        //   root:document.body,
+        //   // x: (document.documentElement.clientWidth - config.width) / 2,
+        //   // y: document.documentElement.clientHeight- config.height,
+        //     x: document.documentElement.clientWidth - config.width - 50,
+        //     y: 80
+        // });
       }
       window.onunload = function() {
         localStorage.setItem(store.appId, JSON.stringify(data));

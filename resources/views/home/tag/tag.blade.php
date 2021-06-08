@@ -97,7 +97,24 @@
 @endsection
 
 @section('content')
-
+    <div
+        style="width: 40px; height: 40px; cursor: pointer; position:absolute; left: 15px; top: 80px; background: #ccc; font-size: 18px; text-align: center; line-height: 40px;border-radius: 20px"
+        @click="clickToShowSprint"
+    >
+        <i class="fa fa-tasks" style="color: #fff;" aria-hidden="true"></i>
+    </div>
+    <div
+        style="width: 40px; height: 40px; cursor: pointer; position:absolute; left: 15px; top: 130px; background: #ccc; font-size: 18px; text-align: center; line-height: 40px;border-radius: 20px"
+        @click="clickToAddSprint"
+    >
+        <i class="fa fa-plus" style="color: #fff;" aria-hidden="true"></i>
+    </div>
+    <div
+        style="width: 40px; height: 40px; cursor: pointer; position:absolute; left: 15px; top: 180px; background: #ccc; font-size: 18px; text-align: center; line-height: 40px;border-radius: 20px"
+        @click="clickToRefresh"
+    >
+        <i class="fa fa-refresh" style="color: #fff;" aria-hidden="true"></i>
+    </div>
 @endsection
 
 @section('footer')
