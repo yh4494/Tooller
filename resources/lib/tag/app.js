@@ -1,9 +1,9 @@
 (function(global, noGlobal) {
+    var unDelStatus = []
     var that = new Vue({
         el: '.container',
         data: {
             listData: [],
-            unDelStatus: []
         },
         mounted: function() {
             this.requestProcessList();
@@ -12,12 +12,10 @@
             requestProcessList: function () {
                 this.$http.get('/process/all?pid=0&history=false').then(function (response) {
                     that.listData = response.body.data;
-                    that.unDelStatus = []
+                    unDelStatus = []
                     that.listData.forEach(function(e) {
                         if (e.status === 0) {
-                            e.child_process.forEach(function(item) {
-                                that.unDelStatus.push(item)
-                            })
+                            unDelStatus.push.apply(unDelStatus, e.child_process);
                         }
                     });
                     domReady.ready(store.setup);
@@ -299,7 +297,7 @@
           var i = 1;
           var x = 0;
           var y = 0;
-          that.unDelStatus.forEach(function (e) {
+          unDelStatus.forEach(function (e) {
               if ((i - 1) % 10 === 0 && (i - 1) !== 0) {
                   x += 310;
                   y = 0;
