@@ -15,7 +15,7 @@
                     that.unDelStatus = []
                     that.listData.forEach(function(e) {
                         if (e.status === 0) {
-                            that.unDelStatus.push.apply(that.unDelStatus, e.child_process);
+                            that.unDelStatus = that.unDelStatus.concat(e.child_process);
                         }
                     });
                     domReady.ready(store.setup);
