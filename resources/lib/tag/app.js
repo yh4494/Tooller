@@ -14,8 +14,9 @@
                     that.listData = response.body.data;
                     unDelStatus = []
                     that.listData.forEach(function(e) {
-                        if (e.status === 0) {
+                        if (e.status == 0) {
                             unDelStatus.push.apply(unDelStatus, e.child_process);
+                            console.log(unDelStatus)
                         }
                     });
                     domReady.ready(store.setup);
