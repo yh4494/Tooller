@@ -41,7 +41,7 @@ class ArticleController extends BasicController
             $seeds = random_int(1, intval($count / 10));
         }
         Cache::put('RANMDOM_NUM', $seeds, 1);
-        $marks = Mark::select('*')->with('category')->offset($seeds * 10)->limit(10)->get();
+        $marks = Mark::select('*')->with('category')->offset($seeds * 8)->limit(8)->get();
         return JsonTooller::successData($marks->toArray());
     }
 
