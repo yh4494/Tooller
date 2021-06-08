@@ -34,6 +34,8 @@ Route::group(['middleware' => ['web', 'login']], function () {
 
     Route::get('/wall',                  'Process\ProcessController@wall');
 
+    Route::get('/process/tag',           'Process\ProcessController@tag');
+
     Route::get('/login',                 'Home\HomeController@login');
 
     Route::post('/register',             'User\UserController@register');
