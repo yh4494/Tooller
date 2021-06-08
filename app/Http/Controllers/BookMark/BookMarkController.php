@@ -22,6 +22,30 @@ class BookMarkController extends BasicController
     }
 
     /**
+     * 标签列表
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function markList(Request $request)
+    {
+
+        return view('home.book.category', [
+            'route'   => 'marks'
+        ]);
+    }
+
+    /**
+     * 获取所有文章分页
+     */
+    public function allPage(Request $request)
+    {
+        $page      = $request->get('page') ?? 1;
+        $pageSize  = $request->get('pageSize') ?? 10;
+        $categorys = Mark::select('*')->offset(($page - 1) * $pageSize)->limit($pageSize)->get();
+        return JsonTooller::data(0, '返回成功', $categorys->toArray());
+    }
+
+    /**
      * 获取连接
      *
      * @param Request $request

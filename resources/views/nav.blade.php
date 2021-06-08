@@ -38,6 +38,9 @@
                 <li class="nav-item @if(explode('_', $route)[0] == 'book') active  @endif">
                     <a class="nav-link" href="/book">书籍</a>
                 </li>
+                <li class="nav-item @if(explode('_', $route)[0] == 'marks') active  @endif">
+                    <a class="nav-link" href="/marks">标签</a>
+                </li>
 {{--                <li class="nav-item @if(explode('_', $route)[0] == 'about') active  @endif">--}}
 {{--                    <a class="nav-link" href="/about">About</a>--}}
 {{--                </li>--}}

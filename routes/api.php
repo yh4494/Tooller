@@ -17,6 +17,7 @@ Route::group(['middleware' => ['web', 'login']], function () {
         Route::get('/child/{id}',        'Category\CategoryController@child');
         Route::post('/save',             'Category\CategoryController@save');
         Route::get('/child/all',         'Category\CategoryController@all');
+        Route::get('/child/allPage',         'Category\CategoryController@allPage');
     });
 
     Route::prefix('article')->group(function () {
@@ -28,6 +29,7 @@ Route::group(['middleware' => ['web', 'login']], function () {
     Route::prefix('mark')->group(function () {
         Route::get('/save',              'BookMark\BookMarkController@saveLink');
         Route::get('/links',             'BookMark\BookMarkController@gainLinks');
+        Route::get('/markPage',             'BookMark\BookMarkController@allPage');
     });
 
     Route::resource('/books',            'Book\BookController');

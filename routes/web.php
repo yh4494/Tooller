@@ -28,6 +28,10 @@ Route::group(['middleware' => ['web', 'login']], function () {
 
     Route::get('/article',               'Article\ArticleController@article');
 
+    Route::get('/mark-list',             'BookMark\BookMarkController@allPage');
+
+    Route::get('/marks',                 'BookMark\BookMarkController@markList');
+
     Route::get('/wall',                  'Process\ProcessController@wall');
 
     Route::get('/login',                 'Home\HomeController@login');
