@@ -158,7 +158,8 @@
 
         {{--// var content = '{!! $article ? $article->content : '' !!}';--}}
         var description = $('.text-des').html();
-        var title = '{!! isset($article) ? $article->title : isset($title) ? $title : '' !!}';
+        var title = '{!! isset($article) ? $article->title : (isset($title) && $title && !empty($title) ? $title : '') !!}';
+        console.log('-------------', title)
         var isArticle = '{!! $isArticle !!}';
 
         $(document).ready(function () {
