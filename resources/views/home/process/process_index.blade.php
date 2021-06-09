@@ -516,7 +516,7 @@
                         area: ['90%', '90%'],
                         fixed: true, //不固定
                         maxmin: true,
-                        content: '/book/' + route + '?is_modal=true&pid=' + pid + '&id=' + i.id + '&read=' + read
+                        content: '/book/' + route + '?is_modal=true&pid=' + pid + '&id=' + i.id + '&read=' + read + '&title=' + i.name
                     });
                 },
                 clickToAddChildTask(id) {
