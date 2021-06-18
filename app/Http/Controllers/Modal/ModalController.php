@@ -31,4 +31,11 @@ class ModalController extends BasicController
             'pid' => $request->get('pid')
         ]);
     }
+
+    public function processChild(Request $request)
+    {
+        return view('home.modal.add-process-child', [
+            'pid' => $request->get('pid')
+        ]);
+    }
 }

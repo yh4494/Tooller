@@ -41,7 +41,7 @@ class ArticleController extends BasicController
             $seeds = random_int(1, intval($count / 10));
         }
         Cache::put('RANMDOM_NUM', $seeds, 1);
-        $marks = Mark::select('*')->with('category')->offset($seeds * 10)->limit(10)->get();
+        $marks = Mark::select('*')->with('category')->offset($seeds * 8)->limit(8)->get();
         return JsonTooller::successData($marks->toArray());
     }
 
@@ -121,6 +121,18 @@ class ArticleController extends BasicController
     }
 
     /**
+     * mark详情
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\View\View
+     */
+    public function markDetail (Request $request) {
+        $url = $request->get('url');
+        return view('home.book.book-mark', [
+            'url' => $url
+        ]);
+    }
+
+    /**
      * 文章公共查询
      *
      * @param $columns
@@ -164,14 +176,15 @@ class ArticleController extends BasicController
 
         $request->get('read') == 'true' ? $showView = 'home.book.show_article' : $showView = 'home.book.add_article';
         return view($showView,  [
-            'route'   => 'process',
-            'pid'     => $request->get('pid'),
-            'id'      => $request->get('id'),
-            'article' => $article,
-            'read'    => $request->get('read') ?? false,
-            'isModal' => $request->get('is_modal') ?? false,
+            'route'     => 'process',
+            'pid'       => $request->get('pid'),
+            'id'        => $request->get('id'),
+            'article'   => $article,
+            'read'      => $request->get('read') ?? false,
+            'isModal'   => $request->get('is_modal') ?? false,
             'isArticle' => $request->get('is_article') ?? false,
-            'self'    => isset($article) ? $article->user_id == $this->userId : true
+            'self'      => isset($article) ? $article->user_id == $this->userId : true,
+            'title'     => $request->get('title')
         ]);
     }
 
@@ -204,7 +217,8 @@ class ArticleController extends BasicController
             'read'    => $request->get('read') ?? false,
             'isModal' => $request->get('is_modal') ?? false,
             'isArticle' => $request->get('is_article') ?? false,
-            'self'    => isset($article) ? $article->user_id == $this->userId : true
+            'self'    => isset($article) ? $article->user_id == $this->userId : true,
+            'title'   => $request->get('title')
         ]);
     }
 

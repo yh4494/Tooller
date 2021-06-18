@@ -16,6 +16,8 @@ Route::group(['middleware' => ['web', 'login']], function () {
 
     Route::get('/template',              'Home\HomeController@template');
 
+    Route::get('/mark/detail',           'Article\ArticleController@markDetail');
+
     Route::get('/template/edit',         'Home\HomeController@edit');
 
     Route::get('/template/create',       'Home\HomeController@create');
@@ -27,6 +29,8 @@ Route::group(['middleware' => ['web', 'login']], function () {
     Route::get('/article',               'Article\ArticleController@article');
 
     Route::get('/wall',                  'Process\ProcessController@wall');
+
+    Route::get('/process/tag',           'Process\ProcessController@tag');
 
     Route::get('/login',                 'Home\HomeController@login');
 
@@ -78,6 +82,7 @@ Route::group(['middleware' => ['web', 'login']], function () {
         Route::get('category',           'Modal\ModalController@category');
         Route::get('mark',               'Modal\ModalController@mark');
         Route::get('process',            'Modal\ModalController@process');
+        Route::get('process-child',      'Modal\ModalController@processChild');
     });
 
     Route::prefix('book-mark')->group(function() {

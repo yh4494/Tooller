@@ -44,7 +44,7 @@
             .test-5::-webkit-scrollbar-thumb {
                 /*滚动条里面小方块*/
                 border-radius   : 10px;
-                background-color: #AFCB80;
+                background-color: #666666;
                 background-image: -webkit-linear-gradient(
                     45deg,
                     rgba(255, 255, 255, 0.2) 25%,
@@ -72,6 +72,7 @@
             <canvas id="world" style="position: fixed; pointer-events:none; top: 60px; left: 0; z-index: 100;"></canvas>
         @endif
         @yield('exclude')
+        @yield('dialog')
         {{-- <div style="position: absolute; height: 56px; width: 100%; background: #343a40;" id="navigation-allens"></div>--}}
         <div class="container" id="body-allens">
         <!-- Content here -->

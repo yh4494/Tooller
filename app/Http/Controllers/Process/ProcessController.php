@@ -44,6 +44,12 @@ class ProcessController extends BasicController
         ]);
     }
 
+    /**
+     * 标签墙
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function wall(Request $request)
     {
         $process = Process::where([['user_id', '=', $this->userId], ['pid', '!=', 0]])->get()->groupBy('status');
@@ -58,21 +64,34 @@ class ProcessController extends BasicController
     }
 
     /**
+     * 便签模式
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\View\View
+     */
+    public function tag (Request $request) {
+        return view('home.tag.tag', [
+            'route'   => 'process'
+        ]);
+    }
+
+    /**
      * 获取所有
      *
      * @return false|string
      */
     public function all(Request $request)
     {
-        $array = [];
         $where = [];
         array_push($where, ['pid', '=', 0]);
         array_push($where, ['user_id', '=', $this->user->id]);
+        if ($request->has('history') && $request->get('history') == 'false') {
+            array_push($where, ['status', '=', 0]);
+        }
         if ($request->get('pid') && $request->get('pid') != 'null') {
             array_push($where, ['id', '=', $request->get('pid')]);
         }
         $process = Process::where($where)->with(['childProcess' => function ($query) use ($request) {
-            $query->with(['article' => function($articleQuery) { return $articleQuery->select('id', 'process_id'); }]);
+            $query->with(['article' => function($articleQuery) { return $articleQuery->select('id', 'process_id', 'is_markdown'); }]);
             if (!CommonUtils::Judge($request->get('history'))) {
                 $query->where('status', 0);
             }
@@ -88,7 +107,14 @@ class ProcessController extends BasicController
      */
     public function mainProcess(Request $request)
     {
-        $process = Process::where([['pid', '=', 0], ['user_id', '=', $this->user->id]])->get();
+        $history = $request->get('history');
+        $where = [];
+        array_push($where, ['pid', '=', 0]);
+        array_push($where, ['user_id', '=', $this->user->id]);
+        if ($history == 'false') {
+            array_push($where, ['status', '=', 0]);
+        }
+        $process = Process::where($where)->get();
         return JsonTooller::data(0, '返回数据成功', $process->toArray());
     }
 
@@ -159,11 +185,21 @@ class ProcessController extends BasicController
             return JsonTooller::paramsFail();
         }
 
-        $process = new Process();
-        $process->name    = $request->get('name');
-        $process->content = $request->get('content');
+        if ($request->has('id') && $request->get('id')) {
+            $process = Process::find($request->get('id'));
+        } else {
+            $process = new Process();
+        }
+        if ($request->get('name')) {
+            $process->name = $request->get('name');
+        }
+        if ($request->get('content')) {
+            $process->content = $request->get('content');
+        }
         $process->status  = 0;
-        $process->pid     = $request->get('pid');
+        if ($request->get('pid') || $request->get('pid') == 0) {
+            $process->pid = $request->get('pid');
+        }
 
         if ($process->save()) {
             return JsonTooller::success();

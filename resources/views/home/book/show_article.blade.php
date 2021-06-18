@@ -12,10 +12,10 @@
             white-space: pre; /*不强制换行*/
         }
         .menu {
-            position: absolute;
+            position: fixed;
             width: 240px;
-            right: 20px;
-            top: 60px;
+            left: 20px;
+            top: 10px;
             padding: 15px;
             border: 1px solid #ccc;
             box-shadow: #f3f3f3 2px 2px 2px 2px;
@@ -53,15 +53,12 @@
         }
         .a-3 {
             font-size: 14px;
-            padding-left: 10px;
         }
         .a-4 {
             font-size: 12px;
-            padding-left: 12px;
         }
         .a-5 {
             font-size: 10px;
-            padding-left: 14px;
         }
         * {
             /*list-style-type: none;*/
@@ -92,7 +89,7 @@
                 <p>作者: {{ $article->user->name }}</p>
                 <p>时间: {{ date('Y-m-d H:i:s', $article->create_at)  }}</p>
             </div>
-            <div style="width: 100%; height: auto; padding: 20px 0 0 20px; margin-bottom: 20px;" class="description">
+            <div style="width: 100%; height: auto; margin-bottom: 20px;" class="description">
                 {!! isset($article) ? str_replace('\n', '<br/>',$article->description) : '' !!}
             </div>
             <hr>
@@ -118,21 +115,35 @@
             onepre.innerHTML = '<code id="mycode">'+mycode+'</code>';
         }
         $(function() {
+            /**
+             * 获取重复空格字符串
+             */
+            function repeatSpaceStr (size) {
+                var str = ''
+                for (var i = 0; i < size; i ++) {
+                    str += `&nbsp;&nbsp;`;
+                }
+                return str;
+            }
             $(".content").children().each(function(index, element) {
                 var tagName=$(this).get(0).tagName;
-                if(tagName.substr(0,1).toUpperCase()=="H"){
+                if(tagName.substr(0,1).toUpperCase() == "H"){
                     var indexS    = tagName.substr(1,2);
                     var className = 'a-' + indexS;
                     var insertH   = '';
                     if (indexS <= 2) {
-                        insertH = '<i class=\"fa fa-bookmark-o\" aria-hidden=\"true\"></i>';
+                        insertH = repeatSpaceStr(indexS) + '<i class=\"fa fa-bookmark\" aria-hidden=\"true\"></i>';
                     } else {
-                        insertH = '<i class="fa fa-circle-o" aria-hidden="true"></i>';
+                        insertH = repeatSpaceStr(indexS) + '<i class="fa fa-tag" aria-hidden="true"></i>';
                     }
-                    var contentH  = $(this).html();//获取内容
+                    var contentH  = $(this).text(); // 获取内容
+                    console.log(contentH)
                     var markid    = "mark-"+tagName + "-" + index.toString();
                     $(this).attr("id", markid);//为当前h标签设置id
-                    $(".menu").append("<div class='line " + className + "'>" + insertH + "&nbsp;<a href='#"+markid+"'>"+contentH+"</a></div>");//在目标DIV中添加内容
+                    $(".menu").append("<div alt='测试文字' style='text-overflow:ellipsis; white-space:nowrap; color: #666666; width: 180px; overflow:hidden;' class=' "
+                        + className + "'>"
+                        + insertH + '&nbsp;'
+                        + `<a href='#${markid}'>${contentH}</a></div>`); // 在目标DIV中添加内容
                 }
             });
             $('table').attr('class', 'table table-bordered')
