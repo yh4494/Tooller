@@ -14,5 +14,6 @@ RUN sed -i s/^\;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g /etc/php/7.0/fpm/php.ini
 COPY ./.env.docker ./.env
 ADD ./nginx/default /etc/nginx/sites-available/default
 ADD ./ /var/www/
+ENV DEBIAN_FRONTEND=noninteractive
 RUN chown -R www-data:www-data /var/www
 EXPOSE 22 80 443
